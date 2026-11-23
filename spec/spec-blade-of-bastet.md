@@ -26,6 +26,13 @@ Base damage and speed are inherited unchanged. **Verified (xEdit on `Fallout4.es
 
 Built by `build/xedit/BuildBlade.pas` in FO4Edit 4.1.5f: `RegaliaOfMystery.esp` (master `Fallout4.esm`) with `MoM_WEAP_BladeOfBastet` (copy of the sword; `EITM` = vanilla `enchModArmorPenetration`; template `ArmorPenetration` = 30; name and description as below) and `MoM_COBJ_BladeOfBastet` (the sword + Steel 4, Silver 3, Gold 2, Crystal 2, Adhesive 3; Chemistry Station; `RecipeUtility`; **no conditions yet**). All references resolve in xEdit. **Differences from this spec:** it is a plain `.esp` for now, not the planned `.esl` (the light flag is a later step); the template-level `ArmorPenetration` property is written but **not yet tested in game**. The sword copy keeps `ap_Legendary`, `ap_melee_MeleeMod` and the vanilla default mod, as specified.
 
+**Observed in game (Chris, 2026-11-23, Test profile, ungated build):**
+- The recipe appears at the Chemistry Station and crafting works; the result is the full sword.
+- **The full description text shows in the crafting menu** (answers the "does it show / how much" question: all of it).
+- **No description line shows once the item is crafted** and inspected, so the "instructions" sentence only helps in the crafting menu (acceptable for 0.1).
+- **The crafting-menu preview shows only the hilt**, while the crafted item is the full sword. Likely cause (inferred, not checked): the weapon record's own model is the hilt and the blade comes from the default mod's model (`Blade.nif` on `mod_melee_ChineseOfficerSword_Null`), which the preview doesn't include. Cosmetic; leave for now.
+- *Not yet answered:* whether the sword was consumed, whether `ArmorPenetration` 30 and the enchantment actually take effect, and the armor comparison.
+
 
 ## Name and description (0.1)
 
