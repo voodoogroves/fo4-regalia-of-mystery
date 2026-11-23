@@ -6,9 +6,10 @@ This repo holds the agreed intent and the specs for what we are building or have
 
 ## Specs (`spec/`)
 
-- [`concept-spec.md`](spec/concept-spec.md): intent, constraints and decisions.
 - [`spec-regalia.md`](spec/spec-regalia.md): decisions for the whole plugin (name, discovery, crafting station, instructions).
 - [`spec-blade-of-bastet.md`](spec/spec-blade-of-bastet.md): the first item (version 0.1).
+
+The overall concept is still being fleshed out elsewhere and is not kept here; each spec below is self-contained.
 
 ## Status
 

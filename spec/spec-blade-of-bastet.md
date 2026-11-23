@@ -1,8 +1,8 @@
 # Spec: Blade of Bastet (version 0.1)
 
-*Status: DRAFT, plan not yet built or tested. Item-level mechanics for the Blade. Set-wide decisions (plugin name, discovery gate, workbench, instructions) are in `spec-regalia.md`; intent is in `concept-spec.md`. Each fact is marked **Verified** (read from the game files or the xEdit source on 2026-11-22) or **To verify** (needs xEdit or in-game testing).*
+*Status: DRAFT, plan not yet built or tested. Item-level mechanics for the Blade. Set-wide decisions (plugin name, discovery gate, workbench, instructions) are in `spec-regalia.md`; intent is summarised below. Each fact is marked **Verified** (read from the game files or the xEdit source on 2026-11-22) or **To verify** (needs xEdit or in-game testing).*
 
-## Goal (from the concept-spec)
+## Goal
 
 Convert a Chinese Officer Sword the player already owns into the Blade of Bastet. It keeps the sword's vanilla stats and mods, and adds 30% built-in armor penetration. Later, with the Eye of Ra worn, it ignores all armor (not part of 0.1).
 
