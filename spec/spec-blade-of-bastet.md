@@ -22,6 +22,11 @@ Convert a Chinese Officer Sword the player already owns into the Blade of Bastet
 Base damage and speed are inherited unchanged. **Verified (xEdit on `Fallout4.esm`, 2026-11-23):** the sword's base damage is on the weapon record itself, `DNAM` `Damage - Base` = **16**. Also: speed 1.0, reach 0.8, action point cost 35, crit damage multiplier 2.0, stagger Small, animation `OneHandSword`, value 50, weight 3.0. Its default template combination includes only `mod_melee_ChineseOfficerSword_Null` (`OMOD 00176DF8`), which has no properties, and the combination's own `Properties` list is empty, so nothing else adds damage. (The record's `Damage - Secondary` shows `-107374176.0`; it is an unused field.) The in-game number can still move with perks and other mods; check in-game.
 
 
+## Build status (as-built, 2026-11-23)
+
+Built by `build/xedit/BuildBlade.pas` in FO4Edit 4.1.5f: `RegaliaOfMystery.esp` (master `Fallout4.esm`) with `MoM_WEAP_BladeOfBastet` (copy of the sword; `EITM` = vanilla `enchModArmorPenetration`; template `ArmorPenetration` = 30; name and description as below) and `MoM_COBJ_BladeOfBastet` (the sword + Steel 4, Silver 3, Gold 2, Crystal 2, Adhesive 3; Chemistry Station; `RecipeUtility`; **no conditions yet**). All references resolve in xEdit. **Differences from this spec:** it is a plain `.esp` for now, not the planned `.esl` (the light flag is a later step); the template-level `ArmorPenetration` property is written but **not yet tested in game**. The sword copy keeps `ap_Legendary`, `ap_melee_MeleeMod` and the vanilla default mod, as specified.
+
+
 ## Name and description (0.1)
 
 **Name** (`FULL`): Blade of Bastet.
