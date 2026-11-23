@@ -27,7 +27,7 @@
 
 ## Crafting station and category
 
-**Workbench: Chemistry Station (keyword `WorkbenchChemlab`).** Verified: in Fallout4.esm, the DLC and the installed Creation Club files, the 20 recipes that create a weapon item (mines and grenades) all use this station; the weapon and armor workbenches are built around mods, not new items. **Category keyword: `RecipeUtility`** (Verified). The Chemistry Station recipes use six categories: `RecipeDrug` (14), `RecipeHealing` (12), `RecipePoison` (9), `RecipeGrenade` (7), `RecipeMines` (5), `RecipeUtility` (2). Weapons there are only grenades and mines; no category fits a melee weapon, and Utility is the catch-all (its recipes are Cutting Fluid, Vegetable Starch and Reactor Coolant). A brand-new category keyword is not recommended: I could not confirm the menu would show it.
+**Workbench: Chemistry Station (keyword `WorkbenchChemlab`, `KYWD 00102158`).** Verified: in Fallout4.esm, the DLC and the installed Creation Club files, the 20 recipes that create a weapon item (mines and grenades) all use this station; the weapon and armor workbenches are built around mods, not new items. **Category keyword: `RecipeUtility`, `KYWD 0006980C`** (Verified; xEdit shows its display name as "UTILITY"). The Chemistry Station recipes use six categories: `RecipeDrug` (14), `RecipeHealing` (12), `RecipePoison` (9), `RecipeGrenade` (7), `RecipeMines` (5), `RecipeUtility` (2). Weapons there are only grenades and mines; no category fits a melee weapon, and Utility is the catch-all (its recipes are Cutting Fluid, Vegetable Starch and Reactor Coolant). A brand-new category keyword is not recommended: I could not confirm the menu would show it.
 
 
 ## Instructions item

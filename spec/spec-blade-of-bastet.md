@@ -19,7 +19,7 @@ Convert a Chinese Officer Sword the player already owns into the Blade of Bastet
 
 **New record:** `MoM_WEAP_BladeOfBastet`, a copy of the source with a new name. Keep `ma_ChineseOfficerSword` and both attach points so the vanilla sword mods still apply and the legendary slot stays open. *To verify:* that vanilla sword mods attach to the copy through that keyword.
 
-Base damage and speed are inherited unchanged. *Not yet read:* the sword's damage lives in a record or template I did not trace; compare in xEdit before final.
+Base damage and speed are inherited unchanged. **Verified (xEdit on `Fallout4.esm`, 2026-11-23):** the sword's base damage is on the weapon record itself, `DNAM` `Damage - Base` = **16**. Also: speed 1.0, reach 0.8, action point cost 35, crit damage multiplier 2.0, stagger Small, animation `OneHandSword`, value 50, weight 3.0. Its default template combination includes only `mod_melee_ChineseOfficerSword_Null` (`OMOD 00176DF8`), which has no properties, and the combination's own `Properties` list is empty, so nothing else adds damage. (The record's `Damage - Secondary` shows `-107374176.0`; it is an unused field.) The in-game number can still move with perks and other mods; check in-game.
 
 
 ## The sword's vanilla mods (Verified from the game's OMOD records)
@@ -33,27 +33,29 @@ The sword has two attach points (`ap_melee_MeleeMod` and `ap_Legendary`) and fou
 | `..._Shock` | Electrified Blade | +5 electrical damage (`EnchWeapModShock`) | Rubber 3, Circuitry 3, Aluminum 8, Adhesive 4 (Blacksmith 2, Science 1) |
 | `..._ShockAndSerrated` | Electrified Serrated Blade | both of the above | 26 components (Blacksmith 3, Science 1) |
 
-No other mod slots exist besides the legendary slot. The copy should keep these so players can still stack bleed and shock on the Blade. *To verify:* that the copy's default mod list points at the vanilla "No Upgrade" mod and that all four attach. The base damage number is not in these mods (the standard state changes nothing); it comes from the weapon record or its template and is still untraced.
+No other mod slots exist besides the legendary slot. The copy should keep these so players can still stack bleed and shock on the Blade. *To verify:* that the copy's default mod list points at the vanilla "No Upgrade" mod and that all four attach. The base damage number is not in these mods (the standard state changes nothing); it is on the weapon record (16, see above). The default mod `mod_melee_ChineseOfficerSword_Null` (`OMOD 00176DF8`) targets keyword `ma_ChineseOfficerSword`, attach point `ap_melee_MeleeMod`, and has no properties (Verified).
 
 
 ## Armor penetration (the one change)
 
 **How vanilla does it (Verified):**
 - Weapon stat `ArmorPenetration` (AVIF `00097341`): 0 to 100, a percentage of the target's armor ignored.
-- Legendary "Penetrating": OMOD `001F4426` sets that property to `30.0` and attaches ENCH `001F4425` -> MGEF `001F4423` (Add Perk) -> PERK `001F4166`.
-- That perk has one entry point, **Mod Target Damage Resistance** (entry point 37 in the xEdit definitions), with the AV `ArmorPenetration` and a small multiplier (about `-0.01`). *Inference, not confirmed:* it subtracts (weapon stat x 1%) from the target's damage resistance.
+- Legendary "Penetrating": OMOD `001F4426` (description: "Ignores 30% of the target's damage and energy resistance.") adds two properties that matter: `Enchantments` ADD `enchModArmorPenetration` (`ENCH 001F4425`) and `ActorValues` ADD `ArmorPenetration` = `30.0`. (It also adds keywords, including `HasLegendary_Weapon_ArmorPenetrating` `001F4424`, and a value multiplier.)
+- `ENCH 001F4425`: Constant Effect, target Self, one effect -> `MGEF 001F4423` (`ModArmorPenetrationAddPerkEffect`: constant, self, hidden in the UI) -> `PERK 001F4166` (`ModArmorPenetrationPerk`: hidden, non-playable, one rank).
+- That perk has **one entry point: Mod Target Damage Resistance, function "Multiply 1 + Actor Value Mult", actor value `ArmorPenetration`, float `-0.01`** (Verified, 2026-11-23). So the target's resistance is multiplied by `1 + (ArmorPenetration x -0.01)`: with the weapon's stat at 30 that is x0.70, i.e. 30% ignored, matching the OMOD's description. The strength therefore comes from the weapon's `ArmorPenetration` value, not from a number in the perk; the 100% case is a stat of 100 (x0).
+- `AVIF 00097341` `ArmorPenetration`: default 0, "treat as % armor ignored".
 
-**Our approach (proposed), avoiding the legendary slot:**
-1. Weapon `EITM` (base enchantment) = new `MoM_ENCH_BladeOfBastet`, constant effect on the wielder.
-2. ENCH effect = new MGEF `MoM_MGEF_BladeOfBastetPerk`, a copy of `001F4423` (Add Perk).
-3. MGEF adds new PERK `MoM_PERK_BladeOfBastet`: entry point **Mod Target Damage Resistance**, value **-0.30** (30% of the target's armor ignored). A second entry for the Eye of Ra (-1.00) comes later, conditioned on the Eye being worn.
+**Approach (revised 2026-11-23): reuse the whole vanilla chain, add no new ENCH/MGEF/PERK for 0.1.**
+1. Weapon `EITM` (base enchantment) = the vanilla `enchModArmorPenetration` (`ENCH 001F4425`).
+2. Give the Blade a weapon-level actor-value property `ArmorPenetration` = 30, as the vanilla OMOD does, but on the weapon's own object template (the template combination's `Properties`, which are empty on the sword) instead of in an OMOD. *To verify:* that template-level `ActorValues` properties apply to the item. Fallback: our own OMOD included in the template; it must not use `ap_melee_MeleeMod` (that is the sword's blade-mod slot) or `ap_Legendary`, so it would need a new attach point.
+3. Eye of Ra (later): the stat rises to 100 while the Eye is worn, or a second perk; decide when that item is specced.
 
-Why this over copying the OMOD: the vanilla legendary OMOD occupies `ap_Legendary`, which would stop players adding a legendary effect. A weapon's own `EITM` does not use that slot.
+**Replaces the earlier plan** (new ENCH/MGEF/PERK with a fixed `-0.30`): with the vanilla function a fixed `-0.30` would not mean 30%, and reusing the vanilla chain needs fewer records. Why not copy the OMOD: it would occupy `ap_Legendary`, which would stop players adding a legendary effect; a weapon's own `EITM` does not use that slot.
 
-**To verify:**
-- That a constant-effect `EITM` on a melee weapon applies while it is equipped and stops when it is not.
-- That the perk's armor reduction works as inferred (a 30% reduction of the target's resistance), by comparing damage against an armored enemy with and without.
-- Fallback if it fails: the OMOD route (set `ArmorPenetration` = 30 as a property, as vanilla does), accepting that it uses the legendary slot or needs a new attach point.
+**To verify (in-game):**
+- That the weapon's `EITM` enchantment applies the perk while equipped and stops when not.
+- That the `ArmorPenetration` stat on the weapon is what the perk reads (compare damage against an armored enemy with and without; the vanilla Penetrating legendary is the control).
+- Fallback if it fails: the OMOD route exactly as vanilla, accepting that it uses the legendary slot or needs a new attach point.
 
 
 ## Recipe and cost
@@ -63,17 +65,17 @@ Why this over copying the OMOD: the vanilla legendary OMOD occupies `ap_Legendar
 | Ingredient | Amount | Why |
 |---|---|---|
 | Chinese Officer Sword (`00147BE4`) | 1 | the conversion base (vanilla recipes already use items as ingredients: the Baseball grenade uses a `Baseball`, the Bottlecap mine a `LunchBoxKids01`) |
-| Steel (`c_Steel`) | 4 | the blade work |
-| Silver (`c_Silver`) | 3 | the ceremonial theme |
-| Gold (`c_Gold`) | 2 | scarcer on purpose: it should not be too easy |
-| Crystal (`c_Crystal`) | 2 | a gem inlay in the hilt; fits the Eye of Ra and the regalia theme, and is plentiful early |
-| Adhesive (`c_Adhesive`) | 3 | common, matches other melee recipes |
+| Steel (`c_Steel`, `CMPO 0001FABD`) | 4 | the blade work |
+| Silver (`c_Silver`, `CMPO 0001FABB`) | 3 | the ceremonial theme |
+| Gold (`c_Gold`, `CMPO 0001FAA6`) | 2 | scarcer on purpose: it should not be too easy |
+| Crystal (`c_Crystal`, `CMPO 0001FA9F`) | 2 | a gem inlay in the hilt; fits the Eye of Ra and the regalia theme, and is plentiful early |
+| Adhesive (`c_Adhesive`, `CMPO 0001FAA5`) | 3 | common, matches other melee recipes |
 
 About 14 components plus the sword, in line with vanilla sword mods (the Shock mod costs 18 components; Shock+Serrated 26). Gold is the deliberate friction. No fiber optics, circuitry or nuclear material.
 
 **Perk gate: Blacksmith rank 2 only** (`Blacksmith02`, via the `HasPerk` condition, function index `448`). The sword's own Serrated and Shock mods use the same rank (Verified), and the story gate already limits who sees it, so a second perk gate (Science) would be ceremony.
 
-*Component names above are verified to exist in the game (31 components, including Silver, Steel, Circuitry, Adhesive). FormIDs still need reading in xEdit.* *To verify in-game:* whether a sword that already has mods installed counts as the ingredient, and what the player gets back (the Blade comes unmodded).
+*Component FormIDs above are Verified (read in xEdit from `Fallout4.esm`, 2026-11-23; the game has 31 components). The perk is `Blacksmith02`, `PERK 0004B26A` (Verified; "You gain access to Rank 2 melee weapon mods"; its own prerequisite is a Strength check, which does not affect a `HasPerk` condition).* *To verify in-game:* whether a sword that already has mods installed counts as the ingredient, and what the player gets back (the Blade comes unmodded).
 
 
 *Workbench, category, discovery gate and instructions are set-wide: see `spec-regalia.md`.*
@@ -87,4 +89,5 @@ About 14 components plus the sword, in line with vanilla sword mods (the Shock m
 
 ## Open items (Blade)
 
-- Component and perk FormIDs (read in xEdit); tracing the sword's base damage; whether the copy's default mod list reuses the vanilla "No Upgrade" mod; the armor-penetration mechanism (`EITM` route) proven in-game.
+- Whether the copy's default mod list reuses the vanilla "No Upgrade" mod (`00176DF8`); whether template-level `ArmorPenetration` properties apply; the armor-penetration mechanism (`EITM` + weapon stat) proven in-game.
+- Read in xEdit and done (2026-11-23): component and perk FormIDs, the sword's base damage (16), the penetration chain's strength.
