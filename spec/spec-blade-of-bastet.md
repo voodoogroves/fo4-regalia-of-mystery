@@ -22,6 +22,19 @@ Convert a Chinese Officer Sword the player already owns into the Blade of Bastet
 Base damage and speed are inherited unchanged. **Verified (xEdit on `Fallout4.esm`, 2026-11-23):** the sword's base damage is on the weapon record itself, `DNAM` `Damage - Base` = **16**. Also: speed 1.0, reach 0.8, action point cost 35, crit damage multiplier 2.0, stagger Small, animation `OneHandSword`, value 50, weight 3.0. Its default template combination includes only `mod_melee_ChineseOfficerSword_Null` (`OMOD 00176DF8`), which has no properties, and the combination's own `Properties` list is empty, so nothing else adds damage. (The record's `Damage - Secondary` shows `-107374176.0`; it is an unused field.) The in-game number can still move with perks and other mods; check in-game.
 
 
+## Name and description (0.1)
+
+**Name** (`FULL`): Blade of Bastet.
+
+**Lore, what we know (2026-11-23):** the Blade of Bastet is a Fallout 76 weapon, the sword of the fictional Mistress of Mystery and part of her Regalia of Mystery. The Fallout 4 Silver Shroud radio plays mention it (reported as Episode 3, "In the Parlor of Mysteries", and Episode 5, "Into the Robot's Den"). In Fallout 76 it is a one-handed sword with increased armor penetration, and the Eye of Ra is a companion item that doubles that bonus; ours goes from 30% to 100% with the Eye, a deliberate difference. *Confidence:* the radio-play episode numbers and the Eye of Ra detail come from a summarised read of `fallout.wiki`, not verbatim text; the Fextralife Fallout 76 page was read verbatim (one-handed, increased armor penetration). **No in-game description text was found** on either wiki page, and the `fandom.com` pages returned HTTP 402 (blocked) and were not read. Re-check the episode details against the radio plays themselves before quoting them anywhere.
+
+**Text rule:** original wording only. Do not copy Fallout 76's item text or radio-play lines into the plugin.
+
+**Description** (`DESC`), draft: *"A Chinese officer's sword reforged with silver, gold and a crystal-set hilt, in the manner of the Mistress of Mystery's blade. Ignores 30% of the target's damage and energy resistance. Craft it from a Chinese Officer Sword at a Chemistry Station."* The middle sentence restates the vanilla Penetrating effect's own wording (Verified: OMOD `001F4426`). The last sentence is the 0.1 "instructions" (see `spec-regalia.md`).
+
+*To verify in-game:* that the description shows in the Chemistry Station crafting menu, and how much of it is shown (length limit unknown).
+
+
 ## The sword's vanilla mods (Verified from the game's OMOD records)
 
 The sword has two attach points (`ap_melee_MeleeMod` and `ap_Legendary`) and four blade states:
