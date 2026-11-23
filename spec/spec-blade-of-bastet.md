@@ -31,7 +31,8 @@ Built by `build/xedit/BuildBlade.pas` in FO4Edit 4.1.5f: `RegaliaOfMystery.esp` 
 - **The full description text shows in the crafting menu** (answers the "does it show / how much" question: all of it).
 - **No description line shows once the item is crafted** and inspected, so the "instructions" sentence only helps in the crafting menu (acceptable for 0.1).
 - **The crafting-menu preview shows only the hilt**, while the crafted item is the full sword. Likely cause (inferred, not checked): the weapon record's own model is the hilt and the blade comes from the default mod's model (`Blade.nif` on `mod_melee_ChineseOfficerSword_Null`), which the preview doesn't include. Cosmetic; leave for now.
-- *Not yet answered:* whether the sword was consumed, whether `ArmorPenetration` 30 and the enchantment actually take effect, and the armor comparison.
+- **Armor-penetration test, first results (hits to kill a Protectron, plain swings, single runs, Strength 10 so both swords show 32 damage):** plain sword 22 to 23; Blade with stat 30 = 22; a throwaway TEST build with stat 100 = 18. The reported armor formula predicts about 1.14x and about 2.15x fewer hits, so the effect is **smaller than predicted, or noise**. Early impression: the Blade's health bar drained faster. **Inconclusive.** Next: repeated counts (3 each), a better-known target, and deciding whether the template-level stat suffices or the vanilla OMOD route is needed (see "To verify" above). The detail and caveats are in Alexandria `memory/fo4-xedit-reference.md`.
+- *Not yet answered:* whether the sword was consumed.
 
 
 ## Name and description (0.1)
