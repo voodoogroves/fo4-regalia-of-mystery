@@ -39,3 +39,7 @@ out*.txt
 build.log
 xe.log
 *.bak*
+
+# Python bytecode
+__pycache__/
+*.pyc
