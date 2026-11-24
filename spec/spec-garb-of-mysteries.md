@@ -30,9 +30,26 @@ An armored, discreet sneaking outfit; the Eye of Ra amplifies it. Found as a **T
 
 `build/art/make_dress.py OUTDIR` (needs `baunpack`): extracts the sequin texture, recolours it zone by zone by block (BC1 blocks are 4 x 4 pixels with two RGB565 endpoints; recolouring the endpoints, at every mip level, keeps the sparkle), writes **our own** files `Textures\Clothes\GarbOfMysteries\GarbOfMysteries_d.dds` and `Materials\Clothes\GarbOfMysteries\GarbOfMysteries.BGSM` (a copy of `SequinDress.BGSM` with the diffuse path changed), and previews. Parameters: `--uc --uspan --y0 --pitch --bands --thick --slope --tint --gain --cap --debug-uv`. The plugin side is `build/xedit/BuildGarbTest.pas` (plugin `RegaliaGarb1`, **Fallout4.esm only**): a material swap `SequinDress.BGSM` -> ours, a copy of the addon with `MO2S` (male) and `MO3S` (female) set, and a copy of the dress pointing at our addon. Loose files live in the MO2 mod `Garb of Mysteries Art`; replacing the texture needs only a relaunch, not a rebuild. **Verified:** the UV test texture showed on the dress (swap, loose files and addon all work). **Not yet seen:** the recoloured texture in game.
 
-## Fallout 76 stats: not available (checked 2026-11-24)
+## Fallout 76 stats (from wiki screenshots Chris supplied, 2026-11-24; fan-wiki level, not checked in game)
 
-- We have **no verified Fallout 76 stats** for the Garb. The Fextralife wiki pages for the [Garb of Mysteries](https://fallout76.wiki.fextralife.com/Garb+of+Mysteries) and the [Tattered Dress](https://fallout76.wiki.fextralife.com/Tattered+Dress) (last edited 9 April 2026) are thin stubs, read by a helper agent: weight and value are unfilled template placeholders, there are no resistances, no perks, no sneak effect; the Garb's source reads "??"; both are classed as **Outfits, which are cosmetic and worn "on top" of armor** in Fallout 76. So, in 76 the Garb has no listed protection at all: the numbers are ours to design. The Fandom page (the one with more detail) is blocked to our fetches (HTTP 402). If Chris has the in-game numbers, add them here.
+**Garb of Mysteries (item card):** levels 25 / 30 / 35 / 40 / 45 / 50 (an upgrade ladder); **40 damage resistance, 40 energy resistance** (the card shows one pair; read as the top level); **value 50, weight 1.0**; effects: **+1 Perception** and **5% harder to detect while sneaking**. The render: a short pointed tunic with a cream-gold ruffled collar, a charcoal body with **thin, dark green chevrons**, black leggings, long gloves and boots.
+
+**The Eye of Ra's bonus table ("while wearing the Eye"):**
+
+| Item | Bonus while wearing the Eye |
+|---|---|
+| Garb of Mysteries | +20 DR, ER and Sneak |
+| Voice of Set | against robots, deal +70 energy damage and a 25% chance to stun for 1 second |
+| Blade of Bastet | 100% armor penetration (built) |
+| Phantom Device | invisibility lasts 60 seconds, frenzy lasts 30 seconds (the cut item) |
+
+**What Chris said:** "we don't need to be exact"; not too heavy on DR and ER, mostly sneak and utility.
+
+**Proposed Fallout 4 translation (to confirm):** about **half the 76 protection**: **20 DR and 20 ER**, rising to **30 and 30 with the Eye** (the Eye's +20 halved to +10, applied through a worn-keyword condition); **+1 Perception** (the vanilla `Fortify Perception` effect, as on the Eyeglasses); keep the dress's vanilla Charisma bonus if wanted; **harder to detect while sneaking**, small at base and clearly stronger with the Eye (our own perk using the detection entry points, to be tuned once the vanilla Sneak perks are read). Value 50, weight 1.0 as in 76. The Voice of Set's 76 role is a **robot-hunting, stunning sidearm** (energy damage and a short stun against robots), close to the concept's "disrupts instead of kills"; keep that in mind when we reach it.
+
+## Fallout 76 stats: earlier check (superseded by the above)
+
+- The Fextralife stubs showed no stats. We had **no verified Fallout 76 stats** for the Garb. The Fextralife wiki pages for the [Garb of Mysteries](https://fallout76.wiki.fextralife.com/Garb+of+Mysteries) and the [Tattered Dress](https://fallout76.wiki.fextralife.com/Tattered+Dress) (last edited 9 April 2026) are thin stubs, read by a helper agent: weight and value are unfilled template placeholders, there are no resistances, no perks, no sneak effect; the Garb's source reads "??"; both are classed as **Outfits, which are cosmetic and worn "on top" of armor** in Fallout 76. (Chris's screenshots, above, show the real 76 numbers.) The Fandom page (the one with more detail) is blocked to our fetches (HTTP 402). If Chris has the in-game numbers, add them here.
 - **The Tattered Dress is a corpse-loot item in Fallout 76** ("found on various corpses throughout Appalachia", one in Camden Park, one on a corpse named Natasha Hunt at Lewisburg; fan-wiki level). The wiki does not say whether it feeds the Garb. This fits Chris's body idea.
 - The archived Gemini brainstorm (`Alexandria/historical/regalia/gemini-brainstorming.md`, marked historical and unverified) proposes `30 DR / 30 ER`, `+15% Sneak` rising to `+30%` with the Eye, a charcoal Tuxedo material, and an Armorer rank 1 recipe. These are its own design numbers, not Fallout 76 facts, and its mechanics (`FortifySneak`) are not checked against Fallout 4 (the game's definitions have an actor value `Sneak` and the entry points below).
 
