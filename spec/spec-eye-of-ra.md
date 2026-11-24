@@ -10,7 +10,7 @@ Status: DESIGN, nothing built (2026-11-24). Part of the Regalia of Mystery set; 
 
 The player finds a **Broken Eye of Ra** and a **holotape** that explains how to rebuild the Regalia; the holotape unlocks the recipes, including the Eye's repair. Framing: the player is rebuilding the Eye from schematics, so the Jury-Rigged Eye is the repaired result.
 
-**Limit on "reading unlocks recipes" (Inferred, not tested):** a recipe condition cannot see whether a holotape was played. It can see **possession** (`GetItemCount <holotape> >= 1`, function 47, on the player). The set-wide spec already warns that item checks cannot see stored gear, so a player who puts the holotape in a workshop container loses the recipes. Options: (a) no holotape gate; the holotape explains, the recipes use the quest gate (recommended); (b) the holotape as a possession gate, fragile; (c) a small Papyrus script that sets a flag on reading (not available: no compiler set up).
+**Limit on "reading unlocks recipes" (Inferred, not tested):** a recipe condition cannot see whether a holotape was played. It can see **possession** (`GetItemCount <holotape> >= 1`, function 47, on the player). The set-wide spec already warns that item checks cannot see stored gear, so a player who puts the holotape in a workshop container loses the recipes. Options: (a) no holotape gate; the holotape explains, the recipes use the quest gate (recommended); (b) the holotape as a possession gate, fragile; (c) a small Papyrus script that sets a flag on reading (not available: no compiler set up). **(d) found 2026-11-24, recommended: an item that adds a perk when read, with no script of ours (see "A perk on read" below); recipes then check `HasPerk`, which stored gear cannot affect.**
 
 ## The records
 
@@ -23,8 +23,20 @@ Supporting changes to existing records: the Blade's recipe `MoM_COBJ_BladeOfBast
 ## Gates
 
 - **Blade recipe and Eye repair:** `GetStage(MS04) >= 390` (index 58, Type 96, value 390; see `spec-regalia.md`: 390 is "refused to be the Shroud", 400 "agreed", so this opens right after Kent's offer, early in the quest), and for the Blade `HasPerk Blacksmith02` (index 448). Same gate for both so they appear together.
-- **Holotape:** optional possession gate for the Eye repair only (option b above); my recommendation is none.
+- **The Cryptos item:** the recommended gate is the perk it teaches (`HasPerk MoM_PERK_Cryptos`, see below); a holotape cannot do it.
 - *To verify:* `GetStage` after the quest finishes; that the holotape count condition behaves in a recipe; that a recipe stays visible when the Broken Eye is not owned (it should show greyed).
+
+## A perk on read (Verified in the vanilla records 2026-11-24; the in-game behaviour is untested)
+
+A `BOOK` record can add a perk when read: its `DNAM` has the flag **Add Perk** and a **Teaches** field naming the `PERK` (vanilla perk magazines: `PerkMagGrognakTheBarbarian01` `0008E741` teaches `Barbarian` `0008E3A6`; keywords `FeaturedItem` and `PerkMagKeyword`; inventory art `INAM` a `STAT`; preview transform `Misc_MagazineFix`; its own mesh, here `Props\GrognakComic\Comic_GrognakJan.nif`). The vanilla magazines also carry a script `CA_SkillMagazineScript` with a property `CA_Event_ReadSkillBook`, apparently only an event for challenges; whether the perk applies **without** it is *inferred, to test*. A plain readable `BOOK` (the Silver Shroud Photo, `0018AC1E`, mesh `Props\Photo01LowPoly_SilverShroud.nif`) has `Flags = 0` and no perk. A holotape (`NOTE`) cannot add a perk (a terminal needs a script fragment for any action).
+
+**Design with it:** the Cryptos item becomes a `BOOK` with Add Perk and Teaches = `MoM_PERK_Cryptos` (a new perk with no effect entries, copied from a vanilla magazine perk and emptied; it exists only to be held). Recipes (the Blade and the Eye repair) get the condition **`HasPerk MoM_PERK_Cryptos`** (function 448) in place of, or with, `GetStage(MS04) >= 390`. This fixes the stored-gear problem: a held perk cannot be put in a workshop container. Reading it is a real event in the Pip-Boy.
+
+**The look:** no Silver Shroud or Mistress comic exists as a `BOOK` (only the photo). Options: (1) copy the photo record (`0018AC1E`, free Silver Shroud art) and add the perk fields: a photograph with notes; (2) reuse a vanilla magazine mesh (a comic or journal) with a rename; (3) new art later (needs a texture, a material and tools not installed here; the gold-tint research applies). A paper note is the same `BOOK` type, so it can carry the perk too. The `FIMD` (Featured Item Message) is the popup shown when a magazine is first picked up.
+
+**The holotape stays possible** as an extra, flavour only (`NOTE` Terminal type, `MS04_CollectibleSilverShroudTVScript` `001B8FF9` is the template: model `Props\Holotape_Prop.nif`, preview transform `MiscHolotape`, pick-up sound `ITMHolotapeUp`, terminal `MS04_SilverShroudScriptTerminal` `001B8FFA`).
+
+**To verify in game:** that reading a copy of the photo (or a magazine copy) with Add Perk and Teaches adds the perk with no script of ours; where it shows (Pip-Boy perks, magazines); that `HasPerk` on a recipe unlocks it; what happens if the book is read twice.
 
 ## Holotape text (draft, original wording; nothing copied from Fallout 76 or the radio plays)
 
