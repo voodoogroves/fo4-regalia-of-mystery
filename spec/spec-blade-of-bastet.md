@@ -24,14 +24,14 @@ Base damage and speed are inherited unchanged. **Verified (xEdit on `Fallout4.es
 
 ## Build status (as-built, 2026-11-23)
 
-Built by `build/xedit/BuildBlade.pas` in FO4Edit 4.1.5f: `RegaliaOfMystery.esp` (master `Fallout4.esm`) with `MoM_WEAP_BladeOfBastet` (copy of the sword; `EITM` = vanilla `enchModArmorPenetration`; template `ArmorPenetration` = 30; name and description as below) and `MoM_COBJ_BladeOfBastet` (the sword + Steel 4, Silver 3, Gold 2, Crystal 2, Adhesive 3; Chemistry Station; `RecipeUtility`; **no conditions yet**). All references resolve in xEdit. **Differences from this spec:** it is a plain `.esp` for now, not the planned `.esl` (the light flag is a later step); the template-level `ArmorPenetration` property is written but **not yet tested in game**. The sword copy keeps `ap_Legendary`, `ap_melee_MeleeMod` and the vanilla default mod, as specified.
+Built by `build/xedit/BuildBlade.pas` in FO4Edit 4.1.5f: `RegaliaOfMystery.esp` (master `Fallout4.esm`) with `MoM_WEAP_BladeOfBastet` (copy of the sword; `EITM` = vanilla `enchModArmorPenetration`; template `ArmorPenetration` = 30; name and description as below) and `MoM_COBJ_BladeOfBastet` (the sword + Steel 4, Silver 3, Gold 2, Crystal 2, Adhesive 3; Chemistry Station; `RecipeUtility`; **no conditions yet**). All references resolve in xEdit. **Differences from this spec:** it is a plain `.esp` for now, not the planned `.esl` (the light flag is a later step); the template-level `ArmorPenetration` property and the `EITM` enchantment are written but **do not take effect in game** (tested 2026-11-23: the player's `ArmorPenetration` stays 0 and perk `001F4166` is absent; see "Armor penetration: in-game findings"). So the plugin as built crafts the sword but gives **no armor penetration**; the approach below is superseded. The sword copy keeps `ap_Legendary`, `ap_melee_MeleeMod` and the vanilla default mod, as specified.
 
 **Observed in game (Chris, 2026-11-23, Test profile, ungated build):**
 - The recipe appears at the Chemistry Station and crafting works; the result is the full sword.
 - **The full description text shows in the crafting menu** (answers the "does it show / how much" question: all of it).
 - **No description line shows once the item is crafted** and inspected, so the "instructions" sentence only helps in the crafting menu (acceptable for 0.1).
 - **The crafting-menu preview shows only the hilt**, while the crafted item is the full sword. Likely cause (inferred, not checked): the weapon record's own model is the hilt and the blade comes from the default mod's model (`Blade.nif` on `mod_melee_ChineseOfficerSword_Null`), which the preview doesn't include. Cosmetic; leave for now.
-- **Armor-penetration test, first results (hits to kill a Protectron, plain swings, single runs, Strength 10 so both swords show 32 damage):** plain sword 22 to 23; Blade with stat 30 = 22; a throwaway TEST build with stat 100 = 18. The reported armor formula predicts about 1.14x and about 2.15x fewer hits, so the effect is **smaller than predicted, or noise**. Early impression: the Blade's health bar drained faster. **Inconclusive.** Next: repeated counts (3 each), a better-known target, and deciding whether the template-level stat suffices or the vanilla OMOD route is needed (see "To verify" above). The detail and caveats are in Alexandria `memory/fo4-xedit-reference.md`.
+- **Armor-penetration test, first results (hits to kill a Protectron, plain swings, single runs, Strength 10 so both swords show 32 damage):** plain sword 22 to 23; Blade with stat 30 = 22; a throwaway TEST build with stat 100 = 18. The reported armor formula predicts about 1.14x and about 2.15x fewer hits, so the effect is **smaller than predicted, or noise**. Early impression: the Blade's health bar drained faster. **Inconclusive at the time, since resolved:** those runs were on Very Hard, on a target whose real stats were unknown, and the effect was not there (see "Armor penetration: in-game findings"). Detail in Alexandria `memory/fo4-xedit-reference.md`.
 - *Not yet answered:* whether the sword was consumed.
 
 
@@ -71,7 +71,7 @@ No other mod slots exist besides the legendary slot. The copy should keep these 
 - That perk has **one entry point: Mod Target Damage Resistance, function "Multiply 1 + Actor Value Mult", actor value `ArmorPenetration`, float `-0.01`** (Verified, 2026-11-23). So the target's resistance is multiplied by `1 + (ArmorPenetration x -0.01)`: with the weapon's stat at 30 that is x0.70, i.e. 30% ignored, matching the OMOD's description. The strength therefore comes from the weapon's `ArmorPenetration` value, not from a number in the perk; the 100% case is a stat of 100 (x0).
 - `AVIF 00097341` `ArmorPenetration`: default 0, "treat as % armor ignored".
 
-**Approach (revised 2026-11-23): reuse the whole vanilla chain, add no new ENCH/MGEF/PERK for 0.1.**
+**Approach (revised 2026-11-23): reuse the whole vanilla chain, add no new ENCH/MGEF/PERK for 0.1. DOES NOT WORK AS BUILT: see the findings section below.**
 1. Weapon `EITM` (base enchantment) = the vanilla `enchModArmorPenetration` (`ENCH 001F4425`).
 2. Give the Blade a weapon-level actor-value property `ArmorPenetration` = 30, as the vanilla OMOD does, but on the weapon's own object template (the template combination's `Properties`, which are empty on the sword) instead of in an OMOD. *To verify:* that template-level `ActorValues` properties apply to the item. Fallback: our own OMOD included in the template; it must not use `ap_melee_MeleeMod` (that is the sword's blade-mod slot) or `ap_Legendary`, so it would need a new attach point.
 3. Eye of Ra (later): the stat rises to 100 while the Eye is worn, or a second perk; decide when that item is specced.
@@ -82,6 +82,25 @@ No other mod slots exist besides the legendary slot. The copy should keep these 
 - That the weapon's `EITM` enchantment applies the perk while equipped and stops when not.
 - That the `ArmorPenetration` stat on the weapon is what the perk reads (compare damage against an armored enemy with and without; the vanilla Penetrating legendary is the control).
 - Fallback if it fails: the OMOD route exactly as vanilla, accepting that it uses the legendary slot or needs a new attach point.
+
+
+## Armor penetration: in-game findings (2026-11-23)
+
+**A working control (Verified).** A vanilla legendary Penetrating weapon, the Sword of Wonders (a legendary Chinese Officer Sword from Nuka-World, per the wiki), reads `player.getav ArmorPenetration` = **30.00** and `player.hasperk 001F4166` = **Rank 1** when equipped. On the SKK workshop target dummy (Normal difficulty) it did 37 to 41 damage unarmored and 23 to 29 against the heavy combat armor chest, where a plain Chinese Officer Sword did 32 and 15. So the chain in "How vanilla does it" is real and the two console commands are a valid check.
+
+**What failed (Verified in game, same checks):**
+1. Weapon `EITM` plus template-level `ArmorPenetration` (the as-built plugin, also a stat-100 test): stat 0, no perk; the dummy showed 15 for every sword.
+2. A weapon whose Default template combination includes a copy of the vanilla legendary Penetrating mod (`001F4426`), with `Attach Point Index` 1 and then 0: the crafted item did not show as legendary; stat 0, no perk.
+3. **Not a valid test:** an Upgrade-slot mod carrying the stat and enchantment. A bug in the build script (it looked up the mod's `DATA - Data` block by the wrong name) meant the properties were never added, so that approach is **still untested**. Fixed in `BuildBladePerk.pas`.
+
+**How vanilla attaches penetration (Verified in xEdit, `Fallout4.esm` and `DLCRobot.esm`):**
+- **Mundane melee mods** (Puncturing and Spiked knuckles and power fist) carry only the keyword `ap_melee_ArmorPenetrate` (`KYWD 00097342`). The base `PlayerPerk` (`PERK 00056DD7`) has an entry, Mod Target Damage Resistance / Multiply Value **0.85**, whose weapon-tab condition is `HasKeyword ap_melee_ArmorPenetrate`. So non-legendary melee is a flat **15%**, set in that one entry; the weapon carries only the tag. Perk entries have condition tabs (0 attacker, 1 weapon, 2 target).
+- **Mundane gun mods** (Armor Piercing receivers) use the full trio: a `dn_HasReceiver_ArmorPiercing1`-type keyword, `Enchantments` `enchModArmorPenetration`, and `ActorValues` `ArmorPenetration` 40.
+- **Legendary Penetrating** (`OMOD 001F4426`, attach point `ap_Legendary`, Legendary Mod flag): marker keywords, the enchantment, and `ArmorPenetration` 30.
+- Only four vanilla weapon records ship with a legendary mod in their template (the Tesla Rifle, the two Sentry Bot miniguns, the Salvaged Assaultron Head, all `DLCRobot.esm`): it is an include in the **Default** combination, `Attach Point Index` 0, `Optional` False, `Don't Use All` True. We copied that and the game still did not apply it to a crafted item; reason unknown.
+- The cheat terminal's legendary menu calls `ObjectReference.AttachMod` on the object the player is holding (`Game.GetPlayerGrabbedRef`), i.e. a legendary effect is attached to an item instance at runtime.
+
+**Under test (BuildBladePerk.pas, next session):** mod A = Electrified Serrated plus our keyword `MoM_Blade_KW`, with our own perk (a copy of the `PlayerPerk` entry, weapon-tab `HasKeyword MoM_Blade_KW`, multiplier 0.0 for the test, 0.70 for the real 30%), added with `player.addperk`; mod B = the vanilla trio on a clean Upgrade-slot mod. Delivery of our perk to players without the console would be a holotape terminal option or a quest (a small Papyrus script, `AddPerk`). Also noted, not yet specced: a **mundane** Blade (keyword for the vanilla 15%, no bleed or shock, damage bonus tuned up to compensate, Eye of Ra raising it to 100% through a perk with a worn-item condition), and a holotape "Cryptos" (Chris's name, tied to a computer Rivers had in Fallout 76; lore **not verified**).
 
 
 ## Recipe and cost
@@ -115,5 +134,5 @@ About 14 components plus the sword, in line with vanilla sword mods (the Shock m
 
 ## Open items (Blade)
 
-- Whether the copy's default mod list reuses the vanilla "No Upgrade" mod (`00176DF8`); whether template-level `ArmorPenetration` properties apply; the armor-penetration mechanism (`EITM` + weapon stat) proven in-game.
+- **The armor-penetration mechanism is unresolved:** the weapon-record approach does not work; next tests are in "Armor penetration: in-game findings". The build and recipe design (a distinct weapon from the Chemistry Station) may change to an Upgrade-slot mod from the weapon workbench.
 - Read in xEdit and done (2026-11-23): component and perk FormIDs, the sword's base damage (16), the penetration chain's strength.
