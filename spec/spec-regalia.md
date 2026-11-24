@@ -59,3 +59,18 @@
 ## Open items (set-wide)
 
 - In-game test of `GetStage(MS04) >= 390` (including after the quest finishes); item description in the crafting menu; whether recipes can create a holotape (only for the later holotape).
+
+
+## Release checklist (the real plugin; collected 2026-11-24)
+
+Nothing here is done yet unless marked. Sources are in `spec-blade-of-bastet.md`, `spec-eye-of-ra.md` and Rhodes `decisions.md`.
+
+- **Disclaimer (Chris: yes).** The Creation Kit EULA (<https://store.steampowered.com/eula/1946160_eula_1>, "Creation Kit Editor End User License Agreement", ZeniMax; no version or date; read by a helper agent, not verified verbatim) section 2.B says every Game Mod must state that ZeniMax is not the author, with the language "THIS MATERIAL IS NOT MADE, GUARANTEED OR SUPPORTED BY ZENIMAX OR ITS AFFILIATES." Put it in the plugin description and on any release page. Not legal advice; we build with xEdit, not the Creation Kit, and it is not clear the EULA binds us, but we follow it as a baseline.
+- **Not needed (Chris):** charging for the mod is excluded by the EULA (no fees; we will not charge); the other EULA points (distribution to legitimate copies only, non-commercial) need no action beyond that.
+- **Licence of our own work (later):** decide when the time comes; look at how Nexus mods are licensed (Creative Commons, MIT, or similar).
+- **Assets never go in a public repo** (decision 2026-11-24; each repo has a `.gitignore`). Release the plugin and its archive on a mod site, not GitHub.
+- **Pack the art into a `.ba2`** named after the plugin (Windows `BSArch` under Proton, untried). Check the licence position of shipping a recoloured Bethesda texture. The EULA text has no clause on archives or `.ba2`, so that guidance is from elsewhere.
+- **The plugin requires `DLCNukaWorld.esm`** (the Jury-Rigged Eye is a copy of the Shock Collar). Chris accepts that. Check whether an ESL can carry a DLC master before flagging it ESL (untested).
+- **Names and strings:** replace the test strings (`Bastet Test Perk`, test descriptions, `MoM_` editor IDs kept) with the real ones; one plugin instead of the chain of test plugins.
+- **Placement:** the book and the broken items in a container of ours at Hubris Comics, a container that does not refill (parked; Chris will find the spot).
+- **Clean up the legacy test plugins** in the game's Data folder once the real plugin exists.
