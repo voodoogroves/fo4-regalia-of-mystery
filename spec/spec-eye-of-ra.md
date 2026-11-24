@@ -56,6 +56,15 @@ A `BOOK` record can add a perk when read: its `DNAM` has the flag **Add Perk** a
 
 Observed in game: a recipe with three `HasPerk` conditions (Cryptos, Blacksmith 3, Science 1) listed only **two** prerequisites on the craft screen, so the third lock was enforced but invisible to the player. **Rule: every regalia recipe has at most two perk conditions: the Cryptos Notes perk (the book) plus ONE skill perk for the item.** Blade: Cryptos + Blacksmith 3 (Science 1 dropped); Eye repair: Cryptos + Science 3; the dress: Cryptos + Armorer 3; other items one skill each, chosen to suit the craft. The build change (`BuildBladeGates.pas` still has the third condition on the Blade) rides on the next build.
 
+## Broken items (Chris, 2026-11-24): every regalia piece is found broken and repaired
+
+**Decision:** each piece is found as a **broken item** (a plain `MISC`: a name, a model, a value; no stats, perk or script) and repaired at the Chemistry Station by its own recipe. This **limits the number of each piece to the world's supply** (no mass production of Blades) and gives every piece the same simple pattern: a broken item plus a repair recipe gated by the Cryptos book plus one skill perk. It also fits the framing that the player is rebuilding the regalia from schematics.
+- **Names:** Broken Eye of Ra (built); **Broken Blade of Bastet** (new); the dress is a **Tattered Dress** (Fallout 76 lists a separate Tattered Dress among the Regalia pieces; forum sources say the Garb of Mysteries is the full-body armor version and that a lost dress cannot be re-made, which fits one-per-find; I found nothing confirming that the tattered dress becomes the Garb; fan-wiki level evidence, not checked in game). The Veil and the Voice of Set follow the same pattern.
+- **The Blade's recipe changes:** the ingredient is the **Broken Blade of Bastet** instead of a vanilla Chinese Officer Sword; the materials stay (Steel 4, Silver 3, Gold 2, Crystal 2, Adhesive 3) and the perk conditions become Cryptos + Blacksmith 3 (see the gate rule). The Blade record is still a copy of the sword.
+- **The Broken Blade's look:** no broken-sword mesh is known; the first version uses the sword's own mesh (`Weapons\ChineseOfficerSword\ChineseOfficerSword01.nif`) named Broken, to be replaced when custom art exists. Mark the broken items so they are not sold or dropped (a keyword, to find out how vanilla does it).
+- **The container must not refill** (a setting on our own container record), or the supply is unlimited again.
+- **Cost, accepted:** a lost or sold broken item cannot be replaced.
+
 ## Holotape text (draft, original wording; nothing copied from Fallout 76 or the radio plays)
 
 Title: *Cryptos: Regalia of Mystery.* A short menu of three entries:
