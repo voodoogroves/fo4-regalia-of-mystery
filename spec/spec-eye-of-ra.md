@@ -52,6 +52,10 @@ A `BOOK` record can add a perk when read: its `DNAM` has the flag **Add Perk** a
 - **Decision (Chris): no quest-stage condition.** Our book is the discovery event (reading it is the trigger), so the `GetStage(MS04)` gate is dropped; `HasPerk` gates are visible but locked until met. Other regalia items will get a similar skill gate (the Eye uses Science 3).
 - **Open design thought (Chris, 2026-11-24): broken items.** Today the Blade is crafted from a vanilla Chinese Officer Sword (plentiful), so a player could make unlimited Blades; the Eye repair consumes a single Broken Eye, so Eyes are limited by the supply of Broken Eyes. See the checkpoint for the options.
 
+## Gate rule: the craft screen shows only two perk prerequisites (Chris, 2026-11-24)
+
+Observed in game: a recipe with three `HasPerk` conditions (Cryptos, Blacksmith 3, Science 1) listed only **two** prerequisites on the craft screen, so the third lock was enforced but invisible to the player. **Rule: every regalia recipe has at most two perk conditions: the Cryptos Notes perk (the book) plus ONE skill perk for the item.** Blade: Cryptos + Blacksmith 3 (Science 1 dropped); Eye repair: Cryptos + Science 3; the dress: Cryptos + Armorer 3; other items one skill each, chosen to suit the craft. The build change (`BuildBladeGates.pas` still has the third condition on the Blade) rides on the next build.
+
 ## Holotape text (draft, original wording; nothing copied from Fallout 76 or the radio plays)
 
 Title: *Cryptos: Regalia of Mystery.* A short menu of three entries:
