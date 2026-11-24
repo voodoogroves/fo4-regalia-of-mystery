@@ -100,7 +100,16 @@ No other mod slots exist besides the legendary slot. The copy should keep these 
 - Only four vanilla weapon records ship with a legendary mod in their template (the Tesla Rifle, the two Sentry Bot miniguns, the Salvaged Assaultron Head, all `DLCRobot.esm`): it is an include in the **Default** combination, `Attach Point Index` 0, `Optional` False, `Don't Use All` True. We copied that and the game still did not apply it to a crafted item; reason unknown.
 - The cheat terminal's legendary menu calls `ObjectReference.AttachMod` on the object the player is holding (`Game.GetPlayerGrabbedRef`), i.e. a legendary effect is attached to an item instance at runtime.
 
-**Under test (BuildBladePerk.pas, next session):** mod A = Electrified Serrated plus our keyword `MoM_Blade_KW`, with our own perk (a copy of the `PlayerPerk` entry, weapon-tab `HasKeyword MoM_Blade_KW`, multiplier 0.0 for the test, 0.70 for the real 30%), added with `player.addperk`; mod B = the vanilla trio on a clean Upgrade-slot mod. Delivery of our perk to players without the console would be a holotape terminal option or a quest (a small Papyrus script, `AddPerk`). Also noted, not yet specced: a **mundane** Blade (keyword for the vanilla 15%, no bleed or shock, damage bonus tuned up to compensate, Eye of Ra raising it to 100% through a perk with a worn-item condition), and a holotape "Cryptos" (Chris's name, tied to a computer Rivers had in Fallout 76; lore **not verified**).
+**Round 2 results (BuildBladePerk.pas, 2026-11-24, `RegaliaPerkTest2`; Verified in game, SKK dummy, Normal, Strength 10):**
+- **Mod B (vanilla trio on an Upgrade-slot mod) works:** `getav ArmorPenetration` 30, `hasperk 001F4166` 1. Heavy chest: plain sword 15, mod B 18 (unarmored 32 for both). So the Upgrade-slot mechanism is real, but we do not control its strength directly.
+- **Mod A (our keyword plus our perk, added with `player.addperk`, multiplier 0.0) works:** the sword (Electrified Serrated, so about 56 plus electric, 63 to 75 per swing) did the same damage unarmored, in the heavy chest and in full combat armor: all armor ignored. The weapon-tab `HasKeyword` perk entry is confirmed.
+
+**Round 3 results (`BuildBladePerk2.pas`, plugin `RegaliaPerkTest3`; Verified in game, same conditions):**
+- **Delivery needs no console, script or holotape.** Mod A also carries our own `ENCH` (a copy of `001F4425`) -> our `MGEF` (a copy of `001F4423`, archetype Add Perk, `Perk to Apply` = our perk) -> our perk. Equipping the sword gives `hasperk` 1; unequipping gives 0. The chain is copied from vanilla and re-pointed, with no new mechanism.
+- **Real strength:** Blade perk entry multiplier 0.70. Heavy chest 40s to 50s against 60s to 70s unarmored (the Electrified Serrated base), roughly 0.7 to 0.75, consistent with 30% ignored.
+- **Eye of Ra works as a keyword.** A second perk entry (multiplier 0.0) with two conditions: weapon-tab `HasKeyword MoM_Blade_KW` and attacker-tab `WornHasKeyword MoM_EyeOfRa_KW`. Multipliers stack, so Blade alone is 0.70, Blade plus Eye is 0.70 x 0.0 = 100% ignored, Eye alone does nothing. Measured: Blade plus Eye in the heavy chest 60s to 70s (the unarmored number); Eye with a plain sword 15. The Eye was a copy of the Eyeglasses (`001C4BE8`, Hair Top slot) with our keyword; no enchantment, no script.
+- **Therefore the mechanism is settled:** an Upgrade-slot mod (our keyword plus our enchantment) and our own perk. The mundane-Blade and Cryptos-holotape ideas are no longer needed for delivery.
+- **Not tested:** the Eye on an unarmored target (expected no change); the Eye through a non-Hair-Top slot; the recipe gate and cost for the new mod; whether the mod can be crafted at the weapon workbench with conditions; the gold-tinted model.
 
 
 ## Recipe and cost
@@ -134,5 +143,5 @@ About 14 components plus the sword, in line with vanilla sword mods (the Shock m
 
 ## Open items (Blade)
 
-- **The armor-penetration mechanism is unresolved:** the weapon-record approach does not work; next tests are in "Armor penetration: in-game findings". The build and recipe design (a distinct weapon from the Chemistry Station) may change to an Upgrade-slot mod from the weapon workbench.
+- **Mechanism resolved (2026-11-24):** an Upgrade-slot mod plus our own ENCH/MGEF/PERK; see the findings section. **Open design choice:** the test mod is a copy of Electrified Serrated, so it takes the blade-mod slot and inflates damage; the real Blade must pick between a mundane base (damage tuned in an OMOD property; gold tint) and keeping serrated/shock, and move the recipe to the weapon workbench with the story and perk gates.
 - Read in xEdit and done (2026-11-23): component and perk FormIDs, the sword's base damage (16), the penetration chain's strength.
