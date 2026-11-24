@@ -65,6 +65,12 @@ Observed in game: a recipe with three `HasPerk` conditions (Cryptos, Blacksmith 
 - **The container must not refill** (a setting on our own container record), or the supply is unlimited again.
 - **Cost, accepted:** a lost or sold broken item cannot be replaced.
 
+## Round 12 result (`BuildBladeBroken.pas`, plugin `RegaliaBroken1`; Verified in game 2026-11-24)
+
+- **The Broken Blade of Bastet works.** The Blade recipe is greyed with a vanilla Chinese Officer Sword (and all materials) but without the Broken Blade; with the Broken Blade it is selectable and crafting works: the Broken Blade is the ingredient that is consumed and the Blade comes out. The Blade is a weapon, the Eye a neck-slot item. The recipe now has two perk conditions (Cryptos Notes, Blacksmith 3), per the gate rule.
+- **Not yet reported:** the Broken Blade's inventory look (it uses the sword's mesh), whether it can be scrapped.
+- **Still to do:** the "can't sell or drop" marking on the broken items (a lookup is queued: how vanilla marks quest items); the container that does not refill; the placement spot.
+
 ## Holotape text (draft, original wording; nothing copied from Fallout 76 or the radio plays)
 
 Title: *Cryptos: Regalia of Mystery.* A short menu of three entries:
