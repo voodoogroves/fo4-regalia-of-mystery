@@ -30,6 +30,26 @@ An armored, discreet sneaking outfit; the Eye of Ra amplifies it. Found as a **T
 
 `build/art/make_dress.py OUTDIR` (needs `baunpack`): extracts the sequin texture, recolours it zone by zone by block (BC1 blocks are 4 x 4 pixels with two RGB565 endpoints; recolouring the endpoints, at every mip level, keeps the sparkle), writes **our own** files `Textures\Clothes\GarbOfMysteries\GarbOfMysteries_d.dds` and `Materials\Clothes\GarbOfMysteries\GarbOfMysteries.BGSM` (a copy of `SequinDress.BGSM` with the diffuse path changed), and previews. Parameters: `--uc --uspan --y0 --pitch --bands --thick --slope --tint --gain --cap --debug-uv`. The plugin side is `build/xedit/BuildGarbTest.pas` (plugin `RegaliaGarb1`, **Fallout4.esm only**): a material swap `SequinDress.BGSM` -> ours, a copy of the addon with `MO2S` (male) and `MO3S` (female) set, and a copy of the dress pointing at our addon. Loose files live in the MO2 mod `Garb of Mysteries Art`; replacing the texture needs only a relaunch, not a rebuild. **Verified:** the UV test texture showed on the dress (swap, loose files and addon all work). **Not yet seen:** the recoloured texture in game.
 
+## Fallout 76 stats: not available (checked 2026-11-24)
+
+- We have **no verified Fallout 76 stats** for the Garb. The Fextralife wiki pages for the [Garb of Mysteries](https://fallout76.wiki.fextralife.com/Garb+of+Mysteries) and the [Tattered Dress](https://fallout76.wiki.fextralife.com/Tattered+Dress) (last edited 9 April 2026) are thin stubs, read by a helper agent: weight and value are unfilled template placeholders, there are no resistances, no perks, no sneak effect; the Garb's source reads "??"; both are classed as **Outfits, which are cosmetic and worn "on top" of armor** in Fallout 76. So, in 76 the Garb has no listed protection at all: the numbers are ours to design. The Fandom page (the one with more detail) is blocked to our fetches (HTTP 402). If Chris has the in-game numbers, add them here.
+- **The Tattered Dress is a corpse-loot item in Fallout 76** ("found on various corpses throughout Appalachia", one in Camden Park, one on a corpse named Natasha Hunt at Lewisburg; fan-wiki level). The wiki does not say whether it feeds the Garb. This fits Chris's body idea.
+- The archived Gemini brainstorm (`Alexandria/historical/regalia/gemini-brainstorming.md`, marked historical and unverified) proposes `30 DR / 30 ER`, `+15% Sneak` rising to `+30%` with the Eye, a charcoal Tuxedo material, and an Armorer rank 1 recipe. These are its own design numbers, not Fallout 76 facts, and its mechanics (`FortifySneak`) are not checked against Fallout 4 (the game's definitions have an actor value `Sneak` and the entry points below).
+
+## Design direction (Chris, 2026-11-24)
+
+- **Light armor, weighted to sneak and utility.** The dress can take ballistic weave, so modest DR and ER only; the Garb's value is in sneaking and utility.
+- **Candidate mechanics (names read from the game's definitions; the values and effects are not yet seen):** actor values `Movement Noise Mult` (quiet steps), `Sneak`, `Sneaking Modifier`, `Detect Life Range`; perk entry points `Mod Detection Light`, `Mod Detection Movement`, `Mod Detection Sneak Skill`, `Mod Sneak Attack Mult`, `Ignore Running During Detection`; condition `IsSneaking`. Too strong, leave alone: `Invisibility`, `Set Undetectable`. Proposal: quiet steps, harder to spot while sneaking (our own perk, conditioned on sneaking), and a sneak attack bonus (pairs with the Blade); the Eye of Ra amplifies them through a worn-keyword condition. The dress already carries the vanilla `Fortify Charisma`.
+- Lookup queued to read the vanilla stealth enchantments, the Sneak perks, the clothed skeleton and the movement-noise effects.
+
+## Placement ideas (parked; Chris, 2026-11-24)
+
+- **The Tattered Dress on a body:** a body wearing the Tattered Dress, with the broken items in its inventory and a note (the Cryptos book is already that note; the text is for later).
+  - **Option A (low risk): a vanilla clothed skeleton plus our own container beside it.** The game has clothed-skeleton set-dressing models (a material swap `SkeletonClothedFGreen` points at `SetDressing\Skeletons\SkeletonDress04.BGSM`). They are static, not lootable, so the loot sits in a container next to it. No new actor records.
+  - **Option B (richer, riskier): a lootable corpse:** a new NPC wearing the Tattered Dress, placed dead. A new actor with no face data can show a broken head, so the way is to copy a known-good vanilla corpse; read a vanilla example first.
+  - Chris wants the skeleton option kept in view. Start with A; B later if wanted.
+- **Scattered broken pieces:** other broken items could be placed elsewhere in the world, with a story: someone trying to get somewhere, found dead, who lost their broken pieces along the way and never arrived. Not worked out; the supply of each piece is the world's supply (see the broken-items rule).
+
 ## To do
 
 1. See the recoloured dress in game (centre, size and height of the chevrons; the cowl; the shoes staying dark); adjust the script parameters.
