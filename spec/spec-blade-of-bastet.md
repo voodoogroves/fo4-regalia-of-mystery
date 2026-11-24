@@ -125,7 +125,11 @@ No other mod slots exist besides the legendary slot. The copy should keep these 
 - **Name:** exactly "Blade of Bastet" (no naming rule fires, no override of the shared record needed).
 - **Stats:** damage 70 unarmored (Strength 10), weight 2, VATS 5 swings on the AP the plain sword spent on 2; the dummy and the perk behave as in rounds 3 and 4; the Eye works. Bleed not checked (the Blade carries the vanilla bleed enchantment `EnchWeapModBleed`).
 - **So a default template include of a plain Upgrade-slot mod attaches on a crafted weapon** (the earlier failure was with a legendary mod).
-- **Open: the weapon workbench still offers the vanilla Serrated, Electrified and other sword mods on the Blade.** They share the same slot, so swapping one in would drop our mod (and the penetration, the stats and the bleed) while the item stays named "Blade of Bastet". Likely cause (inferred, not checked): the vanilla mods target the keyword `ma_ChineseOfficerSword`, which the copy still carries. Candidate fix: give the Blade its own `ma_` keyword in place of that one and set our mod's target keyword to match, so only our mod fits.
+- **Open (resolved in round 7 below): the weapon workbench still offered the vanilla Serrated, Electrified and other sword mods on the Blade,** in the same slot as ours, so swapping one in would drop our mod (the penetration, stats and bleed) while the item stayed named "Blade of Bastet".
+
+**Round 7 result (`BuildBladeLock.pas`, `RegaliaLock1`; Verified in game 2026-11-24): the blade-mod slot is locked.** The Blade carries a new keyword `MoM_ma_Blade` **in place of** `ma_ChineseOfficerSword` (`KYWD 0018782C`) on the weapon, and our mod's target keyword list (`MNAM`) is `MoM_ma_Blade` too. Result: the name stays "Blade of Bastet", the stats and perk are as before, and the Blade **does not appear at the weapon workbench at all** (it has no mods compatible with it, like glasses at the armor station). A plain Chinese Officer Sword still lists all its mods. So workbench mod lists are filtered by the weapon's `ma_` keyword matched to the mods' target keywords.
+- **Unconfirmed side effects:** a player cannot rename the Blade at the workbench if renaming lives there (not checked); the Blade's model is the Serrated blade because our mod is a copy of Serrated (Chris: fine, to be changed with the gold tint).
+- **Next:** the gold tint (check for a vanilla gold material), a non-visible Eye item, then the real plugin with gates, description and the ESL flag.
 
 ## Recipe and cost
 
