@@ -61,7 +61,7 @@ Observed in game: a recipe with three `HasPerk` conditions (Cryptos, Blacksmith 
 **Decision:** each piece is found as a **broken item** (a plain `MISC`: a name, a model, a value; no stats, perk or script) and repaired at the Chemistry Station by its own recipe. This **limits the number of each piece to the world's supply** (no mass production of Blades) and gives every piece the same simple pattern: a broken item plus a repair recipe gated by the Cryptos book plus one skill perk. It also fits the framing that the player is rebuilding the regalia from schematics.
 - **Names:** Broken Eye of Ra (built); **Broken Blade of Bastet** (new); the dress is a **Tattered Dress** (Fallout 76 lists a separate Tattered Dress among the Regalia pieces; forum sources say the Garb of Mysteries is the full-body armor version and that a lost dress cannot be re-made, which fits one-per-find; I found nothing confirming that the tattered dress becomes the Garb; fan-wiki level evidence, not checked in game). The Veil and the Voice of Set follow the same pattern.
 - **The Blade's recipe changes:** the ingredient is the **Broken Blade of Bastet** instead of a vanilla Chinese Officer Sword; the materials stay (Steel 4, Silver 3, Gold 2, Crystal 2, Adhesive 3) and the perk conditions become Cryptos + Blacksmith 3 (see the gate rule). The Blade record is still a copy of the sword.
-- **The Broken Blade's look:** no broken-sword mesh is known; the first version uses the sword's own mesh (`Weapons\ChineseOfficerSword\ChineseOfficerSword01.nif`) named Broken, to be replaced when custom art exists. Mark the broken items so they are not sold or dropped (a keyword, to find out how vanilla does it).
+- **The Broken Blade's look:** no broken-sword mesh is known; the first version uses the sword's own mesh (`Weapons\ChineseOfficerSword\ChineseOfficerSword01.nif`) named Broken, to be replaced when custom art exists. **No protection against selling, dropping or stashing (Chris, 2026-11-24): stashing is fine, and a player who drops or loses a broken item has only themselves to blame.** (The earlier plan to mark them "can't sell or drop" is cancelled.)
 - **The container must not refill** (a setting on our own container record), or the supply is unlimited again.
 - **Cost, accepted:** a lost or sold broken item cannot be replaced.
 
@@ -69,7 +69,7 @@ Observed in game: a recipe with three `HasPerk` conditions (Cryptos, Blacksmith 
 
 - **The Broken Blade of Bastet works.** The Blade recipe is greyed with a vanilla Chinese Officer Sword (and all materials) but without the Broken Blade; with the Broken Blade it is selectable and crafting works: the Broken Blade is the ingredient that is consumed and the Blade comes out. The Blade is a weapon, the Eye a neck-slot item. The recipe now has two perk conditions (Cryptos Notes, Blacksmith 3), per the gate rule.
 - **Not yet reported:** the Broken Blade's inventory look (it uses the sword's mesh), whether it can be scrapped.
-- **Still to do:** the "can't sell or drop" marking on the broken items (a lookup is queued: how vanilla marks quest items); the container that does not refill; the placement spot.
+- **Still to do:** the container that does not refill; the placement spot. (The "can't sell or drop" marking is cancelled: no protection, see "Broken items".)
 
 ## Holotape text (draft, original wording; nothing copied from Fallout 76 or the radio plays)
 
