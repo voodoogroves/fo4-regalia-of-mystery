@@ -1,0 +1,44 @@
+# Spec: Eye of Ra (the Broken Eye, the Cryptos holotape, the repair recipe)
+
+Status: DESIGN, nothing built (2026-11-24). Part of the Regalia of Mystery set; the Blade is `spec-blade-of-bastet.md`, set-wide rules are in `spec-regalia.md`. Placement in the world is parked (see the end).
+
+## What exists already (Verified in game 2026-11-24)
+
+`MoM_ARMO_EyeOfRa` "Jury-Rigged Eye of Ra": a copy of the Nuka-World Shock Collar (`DLC04_ShockCollar`, `06029AFA`), Neck slot, our keyword `MoM_EyeOfRa_KW`, no script or enchantment. Worn with the Blade it raises the armor penetration from 30% to 100% (the perk's second entry, `WornHasKeyword`). It makes the plugin require `DLCNukaWorld.esm` (Chris accepts that). The final Eye can be an invisible locket later. The Eye of Ra is a gem or necklace (Chris).
+
+## The idea (Chris, 2026-11-24)
+
+The player finds a **Broken Eye of Ra** and a **holotape** that explains how to rebuild the Regalia; the holotape unlocks the recipes, including the Eye's repair. Framing: the player is rebuilding the Eye from schematics, so the Jury-Rigged Eye is the repaired result.
+
+**Limit on "reading unlocks recipes" (Inferred, not tested):** a recipe condition cannot see whether a holotape was played. It can see **possession** (`GetItemCount <holotape> >= 1`, function 47, on the player). The set-wide spec already warns that item checks cannot see stored gear, so a player who puts the holotape in a workshop container loses the recipes. Options: (a) no holotape gate; the holotape explains, the recipes use the quest gate (recommended); (b) the holotape as a possession gate, fragile; (c) a small Papyrus script that sets a flag on reading (not available: no compiler set up).
+
+## The records
+
+1. **`MoM_MISC_BrokenEyeOfRa`, "Broken Eye of Ra"** (`MISC`): a copy of the vanilla `SilverLocket` (`00059B34`: model `Props\LocketSilver.nif`, value 10, weight 0.1). Changes: the name; no scrap components (or one `UnscrappableObject` keyword, `001CC46A`, as the legendary mods use) so it is not scrapped by accident; a plain pickup like the original. *To verify:* that the keyword stops scrapping; the inventory look (a locket).
+2. **`MoM_TERM_Cryptos`** (`TERM`) and **`MoM_NOTE_Cryptos`, "Cryptos: Regalia of Mystery"** (`NOTE`, Terminal type): a text holotape, no script. Vanilla text holotapes with no script exist (`InstM03OberlyHolotape`; the Silver Shroud one, `MS04_CollectibleSilverShroudTVScript`, `001B8FF9`, which sits in Hubris Comics). Copy one and its terminal and replace the text. *To read first (lookup):* the structure of `001B8FF9` and its `TERM` (field names; the menu items). "Cryptos" is the Fallout 76 terminal under Riverside Manor (Chris; the tape that starts the Blade quest there).
+3. **`MoM_COBJ_EyeOfRa`, the repair recipe** (`COBJ`): creates `MoM_ARMO_EyeOfRa`; ingredients the Broken Eye (1) plus materials (proposal: Crystal 2, Silver 2, Circuitry 2, Adhesive 2: a gem set in rewired parts; adjust when played); Chemistry Station (`WorkbenchChemlab`, `00102158`), category `RecipeUtility` (`0006980C`), as the Blade's recipe. Conditions: see below.
+
+Supporting changes to existing records: the Blade's recipe `MoM_COBJ_BladeOfBastet` gains its conditions (below).
+
+## Gates
+
+- **Blade recipe and Eye repair:** `GetStage(MS04) >= 390` (index 58, Type 96, value 390; see `spec-regalia.md`: 390 is "refused to be the Shroud", 400 "agreed", so this opens right after Kent's offer, early in the quest), and for the Blade `HasPerk Blacksmith02` (index 448). Same gate for both so they appear together.
+- **Holotape:** optional possession gate for the Eye repair only (option b above); my recommendation is none.
+- *To verify:* `GetStage` after the quest finishes; that the holotape count condition behaves in a recipe; that a recipe stays visible when the Broken Eye is not owned (it should show greyed).
+
+## Holotape text (draft, original wording; nothing copied from Fallout 76 or the radio plays)
+
+Title: *Cryptos: Regalia of Mystery.* A short menu of three entries:
+- **Notes.** "Recovered notes from a collector of the Silver Shroud serials, on rebuilding the gear of the Mistress of Mystery: her blade, and the gem she wore at her throat."
+- **The Blade.** "An officer's sword at a Chemistry Station. Silver, gold and a crystal go into the hilt; the edge is lightened and honed. It finds the gaps in armor, and bleeds what it cuts."
+- **The Eye.** "The gem is gone; what is left is broken. A rewired collar will hold a crystal as well as a chain did. Rebuild it, wear it, and the Blade ignores armor entirely."
+
+## Open
+
+- Lookups needed before building: the NOTE/TERM structure (`001B8FF9`), and a recipe that creates a `MISC` or `ARMO` with conditions (the Blade's recipe is the template).
+- The Broken Eye and the holotape's world placement: parked (below).
+- The final, invisible Eye (for 1.0): its own record, replacing the collar base.
+
+## Placement (parked, 2026-11-24)
+
+Candidate: **Hubris Comics** (`HubrisComics01`, `CELL 0004542D`), a ruin with no owner (no theft), already holding the Silver Shroud costume, photo, script note and a quest locker (`MS04SilverShroudHoldingContainer`, `REFR 0008BB21`, whose base `Prewar_Locker_01` `00018F7B` is shared: do not edit it). Plan: our own new container placed beside it, holding the two items, so no vanilla record is edited. Alternative: the Memory Den (Kent's radio station, `GoodneighborTheMemoryDen`), busier and may count as stealing. To place it we need a spot: in game, `player.getpos x`, `y`, `z` there. The gate opens at stage 390 (right after answering Kent), so players reaching Hubris Comics earlier still get nothing until then.

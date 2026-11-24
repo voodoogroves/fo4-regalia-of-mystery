@@ -36,7 +36,7 @@
 
 **What a holotape can be (Verified, xEdit definitions and the game's `NOTE` records):** a note has a type, either `Sound`, `Voice`, `Program` or `Terminal`. A text holotape is the **Terminal** type: its record points at a `TERM` (terminal) record that holds the text. Vanilla has such holotapes with no script (e.g. `InstM03OberlyHolotape`), including a Silver Shroud one (`MS04_CollectibleSilverShroudTVScript`). So a text holotape needs two new records (`NOTE` + `TERM`) and no Papyrus.
 
-**Getting it to the player without editing vanilla:** it cannot be placed in the world or given by a script, so it would have to be a craftable item shown with the recipes.
+**Getting it to the player (updated 2026-11-24):** it can be placed in the world with a cell addition (a new container or item reference in a cell, no vanilla record edited), see `spec-eye-of-ra.md`. Earlier note: it cannot be given by a script (no Papyrus set up), so the alternative is a craftable item shown with the recipes.
 
 **Proposed for 0.1:** put the instructions in the Blade's own description text (`DESC`), which should show in the crafting menu. That is the cheapest option: no extra records. Add the craftable Terminal holotape later if a longer explanation is wanted.
 
