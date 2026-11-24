@@ -3,7 +3,7 @@
   Spec: spec/spec-blade-of-bastet.md (this repo).
   Status (2026-11-23): runs end to end on FO4Edit 4.1.5f under Proton 11.0 and produces
   RegaliaOfMystery.esp (weapon + recipe, master Fallout4.esm, no unresolved references).
-  NOT yet tested in game. The ESL flag is not applied yet (plain .esp).
+  SUPERSEDED: tested in game, the penetration does not apply (the recipe and item do work). The ESL flag is not applied yet (plain .esp).
   The plugin is only written if you accept xEdit's save prompt when you close the window.
 
   Run from MO2 (Edit executables > a FO4Edit entry) with Arguments:
@@ -19,6 +19,14 @@ unit BuildBlade;
 
 const
   PLUGIN_NAME = 'RegaliaOfMystery.esp';   // prototype is a plain .esp; flag ESL later
+  // Per-build values (the spec's 0.1 values are 30.0 / 'Blade of Bastet' / MoM_WEAP_BladeOfBastet / MoM_COBJ_BladeOfBastet).
+  // These are the STAT-100 TEST values (used 2026-11-23 to check that the chain applies). The spec build used 30.0 / 'Blade of Bastet' /
+  // MoM_WEAP_BladeOfBastet / MoM_COBJ_BladeOfBastet. NOTE: this whole approach (EITM + template-level stat) does NOT work in game;
+  // it is kept for the record. See spec/spec-blade-of-bastet.md, 'Armor penetration: in-game findings', and BuildBladePerk.pas.
+  AP_STAT = '100.0';
+  ITEM_NAME = 'Blade of Bastet TEST100';
+  WEAP_EDID = 'MoM_WEAP_Test100';
+  COBJ_EDID = 'MoM_COBJ_Test100';
   LOG_FILE = 'Z:\home\deck\Games\mo2-lint\tools\our-scripts\build.log';
   DESC_TEXT = 'A Chinese officer''s sword reforged with silver, gold and a crystal-set hilt, in the manner of the Mistress of Mystery''s blade. Ignores 30% of the target''s damage and energy resistance. Craft it from a Chinese Officer Sword at a Chemistry Station.';
 
@@ -87,8 +95,8 @@ begin
     if not Assigned(w) then begin
       Say('FAIL: copy of the sword failed'); Exit;
     end;
-    SetEditorID(w, 'MoM_WEAP_BladeOfBastet');
-    SetElementEditValues(w, 'FULL', 'Blade of Bastet');
+    SetEditorID(w, WEAP_EDID);
+    SetElementEditValues(w, 'FULL', ITEM_NAME);
     SetElementEditValues(w, 'DESC', DESC_TEXT);
     Say('weapon: ' + Name(w));
 
@@ -111,7 +119,7 @@ begin
         SetElementEditValues(p, 'Function Type', 'ADD');
         SetElementEditValues(p, 'Property', 'ActorValues');
         SetElementNativeValues(p, 'Value 1', $00097341);
-        SetElementEditValues(p, 'Value 2', '30.0');
+        SetElementEditValues(p, 'Value 2', AP_STAT);
         SetElementNativeValues(obts, 'Property Count', 1);
         Say('template property added');
       end else
@@ -125,7 +133,7 @@ begin
     if not Assigned(r) then begin
       Say('FAIL: could not create the COBJ record'); Exit;
     end;
-    SetEditorID(r, 'MoM_COBJ_BladeOfBastet');
+    SetEditorID(r, COBJ_EDID);
     comps := Add(r, 'FVPA', True);
     AddComponent(comps, $00147BE4, 1);   // Chinese Officer Sword
     AddComponent(comps, $0001FABD, 4);   // Steel
