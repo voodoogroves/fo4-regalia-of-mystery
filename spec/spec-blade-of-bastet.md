@@ -112,6 +112,13 @@ No other mod slots exist besides the legendary slot. The copy should keep these 
 - **Not tested:** the Eye on an unarmored target (expected no change); the Eye through a non-Hair-Top slot; the recipe gate and cost for the new mod; whether the mod can be crafted at the weapon workbench with conditions; the gold-tinted model.
 
 
+**Round 4 results (`BuildBladeStats.pas`, plugin `RegaliaStats1`; Verified in game 2026-11-24, Normal, dummy, Strength 10):** a Serrated-only mod (`OMOD 00176DF9`, bleed, no shock) with `AttackDamage` 0.75 -> 1.2, `AttackActionPointCost` -0.43, `Weight` -0.33, plus our keyword and enchantment chain, built as one Upgrade mod and one with `Speed` +0.45.
+- **Works:** damage 32 -> 70 unarmored (x2.2); heavy chest 51 to 61 (30% ignored, variance); weight 3 -> 2; VATS swings 2 -> 5 on the same AP (cheaper; exact cost not read); `hasperk` 1; the Eye brings the chest back to 70s to 80s.
+- **Does not work:** the `Speed` property has no visible effect on a melee swing (the speed-test variant felt the same). Real swing speed is a weapon-record field: Disciples Blade is fast through `MASE - Melee Speed = Fast`, `Animation Attack Seconds` 0.77 (sword 1.12), AP 20, and the keyword `Anims1hmShortWeapon`. Chris does not want the short-blade keyword (the long sword's stab animations would not suit it).
+- **Name:** the Pip-Boy shows "Serrated", as predicted: `dn_CommonMelee` (`INNR 000B9738`) maps keyword `dn_HasMeleeMod_Serrated` to "Serrated"; rules are text + keywords + index and the last rule `*` is the base name at the same index (10000), so a rule can only add words around the base name, not replace it.
+- **Reference weapons (vanilla, xEdit):** Disciples Blade 20 damage, weight 1.5, AP 20, swing 0.77s; its Cutlass mod is +75% damage and bleed (so 35 base); Knife +25%; Hatchet +25%; Serrated Hatchet +75%. The Steel Sword (CC "Fantasy Hero Set", `ccBGSF04048_Sword`) is not installed here; wiki only: damage 25, medium speed, weight 4, mods add +16 (Sharp), +30, +44, units unknown.
+- **Next test (proposed):** make the Blade its own weapon record (copy of the sword) with `Melee Speed = Fast` and no short-blade keyword, its own naming rule, and our mod as the Default template include, to get both real speed and the name. Fallback: the Upgrade mod as built, medium speed.
+
 ## Recipe and cost
 
 **Recipe (`COBJ`), proposed:** consume the sword, plus materials; create `MoM_WEAP_BladeOfBastet`.
