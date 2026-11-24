@@ -15,6 +15,8 @@
 
 ## Discovery (when the recipes appear)
 
+**UPDATE 2026-11-24: the quest-stage gate below is superseded.** The recipes are gated by `HasPerk Cryptos Notes` (the perk a readable book teaches; see `spec-eye-of-ra.md`) plus a skill perk per item (the Blade: Blacksmith 3 and Science 1; the Eye repair: Science 3). Verified in game. The notes below are kept for the record (the stage numbers are still correct).
+
 **Discovery gate:**
 - Quest `MS04` = `QUST 00027556`. Stages that exist (from the quest's log text): `25` Kent's call, `100` Kent wants a costume from Hubris Comics, `200` found the costume, `390` refused to be the Shroud, `400` agreed to be the Shroud (wear the costume, patrol), `410`-`1360` the missions, `1400` Sinjin dealt with, `1425` the Silver Shroud story wrapped up.
 - **Gate: the player has answered Kent, either way (stage 390 or later).** Refuse at 390 ("I am the Mistress") or accept at 400; both unlock the recipe, and players still at stages 25 to 200 do not get it.
