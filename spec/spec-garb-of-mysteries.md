@@ -66,6 +66,13 @@ An armored, discreet sneaking outfit; the Eye of Ra amplifies it. Found as a **T
 - **Numbers (Chris, 2026-11-24: include the sneak attack and the sneak speed; the Eye gives NO DR/ER boost at all):** harder to detect while sneaking **+5** base (as in 76), **+25** with the Eye; DR and ER **20**, fixed (the Eye does not touch them; this drops the Eye-conditioned resist effects entirely); **+1 Perception**; **sneaking speed +5** (the vanilla Stealth Move effect); a **sneak attack bonus**, small at base (about a quarter of Ninja rank 1) and larger with the Eye (up to about Ninja rank 1), exact figures to tune in game.
 - **Still to read:** the effects behind these enchantments and the vanilla damage and energy resist effects (lookup queued). The clothed-skeleton search by the name `SkeletonClothed` found nothing; searching `Skeleton` next.
 
+## Dependency: ballistic weave (Chris, 2026-11-24)
+
+The light DR and ER (20 and 20, no Eye boost) are **predicated on being able to add ballistic weave** to the Garb at the armor workbench. In vanilla it is an armor mod for clothing, offered by keywords and attach points on the item (as the sword mods were on the Blade, until its `ma_` keyword was swapped); our dress is a copy of the Sequin Dress and should inherit those, **but this is not verified**.
+- **First in-game check for the Garb build:** at an armor workbench, is ballistic weave offered on the Garb?
+- **If it is not:** put DR and ER back and raise them (a starting point of about 35 and 35; the Eye still does not touch them), and tune in play.
+- **To read (lookup after the current one):** the vanilla ballistic weave mods, for what each tier adds, so the two cases can be compared with real numbers.
+
 ## Placement ideas (parked; Chris, 2026-11-24)
 
 - **The Tattered Dress on a body:** a body wearing the Tattered Dress, with the broken items in its inventory and a note (the Cryptos book is already that note; the text is for later).
