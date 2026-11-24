@@ -38,6 +38,14 @@ A `BOOK` record can add a perk when read: its `DNAM` has the flag **Add Perk** a
 
 **To verify in game:** that reading a copy of the photo (or a magazine copy) with Add Perk and Teaches adds the perk with no script of ours; where it shows (Pip-Boy perks, magazines); that `HasPerk` on a recipe unlocks it; what happens if the book is read twice.
 
+## Round 10 result (`BuildBladeCryptos.pas`, plugin `RegaliaCryptos1`; Verified in game 2026-11-24, Test profile)
+
+- **Reading a `BOOK` with Add Perk + Teaches adds the perk with no script of ours: confirmed.** `player.hasperk <Cryptos Notes>` was 0 before reading the book and 1 after. **The perk stays after the book is stashed** in a container. (The vanilla magazines' `CA_SkillMagazineScript` is therefore not needed for the grant.)
+- **A recipe with a `HasPerk` condition is shown but greyed out and cannot be selected until the perk is held** (Chris had every ingredient for the Blade and it was still greyed). So a `HasPerk` condition locks a recipe visibly; it does not hide it. Whether non-perk conditions (the quest-stage check) hide it is not yet tested.
+- **Reported:** neither the Blade nor the Broken Eye appeared in the scrap lists of the stations Chris checked, so neither was scrappable (the Broken Eye carries the `UnscrappableObject` keyword; the Blade was not given one).
+- **Not yet reported:** whether the recipes become selectable after the perk is added; how the perk shows in the Pip-Boy (the copy has `Num Ranks = 10`, inherited from the Barbarian perk); the book's inventory look and text; the repair itself.
+- **Design question (open):** visible-but-locked (the `HasPerk` behaviour: a breadcrumb that points players at the book) versus hidden until the story gate. Layered option: `GetStage(MS04) >= 390` (expected to hide) plus `HasPerk` (locks).
+
 ## Holotape text (draft, original wording; nothing copied from Fallout 76 or the radio plays)
 
 Title: *Cryptos: Regalia of Mystery.* A short menu of three entries:
@@ -49,6 +57,7 @@ Title: *Cryptos: Regalia of Mystery.* A short menu of three entries:
 
 - Lookups needed before building: the NOTE/TERM structure (`001B8FF9`), and a recipe that creates a `MISC` or `ARMO` with conditions (the Blade's recipe is the template).
 - The Broken Eye and the holotape's world placement: parked (below).
+- **A candidate image for the Cryptos photo** (Chris, 2026-11-24): an illustration with a large red gem brooch, saved OUTSIDE the repos at `~/Games/mo2-lint/tools/our-assets/photo-candidates/candidate-01-red-gem-brooch.png` (source and licence unknown, repos are public, so it is not committed; it may also be a reference for the Eye's look). Using it would need a texture and a material (tools not installed; see the gold-tint research).
 - The final, invisible Eye (for 1.0): its own record, replacing the collar base.
 
 ## Placement (parked, 2026-11-24)
