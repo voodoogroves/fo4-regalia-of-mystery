@@ -22,7 +22,7 @@ Supporting changes to existing records: the Blade's recipe `MoM_COBJ_BladeOfBast
 
 ## Gates
 
-- **Blade recipe and Eye repair:** `GetStage(MS04) >= 390` (index 58, Type 96, value 390; see `spec-regalia.md`: 390 is "refused to be the Shroud", 400 "agreed", so this opens right after Kent's offer, early in the quest), and for the Blade `HasPerk Blacksmith02` (index 448). Same gate for both so they appear together.
+- **(Superseded by round 11, below) Blade recipe and Eye repair:** `GetStage(MS04) >= 390` (index 58, Type 96, value 390; see `spec-regalia.md`: 390 is "refused to be the Shroud", 400 "agreed", so this opens right after Kent's offer, early in the quest), and for the Blade `HasPerk Blacksmith02` (index 448). Same gate for both so they appear together.
 - **The Cryptos item:** the recommended gate is the perk it teaches (`HasPerk MoM_PERK_Cryptos`, see below); a holotape cannot do it.
 - *To verify:* `GetStage` after the quest finishes; that the holotape count condition behaves in a recipe; that a recipe stays visible when the Broken Eye is not owned (it should show greyed).
 
@@ -45,6 +45,12 @@ A `BOOK` record can add a perk when read: its `DNAM` has the flag **Add Perk** a
 - **Reported:** neither the Blade nor the Broken Eye appeared in the scrap lists of the stations Chris checked, so neither was scrappable (the Broken Eye carries the `UnscrappableObject` keyword; the Blade was not given one).
 - **Not yet reported:** whether the recipes become selectable after the perk is added; how the perk shows in the Pip-Boy (the copy has `Num Ranks = 10`, inherited from the Barbarian perk); the book's inventory look and text; the repair itself.
 - **Design question (open):** visible-but-locked (the `HasPerk` behaviour: a breadcrumb that points players at the book) versus hidden until the story gate. Layered option: `GetStage(MS04) >= 390` (expected to hide) plus `HasPerk` (locks).
+
+## Round 11 result (`BuildBladeGates.pas`, plugin `RegaliaGates1`; Verified in game 2026-11-24)
+
+- **The recipe gates work.** The Cryptos perk now shows one star (`Num Ranks` 1). The Eye repair needs `HasPerk` Cryptos Notes **and** Science rank 3 (`Science03`, `PERK 000264DB`, found by editor ID); the Blade needs Cryptos Notes **and** Blacksmith rank 3 (`000264D8`) **and** Science rank 1 (`000264D9`), the same as Electrified Serrated.
+- **Decision (Chris): no quest-stage condition.** Our book is the discovery event (reading it is the trigger), so the `GetStage(MS04)` gate is dropped; `HasPerk` gates are visible but locked until met. Other regalia items will get a similar skill gate (the Eye uses Science 3).
+- **Open design thought (Chris, 2026-11-24): broken items.** Today the Blade is crafted from a vanilla Chinese Officer Sword (plentiful), so a player could make unlimited Blades; the Eye repair consumes a single Broken Eye, so Eyes are limited by the supply of Broken Eyes. See the checkpoint for the options.
 
 ## Holotape text (draft, original wording; nothing copied from Fallout 76 or the radio plays)
 

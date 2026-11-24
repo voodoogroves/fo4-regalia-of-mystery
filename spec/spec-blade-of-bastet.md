@@ -150,7 +150,7 @@ No other mod slots exist besides the legendary slot. The copy should keep these 
 
 About 14 components plus the sword, in line with vanilla sword mods (the Shock mod costs 18 components; Shock+Serrated 26). Gold is the deliberate friction. No fiber optics, circuitry or nuclear material.
 
-**Perk gate: Blacksmith rank 2 only** (`Blacksmith02`, via the `HasPerk` condition, function index `448`). The sword's own Serrated and Shock mods use the same rank (Verified), and the story gate already limits who sees it, so a second perk gate (Science) would be ceremony.
+**UPDATE 2026-11-24 (Verified in game): the gate is `HasPerk` Cryptos Notes (the book) AND Blacksmith rank 3 (`000264D8`) AND Science rank 1 (`000264D9`), the same as Electrified Serrated; recipes appear greyed until met.** Old text: **Perk gate: Blacksmith rank 2 only** (`Blacksmith02`, via the `HasPerk` condition, function index `448`). The sword's own Serrated and Shock mods use the same rank (Verified), and the story gate already limits who sees it, so a second perk gate (Science) would be ceremony.
 
 *Component FormIDs above are Verified (read in xEdit from `Fallout4.esm`, 2026-11-23; the game has 31 components). The perk is `Blacksmith02`, `PERK 0004B26A` (Verified; "You gain access to Rank 2 melee weapon mods"; its own prerequisite is a Strength check, which does not affect a `HasPerk` condition).* *To verify in-game:* whether a sword that already has mods installed counts as the ingredient, and what the player gets back (the Blade comes unmodded).
 
