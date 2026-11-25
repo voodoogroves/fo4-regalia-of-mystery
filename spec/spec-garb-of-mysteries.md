@@ -71,7 +71,14 @@ An armored, discreet sneaking outfit; the Eye of Ra amplifies it. Found as a **T
 The light DR and ER (20 and 20, no Eye boost) are **predicated on being able to add ballistic weave** to the Garb at the armor workbench. In vanilla it is an armor mod for clothing, offered by keywords and attach points on the item (as the sword mods were on the Blade, until its `ma_` keyword was swapped); our dress is a copy of the Sequin Dress and should inherit those, **but this is not verified**.
 - **First in-game check for the Garb build:** at an armor workbench, is ballistic weave offered on the Garb?
 - **If it is not:** put DR and ER back and raise them (a starting point of about 35 and 35; the Eye still does not touch them), and tune in play.
-- **To read (lookup after the current one):** the vanilla ballistic weave mods, for what each tier adds, so the two cases can be compared with real numbers.
+- **Result (Chris, in game, 2026-11-24): the Garb IS offered ballistic weave** (the copy inherits the keyword `ma_Railroad_ClothingArmor`, `KYWD 0020DE40`). So the light 20 DR and 20 ER stand; the fallback (raise DR and ER) is not needed. The vanilla weave tiers were not read.
+
+## Underarmor slots (Chris, 2026-11-24)
+
+The Sequin Dress occupies slots 33 (body), 37 and 38 (the [U] arms) and **41, 44, 45 (the [A] torso and legs)**, so chest and leg armor could not be worn with it (most vanilla dresses do the same). Vanilla underarmor (the Raider, Rustic, High School and Gunner underarmors, `BOD2 c8070000`) uses **33 and 36 to 40** (the [U] torso, both arms, both legs) and none of 41 to 45. The Garb is set to that layout (`First Person Flags` = 1992 = 8 + 64 + 128 + 256 + 512 + 1024) so armor pieces can be worn over it. The addon's own slots (33 and 60, Pip-Boy) are unchanged.
+
+## Verified in game (Chris, 2026-11-24): the Garb works
+Stats and look as designed; the Eye of Ra increases sneak attack damage (the amplifier works); ballistic weave is offered. Open: the underarmor slots rebuild; the exact Pip-Boy effect readouts; the detection effect is hard to measure.
 
 ## Placement ideas (parked; Chris, 2026-11-24)
 
