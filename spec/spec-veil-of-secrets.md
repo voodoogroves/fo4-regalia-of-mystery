@@ -17,7 +17,15 @@ A face piece with **hazard and disease protection and a social edge**. Found bro
 - **Black with a cream-gold net:** a fine diamond lattice with a bead at every crossing (cream-gold 198, 181, 150, as the cowl), painted anti-aliased on the cloth at every mip level; the cloth is found by geometry (u below 0.82, v above 0.53) plus anything beige, because a colour test alone broke on the stained patch. The first try (period 0.045) looked like chain-link; the second (period 0.052, line 0.0022, no centre dots) reads as a delicate net. It is a net, not flowing lace: a real lace motif (scallops, florals) needs a reference picture.
 - Outputs: `Textures\\Armor\\VeilOfSecrets\\VeilOfSecrets_d.dds`, `Materials\\Armor\\VeilOfSecrets\\VeilOfSecrets.BGSM` (the mask material with the diffuse path changed), delivered like the Garb's art (an MO2 mod, a material swap on a copy of the addon).
 
-## Mechanics (to decide)
+## Decisions (Chris, 2026-11-24)
+
+1. **Look: the black fabric with the cream-gold diamond net** (the second preview: a fine lattice with a bead at each crossing).
+2. **The Eye amplifies the Veil.**
+3. **Effects: small radiation and disease resistance, and a persuade and intimidate chance bonus instead of Charisma. The Eye increases the disease resistance and the persuade and intimidate bonus** (not the radiation resistance).
+- **Mechanisms found in the game's definitions (names only so far, values not yet read):** actor value `Resist Disease` (disease); perk entry points `Mod Charisma Challenge Chance` (persuade) and `Mod Player Intimidation` (intimidate), also `Mod Bribe Amount`; damage types for armor resistances `dtRadiationExposure` (`DMGT 00060A85`), `dtPoison` (`00060A84`), `dtRadiationIngestion` (`00060A86`). The vanilla "disease" effects in the data are Survival-mode sickness effects (insomnia, fatigue, infection), not resistances.
+- **Lookup queued:** the vanilla perks that use the two speech entry points, the `Resist` actor values, and effects that fortify them, to copy structure and calibrate numbers.
+
+## Mechanics (earlier note, superseded by the decisions above)
 
 Hazard and disease protection: candidates are the enchantment effects and armor resistances for disease, radiation exposure and poison (a lookup is queued: the disease resist effects and the damage types). Social edge: a Charisma bonus (the vanilla `Fortify Charisma` effect, as the dresses carry) and perhaps speech. Small numbers: it is a cloth veil. The Eye: open.
 
