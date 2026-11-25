@@ -1,5 +1,7 @@
 # Spec: Veil of Secrets (the face piece)
 
+> **History file.** The current state is in [`build-spec.md`](build-spec.md), open work in [`next-steps.md`](next-steps.md). Where they differ, those win.
+
 Status: DESIGN and art tooling (2026-11-24); nothing built in the plugin yet. Part of the Regalia of Mystery set; see `spec-regalia.md` (release checklist), `spec-eye-of-ra.md` (broken items, gate rule), `spec-garb-of-mysteries.md` (the pattern: perk chain, conditions, recolour). Art outputs are derived from Bethesda's texture and are NOT committed (public repo).
 
 ## Intent (`concept-spec.md`)

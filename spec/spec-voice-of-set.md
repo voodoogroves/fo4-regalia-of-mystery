@@ -1,5 +1,7 @@
 # Voice of Set
 
+> **History file.** The current state is in [`build-spec.md`](build-spec.md), open work in [`next-steps.md`](next-steps.md). Where they differ, those win.
+
 The set's pistol: a .44 (Chris: lore says it is a .44) that is silenced at the muzzle and bursts with sound where it hits.
 
 ## Verified in game (2026-11-25, `RegaliaVoice8`, `build/xedit/BuildVoice3.pas`, master Fallout4.esm only)
@@ -14,10 +16,8 @@ The set's pistol: a .44 (Chris: lore says it is a .44) that is silenced at the m
 - An explosion on a copy of the normal bullet (Beam type, no `Explosion` flag): never seen.
 - An enchantment on the weapon record (`EITM`): never applied, even at 100% chance.
 
-## Open
+## Later rounds, verified 2026-11-25
 
-- Fixed configuration (it still spawns with random receivers and the vanilla .44 mods apply).
-- The Eye of Ra boost.
-- The broken form and its repair recipe.
-- Range: the dummy registers the burst (zero damage) out to about 300, which may feel large.
-- Whether the explosion alone staggers anything (not separated from the legendary effect).
+- `RegaliaVoice11`: the Eye of Ra's second stagger roll (perk, `Apply Combat Hit Spell`) and the Broken Voice of Set with its recipe (Cryptos Notes + Gun Nut 3). Dead ends: a spell effect copied from an enchantment came out empty; xEdit's perk entry order differs from the file's; a spell effect would not take a new condition list.
+- `RegaliaVoice12`: gold plating by material swap (`build/art/make_gold44.py`): black shadows, charcoal grips, gilded inlays.
+- Decided: random receivers stay; no visual suppressor; no Creation Club master (the Captain Cosmos "Pulse" barrel turned out to use the vanilla push projectile).

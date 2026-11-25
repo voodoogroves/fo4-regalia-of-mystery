@@ -1,5 +1,7 @@
 # Spec: Blade of Bastet (version 0.1)
 
+> **History file.** The current state is in [`build-spec.md`](build-spec.md), open work in [`next-steps.md`](next-steps.md). Where they differ, those win.
+
 *Status: DRAFT, plan not yet built or tested. Item-level mechanics for the Blade. Set-wide decisions (plugin name, discovery gate, workbench, instructions) are in `spec-regalia.md`; intent is summarised below. Each fact is marked **Verified** (read from the game files or the xEdit source on 2026-11-22) or **To verify** (needs xEdit or in-game testing).*
 
 ## Goal

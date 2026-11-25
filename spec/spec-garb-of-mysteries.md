@@ -1,5 +1,7 @@
 # Spec: Garb of Mysteries (the dress)
 
+> **History file.** The current state is in [`build-spec.md`](build-spec.md), open work in [`next-steps.md`](next-steps.md). Where they differ, those win.
+
 Status: LOOK TEST in progress (2026-11-24). Part of the Regalia of Mystery set; set-wide rules are in `spec-regalia.md`, the broken-item pattern and gate rule in `spec-eye-of-ra.md`. Art outputs are derived from Bethesda's texture and are NOT committed (public repo; see Rhodes `decisions.md`, 2026-11-24).
 
 ## Intent (from `concept-spec.md`)
