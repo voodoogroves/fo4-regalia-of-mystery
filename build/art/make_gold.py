@@ -8,7 +8,7 @@ every block (all mip levels) recolours the picture without decoding or re-encodi
 The material is a copy of ChineseOfficerSword01B.BGSM (the bronze-cubemap variant) with the diffuse path changed.
 
 Run:  python3 -I make_gold.py OUTDIR
-It needs `baunpack` (Rhodes refs/fo4-archives.md). It writes under OUTDIR:
+It needs `baunpack` (Alexandria memory/fo4-mod/fo4-archives.md). It writes under OUTDIR:
     Textures/Weapons/BladeOfBastet/BladeOfBastet_d.dds
     Materials/Weapons/BladeOfBastet/BladeOfBastetGold.BGSM
     preview/ original.png, gold.png, side-by-side.png   (mip 0, decoded here, for a look)

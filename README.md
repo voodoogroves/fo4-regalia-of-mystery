@@ -6,9 +6,11 @@ A Fallout 4 mod that brings the Fallout 76 Order of Mysteries gear to the Common
 
 ## Start here
 
-- [`spec/build-spec.md`](spec/build-spec.md): decisions, current state, how to build.
-- [`spec/next-steps.md`](spec/next-steps.md): open work.
-- The other files in `spec/` are history.
+Specs and working docs are in `docs/`.
+
+- [`docs/build-spec.md`](docs/build-spec.md): decisions, current state, how to build.
+- [`docs/next-steps.md`](docs/next-steps.md): open work.
+- The other files in `docs/` are history.
 
 `build/xedit/` holds the xEdit scripts, `build/art/` the texture tools. Game assets and built plugins are never committed.
 

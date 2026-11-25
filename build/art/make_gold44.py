@@ -6,7 +6,7 @@ barrels, sights; it also holds the wood grips, which are left alone) and 44BullB
 vanilla ones with the diffuse path changed and the bronze cubemap the Blade's gold uses.
 
 Run:  python3 -B make_gold44.py OUTDIR [LOW HIGH]      (black-and-gold shadows)
-Needs `baunpack` (Rhodes refs/fo4-archives.md). Outputs are derived from Bethesda's textures: do NOT commit them.
+Needs `baunpack` (Alexandria memory/fo4-mod/fo4-archives.md). Outputs are derived from Bethesda's textures: do NOT commit them.
 """
 import os, struct, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

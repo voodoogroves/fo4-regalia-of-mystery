@@ -1,6 +1,6 @@
 {
   BuildBlade.pas: builds RegaliaOfMystery.esl version 0.1 (Blade of Bastet), UNGATED, in FO4Edit.
-  Spec: spec/spec-blade-of-bastet.md (this repo).
+  Spec: docs/spec-blade-of-bastet.md (this repo).
   Status (2026-11-23): runs end to end on FO4Edit 4.1.5f under Proton 11.0 and produces
   RegaliaOfMystery.esp (weapon + recipe, master Fallout4.esm, no unresolved references).
   SUPERSEDED: tested in game, the penetration does not apply (the recipe and item do work). The ESL flag is not applied yet (plain .esp).
@@ -22,7 +22,7 @@ const
   // Per-build values (the spec's 0.1 values are 30.0 / 'Blade of Bastet' / MoM_WEAP_BladeOfBastet / MoM_COBJ_BladeOfBastet).
   // These are the STAT-100 TEST values (used 2026-11-23 to check that the chain applies). The spec build used 30.0 / 'Blade of Bastet' /
   // MoM_WEAP_BladeOfBastet / MoM_COBJ_BladeOfBastet. NOTE: this whole approach (EITM + template-level stat) does NOT work in game;
-  // it is kept for the record. See spec/spec-blade-of-bastet.md, 'Armor penetration: in-game findings', and BuildBladePerk.pas.
+  // it is kept for the record. See docs/spec-blade-of-bastet.md, 'Armor penetration: in-game findings', and BuildBladePerk.pas.
   AP_STAT = '100.0';
   ITEM_NAME = 'Blade of Bastet TEST100';
   WEAP_EDID = 'MoM_WEAP_Test100';

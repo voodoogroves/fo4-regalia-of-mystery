@@ -11,7 +11,7 @@
     ARMO MoM_ARMO_BrokenVeil      "Broken Veil of Secrets": copy of the Surgical Mask (vanilla look), unscrappable keyword
     COBJ MoM_COBJ_RepairGarb      Tattered Dress + Cloth 6 + Adhesive 2 + Silver 1 -> Garb of Mysteries (RegaliaGarb2); HasPerk Cryptos Notes + Armorer03
     COBJ MoM_COBJ_RepairVeil      Broken Veil + Cloth 3 + Adhesive 2 + Silver 2 -> Veil of Secrets (RegaliaVeil1); HasPerk Cryptos Notes + Chemist03
-  FormIDs of records in other plugins are converted with LoadOrderFormIDtoFileFormID (see Alexandria memory/fo4-xedit-reference.md).
+  FormIDs of records in other plugins are converted with LoadOrderFormIDtoFileFormID (see Alexandria memory/fo4-mod/fo4-xedit-scripting.md).
 
   IN THE MODULE LIST tick Fallout4.esm, ALL SIX DLC, RegaliaGold1.esp, RegaliaGarb2.esp and RegaliaVeil1.esp, then OK.
 

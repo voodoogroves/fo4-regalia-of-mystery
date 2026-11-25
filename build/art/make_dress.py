@@ -12,7 +12,7 @@ normalised coordinates, so the stripes do not vanish at a distance.
 Run:  python3 -I make_dress.py OUTDIR [--uc 0.415] [--y0 0.40] [--pitch 0.115] [--bands 3] [--thick 0.045] [--slope 0.30]
 Writes under OUTDIR:  Textures/Clothes/GarbOfMysteries/GarbOfMysteries_d.dds,  Materials/Clothes/GarbOfMysteries/GarbOfMysteries.BGSM
                       preview/original.png, preview/chevrons.png, preview/side-by-side.png   (decoded here, mip 2, 512 x 512)
-Needs baunpack (Rhodes refs/fo4-archives.md). Outputs are derived from Bethesda's texture: NOT committed to a public repo.
+Needs baunpack (Alexandria memory/fo4-mod/fo4-archives.md). Outputs are derived from Bethesda's texture: NOT committed to a public repo.
 Coordinates are fractions of the texture (u to the right, v DOWN as in the preview). The body area is about u 0.00-0.83, v 0.23-1.00.
 """
 import os, struct, sys, tempfile, glob, argparse, importlib.util, math

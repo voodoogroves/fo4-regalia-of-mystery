@@ -1,7 +1,7 @@
 {
   BuildBladeCryptos.pas: TEST build, round 10 (the Cryptos item that adds a perk on read, the Broken Eye, the repair recipe). Status: WRITTEN, NOT YET RUN (2026-11-24).
 
-  Design: spec/spec-eye-of-ra.md ("A perk on read"). Vanilla perk magazines are BOOK records whose DNAM has the flag
+  Design: docs/spec-eye-of-ra.md ("A perk on read"). Vanilla perk magazines are BOOK records whose DNAM has the flag
   "Add Perk" and a "Teaches" perk (PerkMagGrognakTheBarbarian 0008E741 teaches Barbarian 0008E3A6). They also carry a script
   (CA_SkillMagazineScript, apparently only a challenge event). THE TEST: does reading a BOOK with Add Perk + Teaches add the
   perk with NO script of ours, and does HasPerk on a recipe unlock it?

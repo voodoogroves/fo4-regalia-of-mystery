@@ -1,7 +1,7 @@
 {
   BuildBladeBroken.pas: TEST build, round 12 (the Broken Blade of Bastet, and the Blade recipe takes it). Status: WRITTEN, NOT YET RUN (2026-11-24).
 
-  Decisions (Chris, 2026-11-24; spec/spec-eye-of-ra.md, "Broken items" and "Gate rule"): every regalia piece is found broken
+  Decisions (Chris, 2026-11-24; docs/spec-eye-of-ra.md, "Broken items" and "Gate rule"): every regalia piece is found broken
   and repaired, so copies are limited to the world's supply; every recipe has at most two perk prerequisites: the Cryptos
   book plus ONE skill perk. Gates round 11 was verified in game (BuildBladeGates.pas).
 

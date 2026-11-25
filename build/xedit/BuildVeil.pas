@@ -1,7 +1,7 @@
 {
   BuildVeil.pas: round 18, the Veil of Secrets. Status: VERIFIED in game (2026-11-24; gas immunity untested).
 
-  Design (spec/spec-veil-of-secrets.md; Chris's decisions 2026-11-24): a black fabric veil with a cream-gold diamond net (art: build/art/make_veil.py --lace);
+  Design (docs/spec-veil-of-secrets.md; Chris's decisions 2026-11-24): a black fabric veil with a cream-gold diamond net (art: build/art/make_veil.py --lace);
   the EYE AMPLIFIES it; effects: persuade chance and a protection stand-in for disease; NO radiation resistance, NO armor rating, intimidate left out
   (no vanilla anchor: the entry point Mod Player Intimidation is used by no vanilla perk).
     Persuade: Mod Charisma Challenge Chance Add Value +5, +10 more with the Eye (15 total). Vanilla anchor: Black Widow / Lady Killer +10, +20, +30.

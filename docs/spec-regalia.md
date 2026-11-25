@@ -65,7 +65,7 @@
 
 ## Release checklist (the real plugin; collected 2026-11-24)
 
-Nothing here is done yet unless marked. Sources are in `spec-blade-of-bastet.md`, `spec-eye-of-ra.md` and Rhodes `decisions.md`.
+Nothing here is done yet unless marked. Sources are in `spec-blade-of-bastet.md`, `spec-eye-of-ra.md` and Rhodes `docs/decisions.md`.
 
 - **Disclaimer (Chris: yes).** The Creation Kit EULA (<https://store.steampowered.com/eula/1946160_eula_1>, "Creation Kit Editor End User License Agreement", ZeniMax; no version or date; read by a helper agent, not verified verbatim) section 2.B says every Game Mod must state that ZeniMax is not the author, with the language "THIS MATERIAL IS NOT MADE, GUARANTEED OR SUPPORTED BY ZENIMAX OR ITS AFFILIATES." Put it in the plugin description and on any release page. Not legal advice; we build with xEdit, not the Creation Kit, and it is not clear the EULA binds us, but we follow it as a baseline.
 - **Not needed (Chris):** charging for the mod is excluded by the EULA (no fees; we will not charge); the other EULA points (distribution to legitimate copies only, non-commercial) need no action beyond that.
