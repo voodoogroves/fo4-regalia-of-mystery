@@ -78,7 +78,11 @@ The light DR and ER (20 and 20, no Eye boost) are **predicated on being able to 
 The Sequin Dress occupies slots 33 (body), 37 and 38 (the [U] arms) and **41, 44, 45 (the [A] torso and legs)**, so chest and leg armor could not be worn with it (most vanilla dresses do the same). Vanilla underarmor (the Raider, Rustic, High School and Gunner underarmors, `BOD2 c8070000`) uses **33 and 36 to 40** (the [U] torso, both arms, both legs) and none of 41 to 45. The Garb is set to that layout (`First Person Flags` = 1992 = 8 + 64 + 128 + 256 + 512 + 1024) so armor pieces can be worn over it. The addon's own slots (33 and 60, Pip-Boy) are unchanged.
 
 ## Verified in game (Chris, 2026-11-24): the Garb works
-Stats and look as designed; the Eye of Ra increases sneak attack damage (the amplifier works); ballistic weave is offered. Open: the underarmor slots rebuild; the exact Pip-Boy effect readouts; the detection effect is hard to measure.
+Stats and look as designed; the Eye of Ra increases sneak attack damage (the amplifier works); ballistic weave is offered. **The underarmor slots (rebuilt, `RegaliaGarb2`): chest and leg armor go over the Garb cleanly (Chris, in game).** Open: the exact Pip-Boy effect readouts; the detection effect is hard to measure.
+
+## Look tuning (parked; Chris, 2026-11-24)
+
+In game, **the green still reads too light and the body a bit too light** (the staged texture is the 16:45 version: body median about RGB 32, 36, 32 and stripes about 51, 113, 65 on the flat texture; the lit game surface and the sequin sparkle read lighter). Next values to try: `CHARCOAL_GAIN` 0.50 -> about 0.38 and `CHARCOAL_CAP` 0.30 -> about 0.24 (darker body, less sparkle lift); `GAIN` 1.60 -> about 1.15 and `CAP` 0.72 -> about 0.55 (darker green; the Fallout 76 in-game median was 65, 137, 80). Regenerate with `build/art/make_dress.py` into the art mod: a loose-file change, a relaunch, no plugin rebuild. Optional later: thinner chevrons (`--thick`, the 76 render's are slimmer), the shoes recoloured, the cowl's dark corner.
 
 ## Placement ideas (parked; Chris, 2026-11-24)
 
