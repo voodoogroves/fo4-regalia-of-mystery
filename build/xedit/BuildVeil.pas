@@ -1,5 +1,5 @@
 {
-  BuildVeil.pas: round 18, the Veil of Secrets. Status: WRITTEN, NOT YET RUN (2026-11-24).
+  BuildVeil.pas: round 18, the Veil of Secrets. Status: VERIFIED in game (2026-11-24; gas immunity untested).
 
   Design (spec/spec-veil-of-secrets.md; Chris's decisions 2026-11-24): a black fabric veil with a cream-gold diamond net (art: build/art/make_veil.py --lace);
   the EYE AMPLIFIES it; effects: persuade chance and a protection stand-in for disease; NO radiation resistance, NO armor rating, intimidate left out

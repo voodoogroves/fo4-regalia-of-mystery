@@ -1,5 +1,7 @@
 # Spec: Regalia of Mystery (set-wide)
 
+> **History file.** The current state is in [`build-spec.md`](build-spec.md), open work in [`next-steps.md`](next-steps.md). Where they differ, those win.
+
 *Status: DRAFT, plan not yet built or tested. Decisions that apply to the whole plugin, not one item. Item specs: `spec-blade-of-bastet.md` (0.1). The full concept is kept outside this repo while items are still being specced. Each fact is marked **Verified** (read from the game files or the xEdit source on 2026-11-22) or **To verify** (needs xEdit or in-game testing).*
 
 ## Plugin

@@ -1,5 +1,7 @@
 # Spec: Eye of Ra (the Broken Eye, the Cryptos holotape, the repair recipe)
 
+> **History file.** The current state is in [`build-spec.md`](build-spec.md), open work in [`next-steps.md`](next-steps.md). Where they differ, those win.
+
 Status: DESIGN, nothing built (2026-11-24). Part of the Regalia of Mystery set; the Blade is `spec-blade-of-bastet.md`, set-wide rules are in `spec-regalia.md`. Placement in the world is parked (see the end).
 
 ## What exists already (Verified in game 2026-11-24)
