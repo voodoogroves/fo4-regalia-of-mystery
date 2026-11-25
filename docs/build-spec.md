@@ -43,6 +43,8 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 - Broken Eye, Broken Blade, Broken Voice: `MISC` copies of the Silver Locket (`00059B34`), scrap components removed, `UnscrappableObject` (`001CC46A`). The Blade uses the sword mesh, the Voice `Weapons\44\44.nif`.
 - Tattered Dress: the Sequin Dress with the faded art, underarmor slots, no enchantment, armor rating 0, value 5.
 - Broken Veil: plain copy of the Surgical Mask, armor rating 0, value 5.
+- **Picture:** our pencil sketch in the Silver Shroud photo's frame, on the book and its inventory preview (patch `RegaliaBook1`; looked good in game). Source images are outside the repos, in `~/Games/mo2-lint/tools/our-assets/photo-candidates/` (use `candidate-03-line-art-pencil.png`).
+- **Text:** the approved new text is in [`cryptos-text.md`](cryptos-text.md), not yet built.
 
 ### Blade of Bastet
 
@@ -101,6 +103,7 @@ There is no single plugin yet. These are the verified builds, **in dependency or
 | 3 | `BuildVeil.pas` | `RegaliaVeil1` | Veil | + Gold1 |
 | 4 | `BuildBroken2.pas` | `RegaliaBroken2` | Tattered Dress, Broken Veil, two recipes | + Gold1, Garb2, Veil1 |
 | 5 | `BuildVoice3.pas` | `RegaliaVoice12` | Voice, Broken Voice, its recipe | + Gold1 |
+| 6 | `BuildBook1.pas` | `RegaliaBook1` | Cryptos picture (override of our book in Gold1) | game + DLC + Gold1 |
 
 Every other script in that folder is an earlier round or a diagnostic, kept for reference. The constant `PLUGIN_HINT` only changes the on-screen hint; the name typed in the box is what is created, and later scripts look up `RegaliaGold1.esp`, `RegaliaGarb2.esp` and `RegaliaVeil1.esp` by exactly those names.
 
@@ -115,6 +118,7 @@ All need `baunpack` (Alexandria `memory/fo4-mod/fo4-archives.md`). Run with `pyt
 | `make_dress.py OUT` | Garb of Mysteries Art |
 | `make_dress.py OUT --tattered --name TatteredDress` | Garb of Mysteries Art |
 | `make_veil.py OUT --lace` | Veil of Secrets Art |
+| `make_photo.py PICTURE OUT` (also needs `ffmpeg`) | Blade of Bastet Art |
 
 Loose files need `bInvalidateOlderFiles=1` and an empty `sResourceDataDirsFinal=` under `[Archive]` in the MO2 profile's `fallout4custom.ini`. Texture-only changes need a game restart, not a rebuild.
 
