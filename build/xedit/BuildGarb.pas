@@ -19,6 +19,7 @@
     ENCH MoM_ENCH_Garb          copy of Fortify Perception (+1) plus two effects copied from vanilla: our Add Perk effect, and Stealth Move (speed +5, IsSneaking)
     ARMO MoM_ARMO_Garb          "Garb of Mysteries": copy of the Sequin Dress (0011A27B) with our armature and enchantment, Armor Rating 20, Energy resistance 20
   (the dress's vanilla Fortify Charisma is replaced by our enchantment.)
+  SLOTS (added 2026-11-24, Chris): the dress is treated like UNDERARMOR: body slot 33 plus the [U] slots 36 to 40, no armor-piece slots 41 to 45, so chest and leg armor can be worn over it.
 
   IN THE MODULE LIST tick Fallout4.esm, ALL SIX DLC, AND RegaliaGold1.esp (it needs Nuka-World). Then OK.
 
@@ -350,6 +351,12 @@ begin
     SetElementNativeValues(armo, 'FNAM\Armor Rating', DR_VALUE);
     SetElementNativeValues(armo, 'DATA\Value', ARMO_VALUE);
     SetElementNativeValues(armo, 'DATA\Weight', ARMO_WEIGHT);
+    // UNDERARMOR slots (Chris, 2026-11-24: the dress took the chest and leg ARMOR slots, so chest and leg armor could not be worn with it).
+    // Vanilla underarmor (Raider, Rustic, High School, Gunner underarmors) uses slots 33 (body) and 36 to 40 (the [U] torso, both arms, both legs) and none of
+    // the armor-piece slots 41 to 45. First Person Flags bit n = slot 30 + n: slots 33, 36, 37, 38, 39, 40 = 8 + 64 + 128 + 256 + 512 + 1024 = 1992 (BOD2 c8070000).
+    Say('  slots were: ' + GetElementEditValues(armo, 'BOD2\First Person Flags'));
+    SetElementNativeValues(armo, 'BOD2\First Person Flags', 1992);
+    Say('  slots now: ' + GetElementEditValues(armo, 'BOD2\First Person Flags'));
     Say('  armor rating ' + GetElementEditValues(armo, 'FNAM\Armor Rating') + ', value ' + GetElementEditValues(armo, 'DATA\Value') + ', weight ' + GetElementEditValues(armo, 'DATA\Weight'));
     dama := ElementBySignature(armo, 'DAMA');
     if not Assigned(dama) then dama := Add(armo, 'DAMA', True);
