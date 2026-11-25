@@ -2,7 +2,7 @@
   BuildBladeBronze.pas: TEST build, round 13 (the plain blade with a bronze-reflection material swap). Status: WRITTEN, NOT YET RUN (2026-11-24).
 
   Decision (Chris, 2026-11-24): the Blade uses the PLAIN (non-serrated) blade, and we test the cheapest gold option first.
-  Research (Rhodes scratch/regalia-of-mystery/research-gold-and-glow.md, read from the vanilla archives with baunpack):
+  Research (Alexandria historical/regalia/research-gold-and-glow.md, read from the vanilla archives with baunpack):
     - the plain blade mesh Weapons\ChineseOfficerSword\Blade.nif uses one material, ChineseOfficerSword01A.BGSM;
     - ChineseOfficerSword01B.BGSM already exists and is identical except its cubemap is Bronze_e.dds (bronze reflections);
     - the sword's materials are NOT palette based, so real gold needs a new texture and a new .bgsm (a later step);

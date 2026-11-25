@@ -126,20 +126,9 @@ Environment: Steam Deck, a separate MO2 instance for Fallout 4, profile **Test**
 2. The person opens MO2, runs BUILD, checks the window says **Applying script "<name>"**, ticks the modules, types a **new** plugin name, closes xEdit and accepts the save.
 3. The assistant checks `~/Games/mo2-lint/tools/our-scripts/build.log` (no `FAIL` or exception lines; the logged values read back right) and the plugin's date and size, before any in-game test.
 
-### xEdit and engine facts that cost us time
+### xEdit and engine facts
 
-- `wbCopyElementToFile(src, file, True, True)` copies as a new record. Add masters yourself.
-- `FormID(rec)` is numbered for the record's own file. For another plugin's record use `LoadOrderFormIDtoFileFormID(f, GetLoadOrderFormID(rec))` (the `Ref` helper in `BuildVoice3.pas`).
-- xEdit's order of list entries can differ from the file's; pick entries by name, never by index.
-- A condition list cannot be created on a spell effect with `Add`; put the condition on the perk entry.
-- Log every written value and stop with `FAIL` when one is wrong.
-- Perks with no script: constant enchantment, to an Add Perk magic effect, to the perk; attach by a weapon mod or armor `EITM`. A weapon record's `EITM` on our .44 never applied.
-- An explosion fires only from a projectile with the `Explosion` flag (Missile type here); ordinary bullets are Beam type without it.
-- Gunshot sounds are chosen by `KSSM` records matched on the weapon's `s_` keywords.
-- Fields under `FNAM` (for example `Override Projectile`) are not under `DNAM`.
-- Creation Club files downloaded through MO2 land in its `overwrite` folder, and xEdit did not load them. Rhodes `scripts/esp/esp.py` reads any plugin directly.
-
-More detail: Alexandria `memory/fo4-mod/` (context prep lists it).
+They live in Alexandria `memory/fo4-mod/` (`fo4-gotchas-build`, `fo4-gotchas-records`, `fo4-xedit-scripting`); context prep lists them.
 
 ## 5. Console, for testing
 
