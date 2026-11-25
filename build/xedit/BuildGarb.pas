@@ -1,5 +1,5 @@
 {
-  BuildGarb.pas: round 17, the REAL Garb of Mysteries (not a look test). Status: WRITTEN, NOT YET RUN (2026-11-24).
+  BuildGarb.pas: round 17, the REAL Garb of Mysteries (not a look test). Status: VERIFIED in game (2026-11-24).
 
   Design (spec/spec-garb-of-mysteries.md; Chris's decisions 2026-11-24): light armor (the dress should take ballistic weave), weighted to sneak and utility;
   NO upgrade ladder; the Eye of Ra amplifies ONLY the sneaking effects (no DR/ER boost).

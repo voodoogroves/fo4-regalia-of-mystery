@@ -1,5 +1,5 @@
 {
-  BuildBladeGold.pas: TEST build, round 15 (the gold Blade: our own texture and material). Status: WRITTEN, NOT YET RUN (2026-11-24).
+  BuildBladeGold.pas: TEST build, round 15 (the gold Blade: our own texture and material). Status: VERIFIED in game (2026-11-24).
 
   Round 14 (BuildBladeSwapTest.pas) proved the swap mechanism works: with the replacement set to Mod_Stunpack.BGSM the blade
   showed a mechanical pattern across it (Chris). The earlier bronze swap (01A -> 01B) differs only in the cubemap, so it was too
