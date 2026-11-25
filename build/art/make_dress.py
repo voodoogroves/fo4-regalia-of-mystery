@@ -15,7 +15,7 @@ Writes under OUTDIR:  Textures/Clothes/GarbOfMysteries/GarbOfMysteries_d.dds,  M
 Needs baunpack (Rhodes refs/fo4-archives.md). Outputs are derived from Bethesda's texture: NOT committed to a public repo.
 Coordinates are fractions of the texture (u to the right, v DOWN as in the preview). The body area is about u 0.00-0.83, v 0.23-1.00.
 """
-import os, struct, sys, tempfile, glob, argparse, importlib.util
+import os, struct, sys, tempfile, glob, argparse, importlib.util, math
 
 here = os.path.dirname(os.path.abspath(__file__))
 spec = importlib.util.spec_from_file_location('make_gold', os.path.join(here, 'make_gold.py'))
@@ -30,6 +30,28 @@ CAP = 0.72                   # caps the brightest sparkle
 SHOE_U, SHOE_V = 0.825, 0.165   # the SHOE shape sits in the lower right corner of the band region (u >= 0.825, v >= 0.165): leave it alone
 CHARCOAL = (0.97, 1.00, 1.00); CHARCOAL_GAIN = 0.50; CHARCOAL_CAP = 0.30   # darker body; the cap keeps the sequin sparkle from lightening it     # body: neutral charcoal (navy blue cast removed)
 CREAM = (0.92, 0.84, 0.68); CREAM_GAIN = 3.4; CREAM_CAP = 0.95   # top band: pale cream-gold, the folds stay as shading
+# TATTERED variant (--tattered, 2026-11-24): the broken form of the Garb. It must STAND OUT (Chris): the chevrons stay, in a faded olive green, on a worn brownish body
+# with a dirty tan cowl, and procedural grime (value noise, heavier toward the hem). Same layout and geometry as the Garb, so the two read as the same dress.
+GRIME = False
+TATTERED = dict(TINT=(0.76, 1.00, 0.68), GAIN=1.80, CAP=0.82, CHARCOAL=(1.00, 0.93, 0.82), CHARCOAL_GAIN=1.10, CHARCOAL_CAP=0.50, CREAM=(0.88, 0.78, 0.60), CREAM_GAIN=2.6, CREAM_CAP=0.80)
+
+def hash2(ix, iy):
+    n = (ix * 374761393 + iy * 668265263) & 0xFFFFFFFF
+    n = ((n ^ (n >> 13)) * 1274126177) & 0xFFFFFFFF
+    return ((n ^ (n >> 16)) & 0xFFFF) / 65535.0
+
+def vnoise(x, y):
+    ix = int(math.floor(x)); iy = int(math.floor(y)); fx = x - ix; fy = y - iy
+    sx = fx * fx * (3 - 2 * fx); sy = fy * fy * (3 - 2 * fy)
+    a, b, c, d = hash2(ix, iy), hash2(ix + 1, iy), hash2(ix, iy + 1), hash2(ix + 1, iy + 1)
+    return (a * (1 - sx) + b * sx) * (1 - sy) + (c * (1 - sx) + d * sx) * sy
+
+def grime(u, v):
+    """A brightness factor around 0.4 to 1.1: three octaves of value noise, darker and dirtier toward the hem."""
+    n = 0.5 * vnoise(u * 5, v * 5) + 0.3 * vnoise(u * 13, v * 13) + 0.2 * vnoise(u * 31, v * 31)
+    hem = min(1.0, max(0.0, (v - 0.55) / 0.45))
+    return max(0.40, min(1.12, 0.62 + 0.75 * n - 0.30 * hem))
+
 # Chevron geometry (fractions of the texture; v is DOWN). MEASURED in game 2026-11-24 with the --debug-uv texture on mannequins:
 #   - the FRONT centre of the body is at u about 0.45 (the green/cyan boundary); yellow (u 0.2) is the wearer's right side, blue (0.65) the left;
 #   - the BACK centre is the texture's seam (magenta u 0.83 meets red u 0.0); u runs 0 to 0.83 around the whole body;
@@ -120,14 +142,12 @@ def endpoint_transform(out, o, fn):
 
 def paint_level(data, w, h, zone, a, debug=False):
     """Recolour one mip level. Blocks wholly inside a stripe or wholly outside are recoloured by their endpoints (keeps the sparkle);
-    blocks the stripe EDGE crosses are decoded, blended per pixel by anti-aliased coverage, and re-encoded: smooth edges at every mip."""
+    blocks the stripe EDGE crosses are decoded, blended per pixel by anti-aliased coverage, and re-encoded: smooth edges at every mip.
+    With GRIME (the tattered variant) a smooth brightness factor, evaluated at the block centre, modulates every tone."""
     out = bytearray(data)
     bw, bh = max(1, (w + 3) // 4), max(1, (h + 3) // 4)
     counts = {'stripe': 0, 'band': 0, 'body': 0, 'edge': 0}
     ps = 1.0 / max(w, 4); hd = 2.9 * ps
-    body_fn = lambda x: tone(x, CHARCOAL, CHARCOAL_GAIN, CHARCOAL_CAP)
-    stripe_fn = lambda x: tone(x, TINT, GAIN, CAP)
-    cream_fn = lambda x: tone(x, CREAM, CREAM_GAIN, CREAM_CAP)
     for by in range(bh):
         for bx in range(bw):
             u = min(1.0, (bx * 4 + 2) / max(w, 4)); v = min(1.0, (by * 4 + 2) / max(h, 4))
@@ -136,9 +156,12 @@ def paint_level(data, w, h, zone, a, debug=False):
             o = (by * bw + bx) * 8
             if debug:
                 c = debug_colour(u, v); struct.pack_into('<HHI', out, o, c, c, 0); counts[z] += 1; continue
+            f = grime(u, v) if GRIME else 1.0
+            body_fn = lambda x: tone(x, CHARCOAL, CHARCOAL_GAIN * f, CHARCOAL_CAP)
+            stripe_fn = lambda x: tone(x, TINT, GAIN * f, CAP)
+            cream_fn = lambda x: tone(x, CREAM, CREAM_GAIN * f, CREAM_CAP)
             if z == 'band':
                 endpoint_transform(out, o, cream_fn); counts['band'] += 1; continue
-            # body area: is the stripe near?
             sd = stripe_sd(u, v, a)
             if sd > hd + ps: endpoint_transform(out, o, body_fn); counts['body'] += 1
             elif sd < -(hd + ps): endpoint_transform(out, o, stripe_fn); counts['stripe'] += 1
@@ -157,10 +180,13 @@ def main():
     ap.add_argument('--uspan', type=float, default=0.15, help='half-width of the chevrons'); ap.add_argument('--y0', type=float, default=0.31, help='v of the top band at its outer ends (just under the cowl)')
     ap.add_argument('--pitch', type=float, default=0.095); ap.add_argument('--bands', type=int, default=3)
     ap.add_argument('--thick', type=float, default=0.04); ap.add_argument('--slope', type=float, default=0.60)
+    ap.add_argument('--tattered', action='store_true', help='the faded, dirty broken form of the Garb (stands out: the chevrons stay)'); ap.add_argument('--name', default='GarbOfMysteries', help='output file stem (default GarbOfMysteries; the tattered variant should use TatteredDress)')
     ap.add_argument('--debug-uv', action='store_true', help='write a UV test texture (coloured columns and light-to-dark rows) instead of the recolour')
     ap.add_argument('--tint', default=None, help='r,g,b fractions, e.g. 0.30,0.74,0.10 for the brighter kelly green'); ap.add_argument('--gain', type=float, default=None); ap.add_argument('--cap', type=float, default=None)
     a = ap.parse_args(); out = os.path.abspath(a.out)
-    global TINT, GAIN, CAP
+    global TINT, GAIN, CAP, CHARCOAL, CHARCOAL_GAIN, CHARCOAL_CAP, CREAM, CREAM_GAIN, CREAM_CAP, GRIME
+    if a.tattered:
+        GRIME = True; TINT = TATTERED['TINT']; GAIN = TATTERED['GAIN']; CAP = TATTERED['CAP']; CHARCOAL = TATTERED['CHARCOAL']; CHARCOAL_GAIN = TATTERED['CHARCOAL_GAIN']; CHARCOAL_CAP = TATTERED['CHARCOAL_CAP']; CREAM = TATTERED['CREAM']; CREAM_GAIN = TATTERED['CREAM_GAIN']; CREAM_CAP = TATTERED['CREAM_CAP']
     if a.tint: TINT = tuple(float(x) for x in a.tint.split(','))
     if a.gain is not None: GAIN = a.gain
     if a.cap is not None: CAP = a.cap
@@ -181,8 +207,8 @@ def main():
         res += lvl; level_dump[m] = (off, sz, lw, lh); off += sz
         for k in n: total[k] += n[k]
     if off != len(body): raise SystemExit('size mismatch')
-    open(os.path.join(out, 'Textures/Clothes/GarbOfMysteries/GarbOfMysteries_d.dds'), 'wb').write(dds[:hdr] + bytes(res))
-    open(os.path.join(out, 'Materials/Clothes/GarbOfMysteries/GarbOfMysteries.BGSM'), 'wb').write(mg.patch_bgsm(bgsm, OLD_TEX, NEW_TEX))
+    open(os.path.join(out, 'Textures/Clothes/GarbOfMysteries/%s_d.dds' % a.name), 'wb').write(dds[:hdr] + bytes(res))
+    open(os.path.join(out, 'Materials/Clothes/GarbOfMysteries/%s.BGSM' % a.name), 'wb').write(mg.patch_bgsm(bgsm, OLD_TEX, 'Clothes/GarbOfMysteries/%s_d.dds' % a.name))
     o2, s2, w2, h2 = level_dump[2]
     A = mg.decode_bc1_mip0(body[o2:o2 + s2], w2, h2); B = mg.decode_bc1_mip0(bytes(res)[o2:o2 + s2], w2, h2)
     mg.write_png(os.path.join(out, 'preview/original.png'), w2, h2, A); mg.write_png(os.path.join(out, 'preview/' + ('uvdebug.png' if a.debug_uv else 'garb.png')), w2, h2, B)
