@@ -42,6 +42,14 @@ Chris likes it ("fitting, given the HalluciGen gas interaction with the Stealth 
 - Poison resistance only softens the gas; it does not zero it. Power armor and gas masks lack this perk (matching reports that they do not block it).
 - **For the Veil:** the Veil's perk gets a copy of entry (1) only (no radiation entries: Chris dropped radiation). Always on while the Veil is worn (the Veil's identity); a constant (`GAS_NEEDS_EYE`) is False in `BuildVeil.pas` (gating it behind the Eye is not implemented). **To test in game:** the HalluciGen, Inc. basement (quest Hazardous Material) and the Nuka-World Gauntlet gas room (quest Taken for a Ride), with the Veil, without it, and with the Hazmat Suit as a control. Untested by the research and by us.
 
+## Verified in game (Chris, 2026-11-24, `RegaliaVeil1`, `build/xedit/BuildVeil.pas`; needs `RegaliaGold1.esp` for the Eye keyword)
+
+- **The look is good** (black fabric with the cream-gold diamond net; at face scale it reads as a fine black-and-cream lattice, a little like gingham). Locked.
+- **The perk is delivered:** `hasperk` is 1 while the Veil is worn and 0 when it is off.
+- **Poison resistance rises to 20 with the Eye** (10 base).
+- **A hat works with it** (slots 48 and 49 only).
+- **Not yet tested (later list):** the gas immunity. The gas rooms are far from the player's current save (Sanctuary): the HalluciGen, Inc. basement (quest Hazardous Material) and the Nuka-World Gauntlet gas room (quest Taken for a Ride); compare with the Veil off and with the vanilla Hazmat Suit as a control. Persuade cannot be measured directly (the `hasperk` check is the proof it is delivered).
+
 ## Mechanics (earlier note, superseded by the decisions above)
 
 Hazard and disease protection: candidates are the enchantment effects and armor resistances for disease, radiation exposure and poison (a lookup is queued: the disease resist effects and the damage types). Social edge: a Charisma bonus (the vanilla `Fortify Charisma` effect, as the dresses carry) and perhaps speech. Small numbers: it is a cloth veil. The Eye: open.
