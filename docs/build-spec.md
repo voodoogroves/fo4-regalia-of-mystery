@@ -106,7 +106,7 @@ Every other script in that folder is an earlier round or a diagnostic, kept for 
 
 ### Art (run before testing looks)
 
-All need `baunpack` (Rhodes `refs/fo4-archives.md`). Run with `python3 -B <script> OUTDIR`, then copy `Textures/` and `Materials/` into the MO2 mod folder.
+All need `baunpack` (Alexandria `memory/fo4-mod/fo4-archives.md`). Run with `python3 -B <script> OUTDIR`, then copy `Textures/` and `Materials/` into the MO2 mod folder.
 
 | Command | MO2 mod |
 |---|---|
@@ -120,7 +120,7 @@ Loose files need `bInvalidateOlderFiles=1` and an empty `sResourceDataDirsFinal=
 
 ### Running a script
 
-Environment: Steam Deck, a separate MO2 instance for Fallout 4, profile **Test**, FO4Edit 4.1.5f under Proton. Setup and the working loop are in Rhodes `refs/steam-deck-mo2.md`.
+Environment: Steam Deck, a separate MO2 instance for Fallout 4, profile **Test**, FO4Edit 4.1.5f under Proton. Setup and the working loop are in Alexandria `memory/fo4-mod/` (`fo4-deck-mo2-setup`, `fo4-deck-workflow`).
 
 1. The person closes MO2 completely and says so. The assistant backs up `ModOrganizer.ini` and points the BUILD entry (`5\arguments=`) at the script. **If MO2 is open, it overwrites the edit with the old value**, and the assistant cannot detect MO2's process. No edit is needed to rerun the same script file.
 2. The person opens MO2, runs BUILD, checks the window says **Applying script "<name>"**, ticks the modules, types a **new** plugin name, closes xEdit and accepts the save.
@@ -139,7 +139,7 @@ Environment: Steam Deck, a separate MO2 instance for Fallout 4, profile **Test**
 - Fields under `FNAM` (for example `Override Projectile`) are not under `DNAM`.
 - Creation Club files downloaded through MO2 land in its `overwrite` folder, and xEdit did not load them. Rhodes `scripts/esp/esp.py` reads any plugin directly.
 
-More detail: Alexandria `memory/fo4-xedit-reference.md` and `memory/fo4-modding-mechanics.md`.
+More detail: Alexandria `memory/fo4-mod/` (context prep lists it).
 
 ## 5. Console, for testing
 

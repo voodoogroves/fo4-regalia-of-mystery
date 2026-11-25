@@ -1,7 +1,7 @@
 {
   BuildGarb.pas: round 17, the REAL Garb of Mysteries (not a look test). Status: VERIFIED in game (2026-11-24).
 
-  Design (spec/spec-garb-of-mysteries.md; Chris's decisions 2026-11-24): light armor (the dress should take ballistic weave), weighted to sneak and utility;
+  Design (docs/spec-garb-of-mysteries.md; Chris's decisions 2026-11-24): light armor (the dress should take ballistic weave), weighted to sneak and utility;
   NO upgrade ladder; the Eye of Ra amplifies ONLY the sneaking effects (no DR/ER boost).
     DR 20, ER 20 (fixed); value 50, weight 1.0; +1 Perception; +5 sneaking speed (while sneaking); harder to detect while sneaking: Mod Detection
     Sneak Skill +5, +20 more with the Eye (total +25); sneak attack: small bonus (melee 1H +0.25, other +0.125), more with the Eye (+0.75 and +0.375, so
