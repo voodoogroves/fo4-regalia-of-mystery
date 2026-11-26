@@ -48,7 +48,9 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 
 ### The world (`BuildWorld.pas`, replaces the earlier body and book builds)
 
-**Display names** (overrides of our records; recipes unchanged; repaired pieces keep their names): "Mystery: Broken Revolver", "Mystery: Broken Necklace", "Mystery: Broken Sword", "Mystery: Tattered Veil", "Mystery: Tattered Dress", "Mystery: Cryptos", "Mystery: Traveler's Diary". Where this file or the scripts say Broken Voice, Eye, Blade or Veil, these are the same records.
+**Display names** (overrides of our records, recipes unchanged): "Mystery: Broken Revolver", "Mystery: Broken Necklace", "Mystery: Broken Sword", "Mystery: Cryptos"; the note is "Mystery: Traveler's Diary". Where this file or the scripts say Broken Voice, Eye or Blade, these are the same records. Decided 2026-11-26, **not yet built:** "Jury-Rigged Eye of Ra" becomes "Eye of Ra" (no prefix on repaired pieces) and the perk "Cryptos Notes" becomes "Mystery: Cryptos Notes".
+
+**The broken wearables are plain items** (verified 2026-11-26): `MoM_MISC_TatteredVeil` "Mystery: Tattered Veil" and `MoM_MISC_TatteredDress` "Mystery: Tattered Dress" (copies of the Silver Locket with the old world models). The world plugin overrides the two repair recipes in `RegaliaBroken2` so they take these. The wearable broken records in Broken2 are no longer used. Why: crafting the Veil from the wearable broken Veil crashed the game with `RegaliaWorld5` ticked (cause not proven), and crafting the Garb while wearing the Tattered Dress left its look stuck on the player.
 
 | What | Cell | Position (x, y, z), heading |
 |---|---|---|
@@ -57,7 +59,7 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 | Cryptos, loose, No Respawn | `0000E0BA` | 5560, -18578, 1806, 110 |
 | Suitcase: Broken Sword | `0000E0BA` | 7408.37, -18588.25, 1856.75, 68 |
 | Duffle bag: Broken Revolver | `0000E0B9` (Swan's pond) | 11993.90, -20086.55, 596.4, 35 |
-| First aid kit: Tattered Veil | `0004542D` (Hubris interior) | 1683, 132, 780.5, 225 |
+| First aid kit: Mystery: Tattered Veil | `0004542D` (Hubris interior) | 1683, 132, 780.5, 225 |
 | Tool case: Broken Necklace | `0004542D` | 2818.3, -245.5, 839.5, 135 (on file cabinet `00066AC5`) |
 
 - Containers are our copies with the respawn flag cleared, vanilla contents and scripts removed, one item each, and charcoal-and-emerald skins (`make_containers.py`). The suitcase uses `Suitcase_prewar.nif`, because `Suitcase01.nif` names no material to swap.
@@ -66,7 +68,7 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 ### The Mysterious Traveler (the body, verified in game)
 
 - `MoM_NPC_Seeker` "Mysterious Traveler": copy of `Loot_CorpseSettlerFemale_Empty` (`0020A578`, no respawn). Thin, jet black hair, "No Apologies" hairstyle (`0016CA35`). "Use template: base data" is cleared, or she is named "Settler".
-- Outfit: the Tattered Dress; she carries nothing else. The diary (`MoM_BOOK_Diary`, copy of the note `001D5CDC`, text from [`diary-text.md`](diary-text.md)) lies beside her.
+- Outfit: `MoM_ARMO_SeekerDress`, a copy of the Tattered Dress flagged **Non-Playable**, so she wears it and it is not loot. Inventory: the plain "Mystery: Tattered Dress". The diary (`MoM_BOOK_Diary`, copy of the note `001D5CDC`, text from [`diary-text.md`](diary-text.md)) lies beside her.
 - Placement: one `ACHR` with **Starts Dead**, added to an override of `CELL 0000E0BA` (raider building roof).
 - Pose: `XRGD` and `XRGB` copied from vanilla `ACHR 001289CF`. Without a saved pose a dead actor stood upright in a T-pose.
 - The scenery looked normal after the cell override (seen on the first body build).
@@ -129,7 +131,7 @@ There is no single plugin yet. These are the verified builds, **in dependency or
 | 3 | `BuildVeil.pas` | `RegaliaVeil1` | Veil | + Gold1 |
 | 4 | `BuildBroken2.pas` | `RegaliaBroken2` | Tattered Dress, Broken Veil, two recipes | + Gold1, Garb2, Veil1 |
 | 5 | `BuildVoice3.pas` | `RegaliaVoice12` | Voice, Broken Voice, its recipe | + Gold1 |
-| 6 | `BuildWorld.pas` | `RegaliaWorld4` | Everything placed in the world: the Traveler, her two notes, the four containers, the Cryptos picture and text, the item renames | game + DLC + Gold1, Garb2, Veil1, Broken2, Voice12 |
+| 6 | `BuildWorld.pas` | `RegaliaWorld6` | Everything placed in the world: the Traveler, her two notes, the four containers, the Cryptos picture and text, the item renames, the plain broken Veil and Dress and their recipe overrides | game + DLC + Gold1, Garb2, Veil1, Broken2, Voice12 |
 
 Every other script in that folder is an earlier round or a diagnostic, kept for reference. The constant `PLUGIN_HINT` only changes the on-screen hint; the name typed in the box is what is created, and later scripts look up `RegaliaGold1.esp`, `RegaliaGarb2.esp` and `RegaliaVeil1.esp` by exactly those names.
 

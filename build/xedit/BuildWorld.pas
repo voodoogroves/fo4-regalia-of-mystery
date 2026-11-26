@@ -1,5 +1,14 @@
 {
   BuildWorld.pas: everything placed in the world, in ONE plugin (test name RegaliaWorld1). Status: RegaliaWorld1 seen in game 2026-11-25 (tool case good; suitcase too square; first aid kit and duffle moved).
+  Round 7 (RegaliaWorld7, not yet run): renames "Jury-Rigged Eye of Ra" to "Eye of Ra" and the perk "Cryptos Notes" to
+  "Mystery: Cryptos Notes" (overrides of our records in Gold1; recipes unchanged).
+  Round 6 (RegaliaWorld6, VERIFIED in game 2026-11-26: items recovered, all repairs crafted, no crash): with World5, crafting the Veil crashed the game, and crafting the Garb while wearing the Tattered
+  Dress left its look stuck on the player. Both broken wearables become plain items:
+    MoM_MISC_TatteredVeil, MoM_MISC_TatteredDress   copies of the Silver Locket (unscrappable), with the old world models
+    COBJ overrides in Broken2: each repair recipe now takes the plain item
+    MoM_ARMO_SeekerDress   copy of the Tattered Dress flagged Non-Playable: she wears it, it should not show in her loot
+  The old wearable broken records are no longer used or renamed.
+  Round 5 (RegaliaWorld5): the diary text reworded; records and placements unchanged.
   Round 4 (RegaliaWorld4): placement seen in game 2026-11-25 (good); reading the books, the perk and the repairs not yet reported. the diary and the Cryptos book lie loose beside her ("No Respawn"); the Broken Eye moves from her
   inventory into the tool case; both books read on the standard full note page (STAT DONOTUSE_InventoryNote 001B5EF1; Cryptos with our
   faded sketch printed on it). Diary text updated to match. The five found items are renamed "Mystery: ..." by overriding our own records
@@ -21,14 +30,14 @@
     Container facings are first guesses. The tool case is centred on the cabinet top, worked out from the cabinet's own placement.
 
   Masters: Fallout4.esm, DLCNukaWorld.esm, RegaliaGold1, Garb2, Veil1, Broken2, Voice12. IN THE MODULE LIST tick the game, the six DLC
-  and those five Regalia plugins only. Type RegaliaWorld4 in the filename box (a new number for each rerun). Accept the save prompt.
+  and those five Regalia plugins only. Type RegaliaWorld7 in the filename box (a new number for each rerun). Accept the save prompt.
   Log: our-scripts\build.log.
   Test with every RegaliaBody, RegaliaPose and RegaliaBook plugin UNTICKED.
 }
 unit BuildWorld;
 
 const
-  PLUGIN_HINT = 'RegaliaWorld4';
+  PLUGIN_HINT = 'RegaliaWorld7';
   BOOK_NAME = 'Mystery: Cryptos';
   PAGE_ORIGINAL = 'Interface\Note\Note.BGSM';
   PAGE_REPLACEMENT = 'RegaliaOfMystery\CryptosPage.BGSM';
@@ -348,6 +357,65 @@ begin
   if not Result then Say('FAIL: the name was not set on ' + EditorID(rec));
 end;
 
+// A broken piece as a plain, non-wearable item: copy of the Silver Locket with our name and world model, never scrappable.
+function MakeBroken(f: IInterface; edid, title, model: string): IInterface;
+var
+  src, m, el, kw: IInterface;
+begin
+  Result := nil;
+  src := RecordByFormID(FileByIndex(0), $00059B34, True);   // SilverLocket (MISC)
+  if not Assigned(src) then begin
+    Say('FAIL: the Silver Locket was not found'); Exit;
+  end;
+  m := wbCopyElementToFile(src, f, True, True);
+  if not Assigned(m) then begin
+    Say('FAIL: copy of the locket failed for ' + edid); Exit;
+  end;
+  SetEditorID(m, edid);
+  SetElementEditValues(m, 'FULL', title);
+  SetElementEditValues(m, 'Model\MODL - Model FileName', model);
+  el := ElementByPath(m, 'Model\MODT - Model Information');
+  if Assigned(el) then Remove(el);
+  el := ElementBySignature(m, 'CVPA');
+  if Assigned(el) then Remove(el);
+  kw := ElementBySignature(m, 'KWDA');
+  if not Assigned(kw) then kw := Add(m, 'KWDA', True);
+  el := ElementAssign(kw, HighInteger, nil, False);
+  SetNativeValue(el, $001CC46A);   // UnscrappableObject
+  Say('broken item: ' + Name(m) + ' | model ' + GetElementEditValues(m, 'Model\MODL - Model FileName'));
+  if (GetElementEditValues(m, 'FULL') <> title) or (GetElementEditValues(m, 'Model\MODL - Model FileName') <> model) then begin
+    Say('FAIL: ' + edid + ' was not set up'); Exit;
+  end;
+  Result := m;
+end;
+
+// Point one of our repair recipes at a new ingredient (an override of the recipe; exactly one component must change).
+function SwapIngredient(f, recipe, olditem, newitem: IInterface): boolean;
+var
+  o, comps, el: IInterface;
+  i, changed: integer;
+begin
+  Result := False;
+  o := wbCopyElementToFile(recipe, f, False, True);   // False: an override
+  if not Assigned(o) then begin
+    Say('FAIL: override of the recipe failed'); Exit;
+  end;
+  comps := ElementBySignature(o, 'FVPA');
+  changed := 0;
+  for i := 0 to ElementCount(comps) - 1 do begin
+    el := ElementByName(ElementByIndex(comps, i), 'Component');
+    if Pos(EditorID(olditem), GetEditValue(el)) > 0 then begin
+      if not SetRef(el, f, newitem) then Exit;
+      changed := changed + 1;
+    end;
+  end;
+  for i := 0 to ElementCount(comps) - 1 do
+    Say('  ' + EditorID(o) + ' ingredient: ' + GetEditValue(ElementByName(ElementByIndex(comps, i), 'Component')) + ' x ' + GetElementEditValues(ElementByIndex(comps, i), 'Count'));
+  Say('  ' + EditorID(o) + ' makes: ' + GetElementEditValues(o, 'CNAM'));
+  Result := changed = 1;
+  if not Result then Say('FAIL: expected exactly one ingredient to change on ' + EditorID(o) + ', changed ' + IntToStr(changed));
+end;
+
 // Place an object once in a cell (rot = heading in degrees).
 function PlaceObject(f, cell, base: IInterface; x, y, z, rot: string; flags: integer): boolean;
 var
@@ -381,6 +449,7 @@ function Initialize: integer;
 var
   esm, srcNote, srcNpc, srcCell, hairpart, hair, dress, eye, f, diary, otft, npc, cell, el: IInterface;
   srcSwanCell, srcHubris, srcStat, srcBook, blade, voice, brokenveil, swancell, hubris: IInterface;
+  veilitem, dressitem, seekerdress, cobjveil, cobjgarb, eyearmo, cryptosperk: IInterface;
   text: TStringList;
 begin
   Result := 0;
@@ -413,6 +482,12 @@ begin
        (not Assigned(srcStat)) or (not Assigned(srcSwanCell)) or (not Assigned(srcHubris)) then begin
       Say('FAIL: a source record for the containers or the book was not found'); Exit;
     end;
+    eyearmo := FindOurs('RegaliaGold1.esp', 'ARMO', 'MoM_ARMO_EyeOfRa');
+    cryptosperk := FindOurs('RegaliaGold1.esp', 'PERK', 'MoM_PERK_Cryptos');
+    if (not Assigned(eyearmo)) or (not Assigned(cryptosperk)) then Exit;
+    cobjveil := FindOurs('RegaliaBroken2.esp', 'COBJ', 'MoM_COBJ_RepairVeil');
+    cobjgarb := FindOurs('RegaliaBroken2.esp', 'COBJ', 'MoM_COBJ_RepairGarb');
+    if (not Assigned(cobjveil)) or (not Assigned(cobjgarb)) then Exit;
     text := TStringList.Create;
     text.LoadFromFile(DIARY_FILE);
     Say('sources ok: ' + Name(srcNote) + ' | ' + Name(srcNpc) + ' | ' + Name(srcCell) + ' | diary lines ' + IntToStr(text.Count));
@@ -429,6 +504,23 @@ begin
     AddMasterIfMissing(f, 'RegaliaVeil1.esp');
     AddMasterIfMissing(f, 'RegaliaBroken2.esp');
     AddMasterIfMissing(f, 'RegaliaVoice12.esp');
+
+    // ---- the two broken wearables become plain items; she keeps a dress that is only for wearing ----
+    veilitem := MakeBroken(f, 'MoM_MISC_TatteredVeil', 'Mystery: Tattered Veil', 'Armor\Raider02\Mask_GO.nif');
+    dressitem := MakeBroken(f, 'MoM_MISC_TatteredDress', 'Mystery: Tattered Dress', 'Clothes\SlinkyDress\GO_SequinDress.nif');
+    if (not Assigned(veilitem)) or (not Assigned(dressitem)) then Exit;
+    if not SwapIngredient(f, cobjveil, brokenveil, veilitem) then Exit;
+    if not SwapIngredient(f, cobjgarb, dress, dressitem) then Exit;
+    seekerdress := wbCopyElementToFile(dress, f, True, True);
+    if not Assigned(seekerdress) then begin
+      Say('FAIL: copy of the Tattered Dress failed'); Exit;
+    end;
+    SetEditorID(seekerdress, 'MoM_ARMO_SeekerDress');
+    SetElementNativeValues(seekerdress, 'Record Header\Record Flags', GetElementNativeValues(seekerdress, 'Record Header\Record Flags') or $4);   // Non-Playable
+    if (GetElementNativeValues(seekerdress, 'Record Header\Record Flags') and $4) = 0 then begin
+      Say('FAIL: Non-Playable was not set'); Exit;
+    end;
+    Say('seeker dress: ' + Name(seekerdress) + ' (non-playable)');
 
     diary := wbCopyElementToFile(srcNote, f, True, True);
     if not Assigned(diary) then begin
@@ -453,7 +545,7 @@ begin
     el := ElementBySignature(otft, 'INAM');
     if not Assigned(el) then el := Add(otft, 'INAM', True);
     if ElementCount(el) = 0 then ElementAssign(el, HighInteger, nil, False);
-    if not SetRef(ElementByIndex(el, 0), f, dress) then Exit;
+    if not SetRef(ElementByIndex(el, 0), f, seekerdress) then Exit;
     if ElementCount(el) <> 1 then begin
       Say('FAIL: expected one outfit item, got ' + IntToStr(ElementCount(el))); Exit;
     end;
@@ -485,6 +577,7 @@ begin
     end;
     if not SetRef(ElementBySignature(npc, 'HCLF'), f, hair) then Exit;
     if not SetRef(ElementBySignature(npc, 'DOFT'), f, otft) then Exit;
+    if not AddItem(f, npc, dressitem) then Exit;
     Say('  items: ' + IntToStr(ElementCount(ElementByName(npc, 'Items'))));
 
     cell := wbCopyElementToFile(srcCell, f, False, True);   // override of the cell record; its references are not copied
@@ -498,8 +591,8 @@ begin
     if not Rename(f, voice, 'Mystery: Broken Revolver') then Exit;
     if not Rename(f, eye, 'Mystery: Broken Necklace') then Exit;
     if not Rename(f, blade, 'Mystery: Broken Sword') then Exit;
-    if not Rename(f, brokenveil, 'Mystery: Tattered Veil') then Exit;
-    if not Rename(f, dress, 'Mystery: Tattered Dress') then Exit;
+    if not Rename(f, eyearmo, 'Eye of Ra') then Exit;
+    if not Rename(f, cryptosperk, 'Mystery: Cryptos Notes') then Exit;
 
     swancell := wbCopyElementToFile(srcSwanCell, f, False, True);
     hubris := wbCopyElementToFile(srcHubris, f, False, True);
@@ -512,7 +605,7 @@ begin
     if not PlaceObject(f, swancell, Skin(f, MakeContainer(f, $0008E59E, 'MoM_CONT_Voice', 'Traveler''s Duffle Bag', voice),
       'ContDuffle', 'SetDressing\DuffleBag\DuffleBag.BGSM', ''),
       '11993.90', '-20086.55', '596.40', '35', 0) then Exit;
-    if not PlaceObject(f, hubris, Skin(f, MakeContainer(f, $0020A6FD, 'MoM_CONT_Veil', 'First Aid Kit', brokenveil),
+    if not PlaceObject(f, hubris, Skin(f, MakeContainer(f, $0020A6FD, 'MoM_CONT_Veil', 'First Aid Kit', veilitem),
       'ContMedKit', 'SetDressing\FirstAidKit\FirstAidKitPharm.BGSM', ''),
       '1683.00', '132.00', '780.50', '225', 0) then Exit;
     if not PlaceObject(f, hubris, Skin(f, MakeContainer(f, $001103E3, 'MoM_CONT_Eye', 'Traveler''s Tool Case', eye),
