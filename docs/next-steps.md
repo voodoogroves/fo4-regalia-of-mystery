@@ -2,19 +2,19 @@
 
 As of 2026-11-26. Start by reading [`build-spec.md`](build-spec.md); section 3.6 there lists what is not yet seen in game. Ask the owner which item to take; the order is a suggestion.
 
-## 1. The real plugin (suggested next)
+## 1. Release (suggested next)
 
-- [ ] Merge the chain into one plugin, `RegaliaOfMystery`, from one script. Follow "What a merged plugin must do" in the build spec. Replace test strings (for example `Bastet Test Perk`).
-- [ ] ESL flag: check that a light plugin can carry the Nuka-World master and still works. The filename must not change once saves exist.
-- [ ] Pack art into a `.ba2` named after the plugin (Windows `BSArch` under Proton, untried); then drop the loose-file ini settings.
-- [ ] Add the ZeniMax disclaimer to the description and release page. Choose a licence for our own work.
-- [ ] Test on a fresh save with only the real plugin: both books, every found item, every recipe, every Eye boost.
+- [x] One plugin, `RegaliaOfMystery.esp`, light-flagged, tested in game (2026-11-26).
+- [x] Art packed into two `.ba2` archives and a release zip (`build/package.py`, version 0.9.0).
+- [x] The zip tested in game with the three loose art mods off (2026-11-26).
+- [ ] Choose a licence for our own work; write the release page (with the ZeniMax disclaimer and the Nuka-World requirement).
 
 ## 2. Checks (can ride along with the test above)
 
-- [ ] Everything in build spec 3.6.
+- [ ] Voice: its own stagger on a direct hit without the Eye.
+- [ ] Veil poison gas immunity (untested; needs a working gas source).
 - [ ] Voice grips: the fixed medallions and screw plates in game (art only).
-- [ ] Broken Blade inventory look and scrapping; whether the Blade can be renamed at a workbench.
+- [ ] Broken Sword inventory look and scrapping; whether the Blade can be renamed at a workbench.
 
 ## 3. Open decisions
 
@@ -34,11 +34,13 @@ As of 2026-11-26. Start by reading [`build-spec.md`](build-spec.md); section 3.6
 ## 5. For 1.0
 
 - [ ] An invisible locket as the final Eye of Ra.
-- [ ] Pictures before release: the pencil sketch was generated with Nano Banana (Gemini) from Fallout 76 wall art; check Bethesda's terms and the mod site's rules on AI art, and credit both. Also the position on shipping recoloured Bethesda textures.
+- [ ] Before release: the mod site's position on AI-assisted code and text, and the position on shipping recoloured Bethesda textures and the screenshot sketch.
+- [x] Cryptos picture replaced by the screenshot sketch and seen in game.
+- [ ] Optional: the sketch's legs end in a hard edge on the reading page.
 - [ ] Re-check lore details (including the diary's) against primary sources.
 
 ## 6. Housekeeping
 
-- [ ] Save the world-building facts to Alexandria `memory/fo4-mod/` (list at the end of build spec section 4; propose first).
-- [ ] Old test plugins in the game's `Data` folder (ask first). **Keep** `RegaliaGold1`, `RegaliaGarb2`, `RegaliaVeil1`, `RegaliaBroken2`, `RegaliaVoice12`, `RegaliaWorld10` until the real plugin works.
+- [ ] Old test plugins in the game's `Data` folder and in `tools/our-assets/old-plugins/` (ask first). The six chain plugins are only needed by `compare_chain.py`.
+- [ ] The `rom*.txt` batch files in the game folder, once testing is over.
 - [ ] Old `ModOrganizer.ini.bak-*` files.

@@ -1,6 +1,6 @@
 # Build spec: Regalia of Mystery
 
-**Read this first.** It is the current state of the mod and every decision behind it, written so that someone new can build it. State as of **2026-11-26** (test plugin `RegaliaWorld10`). Open work is in [`next-steps.md`](next-steps.md). The other files in this folder are the history (how each answer was found, including dead ends); where they disagree with this file, this file wins.
+**Read this first.** It is the current state of the mod and every decision behind it, written so that someone new can build it. State as of **2026-11-26** (release plugin `RegaliaOfMystery.esp`, version 0.9.0). Open work is in [`next-steps.md`](next-steps.md). The other files in this folder are the history (how each answer was found, including dead ends); where they disagree with this file, this file wins.
 
 Words used: **verified** or **seen** means the owner (Chris) saw it work in game. **Untested** or **not reported** means built or written but not seen. Section 3.6 lists everything not yet seen.
 
@@ -16,7 +16,7 @@ The Fallout 76 Order of Mysteries gear (the Mistress of Mystery's Regalia), rebu
 | Discovery | Reading **Mystery: Cryptos** grants the perk `MoM_PERK_Cryptos` ("Mystery: Cryptos Notes"), with no script. No quest-stage gate. |
 | Recipe gate | `HasPerk` Cryptos Notes **plus exactly one** skill perk. The craft screen shows only two perk prerequisites. Locked recipes show greyed. |
 | Station | Chemistry Station (`WorkbenchChemlab` `00102158`), category `RecipeUtility` (`0006980C`). |
-| Scripts | No Papyrus. Everything is records plus loose art. |
+| Scripts | No Papyrus. Everything is records plus art, packed into two `.ba2` archives for release. |
 | Vanilla records | No vanilla item, perk or effect is changed. Placement **does** override map cells (and the Commonwealth worldspace record) to add our references; see 3.2. |
 | Editor ID prefix | `MoM_` |
 | Masters | `Fallout4.esm` and `DLCNukaWorld.esm` (the Eye is a Shock Collar copy). No Creation Club master. |
@@ -26,29 +26,29 @@ The Fallout 76 Order of Mysteries gear (the Mistress of Mystery's Regalia), rebu
 
 ## 3. The mod as built
 
-### 3.1 Recipes (all repairs crafted in game 2026-11-26 with `RegaliaWorld6`, before the Eye's rename)
+### 3.1 Recipes (greyed before reading the Cryptos and all five crafted, seen in game 2026-11-26)
 
-| Result | Found item (editor ID, plugin) | Other ingredients | Skill perk |
+| Result | Found item (editor ID) | Other ingredients | Skill perk |
 |---|---|---|---|
-| Blade of Bastet | Mystery: Broken Sword (`MoM_MISC_BrokenBladeOfBastet`, Gold1) | Steel 4, Silver 3, Gold 2, Crystal 2, Adhesive 3 | Blacksmith 3 (`000264D8`) |
-| Eye of Ra | Mystery: Broken Necklace (`MoM_MISC_BrokenEyeOfRa`, Gold1) | Crystal 2, Silver 2, Adhesive 2 | Science 3 (`000264DB`) |
-| Garb of Mysteries | Mystery: Tattered Dress (`MoM_MISC_TatteredDress`, World) | Cloth 6, Adhesive 2, Silver 1 | Armorer 3 (`0004B256`) |
-| Veil of Secrets | Mystery: Worn Veil (`MoM_MISC_TatteredVeil`, World) | Cloth 3, Adhesive 2, Silver 2 | Chemist 3 (`000E3701`) |
-| Voice of Set | Mystery: Broken Revolver (`MoM_MISC_BrokenVoice`, Voice12) | Steel 4, Screws 2, Silver 2, Adhesive 3 | Gun Nut 3 (`0004A0DC`) |
+| Blade of Bastet | Mystery: Broken Sword (`MoM_MISC_BrokenBladeOfBastet`) | Steel 4, Silver 3, Gold 2, Crystal 2, Adhesive 3 | Blacksmith 3 (`000264D8`) |
+| Eye of Ra | Mystery: Broken Necklace (`MoM_MISC_BrokenEyeOfRa`) | Crystal 2, Silver 2, Adhesive 2 | Science 3 (`000264DB`) |
+| Garb of Mysteries | Mystery: Tattered Dress (`MoM_MISC_TatteredDress`) | Cloth 6, Adhesive 2, Silver 1 | Armorer 3 (`0004B256`) |
+| Veil of Secrets | Mystery: Worn Veil (`MoM_MISC_TatteredVeil`) | Cloth 3, Adhesive 2, Silver 2 | Chemist 3 (`000E3701`) |
+| Voice of Set | Mystery: Broken Revolver (`MoM_MISC_BrokenVoice`) | Steel 4, Screws 2, Silver 2, Adhesive 3 | Gun Nut 3 (`0004A0DC`) |
 
 Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `0001FA9F`, Adhesive `0001FAA5`, Cloth `001223C7`, Screws `0003D294`. Amounts for the last three recipes were chosen by the assistant and accepted without tuning. Where this file or the scripts say Broken Blade, Eye or Voice, they mean these records.
 
 - The Sword, Necklace and Revolver are `MISC` copies of the Silver Locket (`00059B34`), scrap components removed, `UnscrappableObject` (`001CC46A`). Models: the sword mesh, the locket, `Weapons\44\44.nif`.
-- The Dress and Veil are made the same way, with world models `Clothes\SlinkyDress\GO_SequinDress.nif` and `Armor\Raider02\Mask_GO.nif`. `BuildWorld.pas` overrides the two recipes in `RegaliaBroken2` to take them. The wearable broken records in Broken2 (`MoM_ARMO_TatteredDress`, `MoM_ARMO_BrokenVeil`) are no longer obtainable; the dress is still used as the model for the Traveler's outfit.
-- Why plain items: crafting the Veil from the wearable broken Veil crashed the game with `RegaliaWorld5` ticked (**cause not proven**), and crafting the Garb while wearing the Tattered Dress left its look stuck on the player.
+- The Dress and Veil are made the same way, with world models `Clothes\SlinkyDress\GO_SequinDress.nif` and `Armor\Raider02\Mask_GO.nif`. The only wearable tattered dress left is the Traveler's (`MoM_ARMO_SeekerDress`).
+- Why plain items: crafting the Veil from a wearable broken Veil crashed the game in a test round (**cause not proven**), and crafting the Garb while wearing the Tattered Dress left its look stuck on the player.
 
-### 3.2 The world (placed by `BuildWorld.pas`; placements seen and accepted)
+### 3.2 The world (placements seen and accepted, also in the release plugin)
 
 | What | Cell | Position x, y, z, heading | Our record (vanilla base) |
 |---|---|---|---|
 | The Mysterious Traveler | `0000E0BA` | 5514.07, -18598.39, 1820 | see 3.3 |
 | Diary, loose beside her, No Respawn | `0000E0BA` | 5556, -18622, 1806, 80 | `MoM_BOOK_Diary` (note `001D5CDC`) |
-| Cryptos, loose beside her, No Respawn | `0000E0BA` | 5560, -18578, 1806, 110 | override of `MoM_BOOK_Cryptos` |
+| Cryptos, loose beside her, No Respawn | `0000E0BA` | 5560, -18578, 1806, 110 | `MoM_BOOK_Cryptos` |
 | Suitcase: Broken Sword | `0000E0BA` (rooftops by Hubris) | 7408.37, -18588.25, 1856.75, 68 | `MoM_CONT_Blade` (`001002A4`) |
 | Duffle bag: Broken Revolver | `0000E0B9` (Swan's pond) | 11993.90, -20086.55, 596.4, 35 | `MoM_CONT_Voice` (`0008E59E`) |
 | First aid kit: Worn Veil | `0000E0D9` (near the cafe) | 7267.84, -20585.32, 1117.2, 180 | `MoM_CONT_Veil` (`0020A6FD`) |
@@ -57,6 +57,8 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 - Containers: our copies with the Respawns flag (`DATA` bit `0x02`) cleared, scripts and vanilla contents removed, one item each.
 - Skins (`make_containers.py`): charcoal with emerald chevrons or stripes, one material swap each. The suitcase uses `SetDressing\Suitcase\Suitcase_prewar.nif`, because `Suitcase01.nif` names no material to swap.
 - The books lie loose because taking an item from a container or body does not open it for reading.
+- After passing time (`set gamedayspassed to 200`) taken items and books stayed gone and what was left stayed (seen 2026-11-26). The Voice's burst moves the loose diary only very little.
+- The only overrides in the plugin are the four cells and the worldspace record. The worldspace override is the `Fallout4.esm` version; the DLC and Creation Club versions differ from it only in the dropped blocks and an icon path, and none of them overrides our cells.
 - Cell overrides: the cells' scenery (previs) data matches vanilla in the saved plugin, and the scenery looked normal. xEdit's copy of the worldspace record drops `OFST`, `RNAM` and `CLSZ`; no problem seen.
 - An unmanaged plugin in this install, `atomic_age (8).esp`, overrides some of the same cells: keep it unticked.
 
@@ -71,12 +73,12 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 - **Mystery: Cryptos**: copy of the Silver Shroud Photo (`0018AC1E`), flag **Add Perk**, **Teaches** the Cryptos perk (a copy of the Barbarian magazine perk `0008E3A6`, no effects, one rank). The perk stays after the book is stashed. Text: [`cryptos-text.md`](cryptos-text.md).
 - **Mystery: Traveler's Diary**: text [`diary-text.md`](diary-text.md).
 - A book shows its text on the page of its **preview model** (`INAM`). Both use the standard note page (`STAT 001B5EF1`, `Interface\Newspaper\Note.nif`); Cryptos uses our copy `MoM_STAT_CryptosSketch` with the sketch faded into the paper. The small photo model showed no text, the large photo page cut it off, the torn note showed half a page.
-- The world card shows our pencil sketch (material swap on the photo model). Source images are outside the repos in `~/Games/mo2-lint/tools/our-assets/photo-candidates/` (use `candidate-03-line-art-pencil.png`).
+- The world card shows our pencil sketch (material swap on the photo model): the owner's own Fallout 4 screenshot (vanilla assets and our gear) run through ordinary ffmpeg filters by `make_sketch.py`, no generative AI. It replaced an earlier AI-generated sketch on 2026-11-26; card and reading page seen in game. Source images are outside the repos in `~/Games/mo2-lint/tools/our-assets/photo-candidates/`: screenshot `candidate-04`, sketch `candidate-06`.
 - The script reads both text files at build time and fails unless the diary contains "Someone should." and the Cryptos text "THE VOICE OF SET". Plain text with straight quotes.
 
 ### 3.5 The Eye of Ra
 
-- Copy of the Nuka-World Shock Collar (`DLC04_ShockCollar` `06029AFA`), neck slot, keyword `MoM_EyeOfRa_KW`. No enchantment: each other piece checks for the keyword. Named "Eye of Ra" by an override (Gold1 calls it "Jury-Rigged Eye of Ra").
+- Copy of the Nuka-World Shock Collar (`DLC04_ShockCollar` `06029AFA`), neck slot, keyword `MoM_EyeOfRa_KW`. No enchantment: each other piece checks for the keyword. Named "Eye of Ra".
 
 | Piece | Without the Eye | With the Eye |
 |---|---|---|
@@ -87,14 +89,14 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 
 The only damage or energy resistance the Eye adds is on the Garb.
 
-### 3.6 Not yet seen in game
+### 3.6 What has and has not been seen in game (release plugin, 2026-11-26)
 
-- Round 10: no ballistic weave at the armor workbench on a freshly repaired Garb; the new sneak attack values; the "Mystery: Worn Veil" repair.
-- The Eye repair giving "Eye of Ra", and recipes still unlocking after the perk's rename.
-- Reading both books on the full note page (text fit; Cryptos over the faded sketch); the current diary wording in game.
-- Whether the burst stagger can catch the player (it should not).
-- After an area reset: the Traveler, loose books and containers stay put and taken items stay gone. Blast resistance of the loose books.
-- Veil poison gas immunity; Veil poison boost with the Eye (the Veil's history file says seen, an older to-do says not); Garb detection effect; Blade bleed.
+Seen and reported good: the Traveler, both books and their pages, all containers and their skins, locked then crafted recipes, resistances 30 / 30 / 10 and 70 / 70 / 20 with the Eye, sneak attack steps, Blade bleed, the Voice's burst stagger with and without the Eye (never the player), the blast beside the diary, the area reset, the new Cryptos picture, no ballistic weave on the Garb. **The packed release** (the 0.9.0 zip installed as one MO2 mod, loose art mods off): everything in its places, all five crafted, colors good.
+
+Not yet seen or not specifically reported:
+
+- **Veil poison gas immunity: untested** (spawned gas, a console cast and the HalluciGen placements did no damage even without the Veil). Neither the Cryptos nor the Veil's descriptions mention gas.
+- The Voice's own stagger on a direct hit without the Eye, since its legendary mod lost a keyword.
 
 ## The pieces in detail
 
@@ -105,20 +107,20 @@ The only damage or energy resistance the Eye adds is on the Garb.
 - **Look:** the plain model `Weapons\ChineseOfficerSword\Blade.nif` with a material swap to our gold material.
 - **Numbers seen:** damage 70 at Strength 10, weight 2, VATS cost about 20, medium swing speed (the `Speed` property does nothing for melee).
 - **Armor penetration:** 30% from our perk (a `PlayerPerk` melee entry, weapon tab `HasKeyword`, multiplier 0.70). With the Eye, 100% (a second entry, multiplier 0.0, attacker tab `WornHasKeyword`).
-- Bleed comes from the serrated base (not separately confirmed).
+- Bleed comes from the serrated base (seen in game).
 
 ### Garb of Mysteries
 
 - Copy of the Sequin Dress (`0011A27B`, addon `0011A27A`). Value 50, weight 1.0, +1 Perception, +5 speed while sneaking, plus the sneak effects (our hidden perk delivered by the enchantment).
 - Underarmor slots: `First Person Flags` = 1992 (33, 36 to 40), so armor goes over it. No upgrade levels. **No ballistic weave.**
-- **Final values** (Garb2 as overridden by `BuildWorld.pas`): armor rating and energy resistance 30 (Garb2: 20); `MoM_ENCH_Garb` gains `AbFortifyResistDamage` (`0004A0AC`) and `AbFortifyResistEnergy` (`000559A4`) +40, each conditioned on `WornHasKeyword` Eye; the weave attach point (`APPR`) and keyword `ma_Railroad_ClothingArmor` removed; sneak attack perk entries 0.2 and 0.1, plus 0.4 and 0.2 with the Eye (they add); description rewritten (`GARB_DESC`).
+- **Values:** armor rating and energy resistance 30; `MoM_ENCH_Garb` gains `AbFortifyResistDamage` (`0004A0AC`) and `AbFortifyResistEnergy` (`000559A4`) +40, each conditioned on `WornHasKeyword` Eye; the weave attach point (`APPR`) and keyword `ma_Railroad_ClothingArmor` removed; sneak attack perk entries 0.2 and 0.1, plus 0.4 and 0.2 with the Eye (they add).
 - **Look:** charcoal body, emerald chevrons, cream-gold shoulder cowl, sequins kept.
 
 ### Veil of Secrets
 
 - Copy of the Surgical Mask (`000787DA`, addon `000787D0`; slots 48 and 49, so hats work). Value 40, weight 0.2, no armor rating.
 - Perk-delivered, persuade +5 (+10 more with the Eye) through `Mod Charisma Challenge Chance`; poison resistance 10 (+10 with the Eye). **Poison resistance stands in for disease** (the game has no disease resistance stat). No radiation, no intimidate (no vanilla anchor).
-- **Poison gas immunity**, copied from the Hazmat Suit perk (`Set Value` 0.0 on spells with `DN102_PoisonGasEffectKeyword` `000449B9`). Built; **untested**.
+- **Poison gas immunity**, copied from the Hazmat Suit perk (`Set Value` 0.0 on spells with `DN102_PoisonGasEffectKeyword` `000449B9`). Built; **untested** and not advertised (see 3.6).
 - **Look:** black fabric with a cream-gold diamond net.
 
 ### Voice of Set
@@ -126,39 +128,26 @@ The only damage or energy resistance the Eye adds is on the Garb.
 - A **.44** (lore), copy of `000CE97D`, name exactly "Voice of Set" (instance naming removed). Damage 48, the same as the .44; the Western Revolver is 60. Random receivers and barrels are **intended** (Chris: fine as a leveled spread).
 - **Silenced:** Sound Level Silent, keyword `s_20_Silenced`, and our own sound keyword mapping (`KSSM`), a copy of the silenced Pipe Revolver mapping (`0002B941`) re-keyed to the .44 sound keyword. No visual suppressor.
 - **Sonic burst at every impact:** our projectile is a copy of `MS09PushProjectile` (`00199046`, Missile type with the `Explosion` flag; speed 10000, no gravity, suppressed muzzle flash). Our explosion is a copy of `MS09PushExplosion` (`000E5786`): force 250, damage 0, radius 32/128, stagger Medium, Mirelurk King sonic sound.
-- **Stagger:** `MoM_OMOD_Voice`, our copy of the legendary Staggering mod (`001E81AB`), included in every template combination. The "legendary item" pickup screen is kept.
-- **Eye boost (`BuildWorld.pas`, overrides records of Voice12):** the sonic burst carries `MoM_ENCH_BurstStagger`, a copy of the legendary stagger enchantment (`0023AD16`) cut to one effect (`001E81A8`, magnitude 4) with three conditions: `GetIsID` Player (`00000007`) = 0, `WornHasKeyword` Eye = 1 run on PlayerRef (`00000014`), `GetRandomPercent` <= 50. The burst does 0 damage. Seen in game at an every-time chance (round 8): both bystanders staggered with the Eye, neither without. 50% (round 9) accepted by the owner as fair for a slow .44.
-- **Replaced:** the earlier Eye boost (a hidden perk from that mod casting a second 30% stagger spell on a hit) is switched off by setting its `GetRandomPercent` to -1.
+- **Stagger:** `MoM_OMOD_Voice`, our copy of the legendary Staggering mod (`001E81AB`), included in every template combination. Our copy has the `FeaturedItem` keyword (`001B3FAC`, which every legendary weapon mod adds) **removed**: its pop-up opened over the craft menu and the game crashed on Take (three crashes, one slow success; fixed and seen twice). So there is no "legendary item" screen.
+- **Eye boost:** the sonic burst carries `MoM_ENCH_BurstStagger`, a copy of the legendary stagger enchantment (`0023AD16`) cut to one effect (`001E81A8`, magnitude 4) with three conditions: `GetIsID` Player (`00000007`) = 0, `WornHasKeyword` Eye = 1 run on PlayerRef (`00000014`), `GetRandomPercent` <= 50. The burst does 0 damage. Seen in game at an every-time chance (round 8): both bystanders staggered with the Eye, neither without. 50% (round 9) accepted by the owner as fair for a slow .44.
 - At 0 damage with only its own stagger setting, the burst affected nobody who was not hit; at 1 damage it hurt bystanders and the player without staggering.
 - **Look:** gold metal with black shadows, charcoal grips, gold medallions and diamond screw plates. Same gold tint and bronze reflection as the Blade, with darker mid-tones. Scopes, sights glass and rubber grips stay vanilla.
 
 ## 4. How to build
 
-### Current layout: a chain of test plugins
+### The plugin
 
-There is no single plugin yet. **In dependency order:**
+One script, `build/xedit/BuildRegalia.pas`, makes `RegaliaOfMystery.esp`: 64 records of our own with final values, masters `Fallout4.esm` and `DLCNukaWorld.esm`, object IDs from `000800`, the light (ESL) flag set by the script, and the disclaimer as the description. In xEdit tick the game and the six DLC only. The name typed in the box must be exactly `RegaliaOfMystery`, so an older file of that name is first moved out of the game's `Data` folder. The filename must not change once saves exist. Do not reorder the record creation without reason: FormIDs follow it.
 
-| Order | Script (`build/xedit/`) | Plugin | Contents | Needs ticked |
-|---|---|---|---|---|
-| 1 | `BuildBladeGold.pas` | `RegaliaGold1` | Blade, Eye, Cryptos book and perk, Broken Blade and Eye, their recipes | game + DLC |
-| 2 | `BuildGarb.pas` | `RegaliaGarb2` | Garb | + Gold1 |
-| 3 | `BuildVeil.pas` | `RegaliaVeil1` | Veil | + Gold1 |
-| 4 | `BuildBroken2.pas` | `RegaliaBroken2` | Wearable broken dress and veil, two repair recipes | + Gold1, Garb2, Veil1 |
-| 5 | `BuildVoice3.pas` | `RegaliaVoice12` | Voice, Broken Voice, its recipe | + Gold1 |
-| 6 | `BuildWorld.pas` | `RegaliaWorld10` | Everything in 3.2 to 3.4, renames, plain dress and veil and recipe overrides, the Voice and Garb Eye changes | game + DLC + Gold1, Garb2, Veil1, Broken2, Voice12 |
+Check the saved file with `python3 -B build/check/compare_chain.py`. It compares it record by record with the six old test plugins (which must stay in `Data` for this). Expected differences: seven dropped records (the wearable broken dress and veil, and the Voice's old second-roll spell, perk, effect, enchantment and keyword), the Voice's weapon and mod without them and without `FeaturedItem`, and the rewritten text (Blade, Eye, Veil, Cryptos, perk and effect names).
 
-Every other script in that folder is an earlier round or a diagnostic, kept for reference. The constant `PLUGIN_HINT` only changes the on-screen hint; the name typed in the box is what is created. Later scripts look up the earlier plugins by exactly these names. Tick only these six when playing.
+The older `.pas` scripts, including the six that built the test chain, are history.
 
-### What a merged plugin must do (not started)
+### The release package
 
-- Create each record once **with its final values**: no renames, no overrides of our own records, no override-only workarounds.
-- Dress and veil: plain broken items from the start; drop the wearable broken records; keep one non-playable dress (and its addon and tattered material swap) for the Traveler.
-- Voice: the burst carries the stagger enchantment; do not create the second-roll stagger spell and perk effect (check what else that perk and its enchantment do before removing them).
-- Garb: final resistances and perk values, no weave.
-- Overrides left should be only the map cells and worldspace.
-- FormIDs will change, so saves made with the test chain will not carry over.
+`python3 -B build/package.py VERSION` takes the built plugin and the three MO2 art mods, packs `RegaliaOfMystery - Main.ba2` (materials) and `- Textures.ba2` with xEdit's `BSArch` through Proton's Wine (no MO2 needed), verifies both by unpacking, and writes `RegaliaOfMystery-VERSION.zip` with a readme under `~/Games/mo2-lint/tools/our-assets/release/` (outside the repo).
 
-### Art (run before testing looks)
+### Art (run before testing looks or packaging)
 
 All need `baunpack` (Alexandria `memory/fo4-mod/fo4-archives.md`). Run with `python3 -B <script> OUTDIR`, then copy `Textures/` and `Materials/` into the MO2 mod folder.
 
@@ -169,7 +158,8 @@ All need `baunpack` (Alexandria `memory/fo4-mod/fo4-archives.md`). Run with `pyt
 | `make_dress.py OUT` | Garb of Mysteries Art |
 | `make_dress.py OUT --tattered --name TatteredDress` | Garb of Mysteries Art |
 | `make_veil.py OUT --lace` | Veil of Secrets Art |
-| `make_photo.py PICTURE OUT [--dim 0.86] [--fade 0.35]` (also needs `ffmpeg`) | Blade of Bastet Art |
+| `make_sketch.py candidate-04-source-screenshot.png candidate-06-screenshot-pencil-clean.png` (needs `ffmpeg` only; reproduces the picture exactly) | none (input for the next row) |
+| `make_photo.py candidate-06-screenshot-pencil-clean.png OUT [--dim 0.86] [--fade 0.35]` (also needs `ffmpeg`) | Blade of Bastet Art |
 | `make_containers.py OUT` | Blade of Bastet Art |
 
 Loose files need `bInvalidateOlderFiles=1` and an empty `sResourceDataDirsFinal=` under `[Archive]` in the MO2 profile's `fallout4custom.ini`. Texture-only changes need a game restart, not a rebuild.
@@ -178,16 +168,18 @@ Loose files need `bInvalidateOlderFiles=1` and an empty `sResourceDataDirsFinal=
 
 Environment: Steam Deck, a separate MO2 instance for Fallout 4, profile **Test**, FO4Edit 4.1.5f under Proton. Setup and the working loop are in Alexandria `memory/fo4-mod/` (`fo4-deck-mo2-setup`, `fo4-deck-workflow`).
 
-1. To point the BUILD entry (`5\arguments=` in `ModOrganizer.ini`) at a different script, the person closes MO2 completely and says so; the assistant backs the file up and edits it. **If MO2 is open, it writes the old value back.** Rebuilding the same script file needs no edit and no restart; BUILD currently points at `BuildWorld.pas`.
-2. The person runs BUILD, checks **Applying script "<name>"**, ticks the modules, types a **new** plugin name, **closes the xEdit window and accepts the save** (nothing is written until then).
+1. To point the BUILD entry (`5\arguments=` in `ModOrganizer.ini`) at a different script, the person closes MO2 completely and says so; the assistant backs the file up and edits it. **If MO2 is open, it writes the old value back.** Rebuilding the same script file needs no edit and no restart; BUILD currently points at `BuildRegalia.pas`.
+2. The person runs BUILD, checks **Applying script "<name>"**, ticks the modules, types the plugin name, **closes the xEdit window and accepts the save** (nothing is written until then).
 3. Before any in-game test the assistant checks `~/Games/mo2-lint/tools/our-scripts/build.log` for `FAIL` or exceptions and reads the saved `.esp` back (record names, values, references).
-4. When swapping plugin versions, test on a save made before the items were picked up.
+4. Test from a fresh character (`coc HubrisComicsExt` at the main menu).
 
 ### xEdit and engine facts
 
-General ones live in Alexandria `memory/fo4-mod/` (context prep lists them). Learned while building the world and **not yet written there**: placing a dead actor and borrowing a pose (3.3), adding references to exterior and interior cells (3.2), container respawn flags, book reading pages (3.4), explosion enchantments with conditions (Voice), and crafting from a worn ingredient (3.1).
+They live in Alexandria `memory/fo4-mod/` (context prep lists them).
 
 ## 5. Console, for testing
+
+Batch files in the game folder (`bat <name>`) save typing: `rom1` (god mode, skill perks, components, ammo), `romchem` and `romarmor` (spawn a station), `romroof`, `romsuit`, `romduffle`, `romcafe`, `romhal` (move there), `romres` (print resistances). `coc HubrisComics01` then `player.moveto 00066AC5` reaches the tool case. `tdetect` stops enemies noticing you.
 
 `player.getav DamageResist` / `EnergyResist`; `help "<name>" 4` finds an ID; `player.additem <ID> 1`; `.44` ammo `0009221C`; `player.addperk` / `player.hasperk <ID>`; `amod <modID>` on a clicked dropped item. Targets: `player.placeatme 00106B07` (Protectron), `0005A9C1` (Mirelurk). The practice dummy cannot show a stagger.
 

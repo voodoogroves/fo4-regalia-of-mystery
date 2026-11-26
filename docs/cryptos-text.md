@@ -6,6 +6,6 @@ THE BLADE OF BASTET. A blacksmith's work: silver and gold for the hilt, a crysta
 
 THE GARB OF MYSTERIES. An armorer can save the cloth. Wear it to move quickly and unseen, and to strike hardest from the shadows. Armor may go over it.
 
-THE VEIL OF SECRETS. A chemist's mending. Behind it your words persuade, and poison loses its bite. Even gas will not trouble you.
+THE VEIL OF SECRETS. A chemist's mending. Behind it your words persuade, and poison loses its bite.
 
 THE VOICE OF SET. A gunsmith can make it speak again. It makes no sound where you stand. It screams where it lands, and what it strikes may stagger.
