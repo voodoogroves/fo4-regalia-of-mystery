@@ -46,6 +46,15 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 - **Picture:** our pencil sketch in the Silver Shroud photo's frame, on the book and its inventory preview (patch `RegaliaBook1`; looked good in game). Source images are outside the repos, in `~/Games/mo2-lint/tools/our-assets/photo-candidates/` (use `candidate-03-line-art-pencil.png`).
 - **Text:** the approved new text is in [`cryptos-text.md`](cryptos-text.md), not yet built.
 
+### The Mysterious Traveler (the body, verified in game)
+
+- `MoM_NPC_Seeker` "Mysterious Traveler": copy of `Loot_CorpseSettlerFemale_Empty` (`0020A578`, no respawn). Thin, jet black hair, "No Apologies" hairstyle (`0016CA35`). "Use template: base data" is cleared, or she is named "Settler".
+- Outfit: the Tattered Dress. Inventory: Broken Eye of Ra and `MoM_BOOK_Diary` "Mysterious Traveler's Diary" (copy of the note `001D5CDC`; the script reads [`diary-text.md`](diary-text.md)).
+- Placement: one `ACHR` with **Starts Dead**, added to an override of `CELL 0000E0BA` (raider building roof): x 5514.07, y -18598.39, z 1820.
+- Pose: `XRGD` and `XRGB` copied from vanilla `ACHR 001289CF`. Without a saved pose a dead actor stood upright in a T-pose.
+- The scenery looked normal after the cell override (seen on the round 1 build).
+- Untested: whether she and her items stay put after the area resets.
+
 ### Blade of Bastet
 
 - Own weapon record, a copy of the Chinese Officer Sword (`00147BE4`), name exactly "Blade of Bastet". Own `MoM_ma_Blade` keyword, so the workbench offers no vanilla mods.
@@ -104,6 +113,7 @@ There is no single plugin yet. These are the verified builds, **in dependency or
 | 4 | `BuildBroken2.pas` | `RegaliaBroken2` | Tattered Dress, Broken Veil, two recipes | + Gold1, Garb2, Veil1 |
 | 5 | `BuildVoice3.pas` | `RegaliaVoice12` | Voice, Broken Voice, its recipe | + Gold1 |
 | 6 | `BuildBook1.pas` | `RegaliaBook1` | Cryptos picture (override of our book in Gold1) | game + DLC + Gold1 |
+| 7 | `BuildPose1.pas` | `RegaliaBody4` | The Mysterious Traveler's body and diary, placed in the world | game + DLC + Gold1, Garb2, Veil1, Broken2 |
 
 Every other script in that folder is an earlier round or a diagnostic, kept for reference. The constant `PLUGIN_HINT` only changes the on-screen hint; the name typed in the box is what is created, and later scripts look up `RegaliaGold1.esp`, `RegaliaGarb2.esp` and `RegaliaVeil1.esp` by exactly those names.
 

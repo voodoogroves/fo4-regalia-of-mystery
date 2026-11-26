@@ -1,4 +1,4 @@
-If you find this and not me, please read it anyway.
+If you find this, I didn't make it. Please read it anyway.
 
 I came up from Appalachia with what was left of her: a dress in tatters and an Eye with no light in it. The Order tried to make that wasteland better. Betrayal ended the first of us. I meant for there to be more.
 

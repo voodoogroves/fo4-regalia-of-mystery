@@ -21,18 +21,21 @@ As of 2026-11-25. Start by reading [`build-spec.md`](build-spec.md). All five pi
 
 | Spot | What is there |
 |---|---|
-| Hubris Comics rooftop, where she rested: a suitcase | Diary |
-| Rooftop of the raider building across the street: her body (or skeleton) | Tattered Dress, Broken Eye |
+| Rooftop of the raider building across the street: her body (the Mysterious Traveler, wearing the Tattered Dress) | Diary, Tattered Dress, Broken Eye |
 | Inside Hubris Comics (`HubrisComics01`, `CELL 0004542D`) | Cryptos book, Broken Veil |
 | Boston Common, near the swan boats (Swan's pond) | Broken Voice |
 | Across the rooftops by Hubris Comics | Broken Blade |
 
 - [ ] Chris gets each spot in game (`player.getpos x`, `y`, `z`; indoors or out; screenshot). Screenshots are kept outside the repos in `~/Games/mo2-lint/tools/our-assets/placement/`.
-  - [x] Her body: **x 5748.90, y -18637.97, z 1803.72** (player position), outdoors on the raider building roof, by the stacked crates and the ladder (`body-raider-roof.png`).
-  - [ ] Diary suitcase (Hubris rooftop), inside Hubris, swan boats, Blade spot.
+  - [x] Her body: **x 5514.07, y -18598.39**, z 1820 (moved off the wall and crates; first spot was 5748.90, -18637.97), raider building roof. Pose from vanilla `ACHR 001289CF`.
+  - [x] Broken Voice, by the swan boats: x 11690.69, y -20003.33, z 597.63; **duffel bag**, facing not taken (`swan-boats.png`).
+  - [x] Broken Blade, other rooftop: x 7408.37, y -18588.25, z 1856.75; suitcase, front toward the west (`blade-roof.png`).
+  - [x] Broken Veil, inside Hubris: x 1666.60, y 203.69, z 780.50; a **first aid kit** on the floor to the left of the Silver Shroud costume (`veil-hubris-room.png`, `veil-hubris-pos.png`).
+  - [x] Cryptos book, inside Hubris: x 2811.96, y -247.09, z 839.88, on top of the smallest file cabinet (position taken standing on it; `cryptos-room.png`, `cryptos-pos.png`). Container: **tool case** (`DN140_ToolcaseIntelKey` `001103E3`, copy with respawn off and its loot cleared).
+- [ ] One of each look: suitcase (Blade), duffel bag (Voice), tool case (Cryptos), first aid kit (Veil). Idea, not yet decided: charcoal with emerald stripes on all four.
 - [ ] Containers of our own that **do not refill**; do not edit vanilla records. First test one outdoor container: adding to an exterior cell may break precombined scenery (not checked).
-- [ ] The body: option A, a vanilla clothed skeleton plus our container (preferred first; search `MSTT` skeleton models, materials `SkeletonDress01` to `04`); option B, a lootable corpse (riskier).
-- [ ] The diary: a new `BOOK` (plain note mesh `Props\NoteRipped_LowPoly.nif`).
+- [x] The body and diary: built and verified (`BuildPose1.pas`, `RegaliaBody4`; see the build spec).
+- [ ] Check after an area reset that she is still there and looted items stay gone.
 - [ ] Put the new Cryptos text ([`cryptos-text.md`](cryptos-text.md)) on the book; the game still shows the old text.
 - [ ] Optional flavour holotape for Cryptos (a text holotape cannot gate recipes).
 
