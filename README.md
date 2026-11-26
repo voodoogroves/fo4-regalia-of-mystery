@@ -2,7 +2,7 @@
 
 A Fallout 4 mod that brings the Fallout 76 Order of Mysteries gear to the Commonwealth: a Blade, a pistol, a dress, a veil and the Eye of Ra, each found broken and repaired.
 
-**Status (2026-11-26):** one release plugin, `RegaliaOfMystery.esp`, packaged as 0.9.0 and tested in game (a few checks still open). Next: the 0.9.1 release (drafted, not published).
+**Status (2026-11-26):** one release plugin, `RegaliaOfMystery.esp`, packaged as 0.9.0 and tested in game (a few checks still open). **Published:** 0.9.1 on [Nexus Mods](https://www.nexusmods.com/fallout4/mods/111907).
 
 ## Start here
 

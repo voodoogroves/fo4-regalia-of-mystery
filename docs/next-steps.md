@@ -9,8 +9,9 @@ As of 2026-11-26. Start by reading [`build-spec.md`](build-spec.md); section 3.6
 - [x] The zip tested in game with the three loose art mods off (2026-11-26).
 - [x] Licence chosen; release page and zip readme drafted ([`release-page.md`](release-page.md)).
 - [x] Build 0.9.1 (2026-11-26).
-- [ ] The one Deck session in `release-page.md` (screenshots taken; Broken Sword and Blade rename not tested; the add-after-visit test and crafting without cheats passed).
-- [ ] Upload (owner).
+- [x] The pre-release Deck session (screenshots, add-after-visit test, crafting without cheats). Broken Sword and Blade rename not tested.
+- [x] Published 0.9.1 (2026-11-26): <https://www.nexusmods.com/fallout4/mods/111907>. The plugin filename must not change now.
+- [ ] Nexus AI policy: new rules are enforced from 2027-01-02; check the page's disclosure and permission fields before then.
 
 ## 2. Checks (can ride along with the test above)
 

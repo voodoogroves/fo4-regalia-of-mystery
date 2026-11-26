@@ -1,6 +1,6 @@
 # Release page: Regalia of Mystery
 
-The text and settings for the Nexus upload. The owner uploads; keep the page unpublished until the file is on it.
+The text and settings used for the Nexus upload. **Published 2026-11-26 (0.9.1):** <https://www.nexusmods.com/fallout4/mods/111907>.
 
 ## Upload settings
 

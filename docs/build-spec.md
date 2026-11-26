@@ -1,6 +1,6 @@
 # Build spec: Regalia of Mystery
 
-**Read this first.** It is the current state of the mod and every decision behind it, written so that someone new can build it. State as of **2026-11-26** (release plugin `RegaliaOfMystery.esp`, version 0.9.0). Open work is in [`next-steps.md`](next-steps.md). The other files in this folder are the history (how each answer was found, including dead ends); where they disagree with this file, this file wins.
+**Read this first.** It is the current state of the mod and every decision behind it, written so that someone new can build it. State as of **2026-11-26** (release plugin `RegaliaOfMystery.esp`, version 0.9.1, published at <https://www.nexusmods.com/fallout4/mods/111907>; same plugin and archives as 0.9.0). Open work is in [`next-steps.md`](next-steps.md). The other files in this folder are the history (how each answer was found, including dead ends); where they disagree with this file, this file wins.
 
 Words used: **verified** or **seen** means the owner (Chris) saw it work in game. **Untested** or **not reported** means built or written but not seen. Section 3.6 lists everything not yet seen.
 
