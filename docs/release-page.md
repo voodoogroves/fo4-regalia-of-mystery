@@ -20,7 +20,7 @@ The text and settings for the Nexus upload. The owner uploads; keep the page unp
 
 ## Summary (short field)
 
-Find a lost traveler's broken regalia in Boston, mend it, and wear the Order of Mysteries: blade, revolver, dress, veil and the Eye of Ra.
+Find a lost traveler's broken gear in Boston, mend it, and wear the garb of the Order of Mysteries: blade, revolver, dress, veil and the Eye of Ra.
 
 ## Description
 
@@ -88,12 +88,11 @@ Clean Test profile, no other mods' content in frame, HUD off (`tm`). Take with S
 
 Use the final 0.9.1 zip, installed as the single MO2 mod, loose art mods off.
 
-Done 2026-11-26: adding the mod to a save made after visiting all four spots still spawned the traveler, both books, the items and the containers.
+Done 2026-11-26: adding the mod to a save made after visiting all four spots still spawned the traveler, both books, the items and the containers; the scenery looked normal. Crafting without cheats and the Voice grips are checked.
 
-1. Without perk or material cheats, read the Cryptos and craft one piece with its real perk.
-2. Blade: can it be renamed at a workbench?
-3. Broken Sword: inventory look, and scrapping.
-4. Voice: medallions and screw plates look right.
-5. Take the screenshots.
+1. Blade: can it be renamed at a workbench?
+2. Broken Sword: inventory look, and scrapping.
+
+Screenshots taken 2026-11-26 (vanilla assets and our gear in the character shots, per the owner), kept outside the repo. Upload order: Veil close-up, full outfit, Blade, Voice, traveler, suitcase, recipe menu (another mod's recipe name blurred).
 
 If anything fails, correct the page text before upload.

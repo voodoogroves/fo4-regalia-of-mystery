@@ -9,13 +9,13 @@ As of 2026-11-26. Start by reading [`build-spec.md`](build-spec.md); section 3.6
 - [x] The zip tested in game with the three loose art mods off (2026-11-26).
 - [x] Licence chosen; release page and zip readme drafted ([`release-page.md`](release-page.md)).
 - [x] Build 0.9.1 (2026-11-26).
-- [ ] The one Deck session in `release-page.md` (crafting without cheats, small checks, screenshots; the add-after-visit test passed).
+- [ ] The one Deck session in `release-page.md` (screenshots taken; Broken Sword and Blade rename checks left; the add-after-visit test and crafting without cheats passed).
 - [ ] Upload (owner).
 
 ## 2. Checks (can ride along with the test above)
 
 - [ ] Veil poison gas immunity (untested; needs a working gas source).
-- [ ] Voice grips: the fixed medallions and screw plates in game (art only).
+- [x] Voice grips: the fixed medallions and screw plates look good in game (2026-11-26).
 - [ ] Broken Sword inventory look and scrapping; whether the Blade can be renamed at a workbench.
 
 ## 3. Open decisions
@@ -32,6 +32,7 @@ As of 2026-11-26. Start by reading [`build-spec.md`](build-spec.md); section 3.6
 - [ ] Blade: gold hilt; glow.
 - [ ] Recipe amounts (Garb, Veil, Voice) if they feel wrong in play.
 - [ ] Custom meshes for the broken items.
+- [ ] **Parked, after 0.9.1** (owner, 2026-11-26: on hold while it needs Outfit Studio): add Nuka Girl gloves and boots to the Garb, retextured to match. Female gloves are a separate shape (`NukaSpaceGirl_Gloves:0` in `Meshes\DLC04\Clothes\NukaSpaceSuit\NukaSpaceSuitF_Body.nif`; first person `NukaSpaceGirl_Gloves_1stPerson:0` in `NukaSpaceGirlF_Body_1stPerson.nif`). Boots appear to be part of the body shape and need Outfit Studio. Untried idea for the gloves alone: a script that strips the other shapes from a copy of the mesh.
 
 ## 5. For 1.0
 

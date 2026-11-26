@@ -93,7 +93,7 @@ The only damage or energy resistance the Eye adds is on the Garb.
 
 Seen and reported good: the Traveler, both books and their pages, all containers and their skins, locked then crafted recipes, resistances 30 / 30 / 10 and 70 / 70 / 20 with the Eye, sneak attack steps, Blade bleed, the Voice's burst stagger with and without the Eye (never the player), the blast beside the diary, the area reset, the new Cryptos picture, no ballistic weave on the Garb, the Voice's own stagger on a direct hit without the Eye. **The packed release** (the 0.9.0 zip installed as one MO2 mod, loose art mods off): everything in its places, all five crafted, colors good.
 
-The silenced Voice is tested (owner, 2026-11-26). So is play on mid-game saves, including a character fresh out of the vault (owner, 2026-11-26). Adding the mod to a save made after visiting the four cells still spawned the traveler, both books, the items and the containers (owner, 2026-11-26).
+The silenced Voice is tested (owner, 2026-11-26). So is play on mid-game saves, including a character fresh out of the vault (owner, 2026-11-26). Adding the mod to a save made after visiting the four cells still spawned the traveler, both books, the items and the containers, and the scenery looked normal (owner, 2026-11-26). Crafting without cheats and the Voice grips are checked (owner, 2026-11-26).
 
 Not yet seen or not specifically reported:
 
