@@ -44,6 +44,6 @@ As of 2026-11-26. Start by reading [`build-spec.md`](build-spec.md); section 3.6
 
 ## 6. Housekeeping
 
-- [ ] Old test plugins in the game's `Data` folder and in `tools/our-assets/old-plugins/` (ask first). The six chain plugins are only needed by `compare_chain.py`.
+- [x] Cleanup (2026-11-26): old test plugins moved to `tools/our-assets/old-plugins/`; art prototypes, previews, release staging folders, merged branches and all but the newest `ModOrganizer.ini` backup removed.
+- [x] No test plugins are left in the game's `Data` folder (2026-11-26); all are in `old-plugins/`. To compare against the merge: `compare_chain.py --data <old-plugins> --new <release/0.9.0/package/RegaliaOfMystery.esp>`. A save that used test plugins needs them copied back.
 - [ ] The `rom*.txt` batch files in the game folder, once testing is over.
-- [ ] Old `ModOrganizer.ini.bak-*` files.
