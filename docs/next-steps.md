@@ -21,12 +21,15 @@ As of 2026-11-25. Start by reading [`build-spec.md`](build-spec.md). All five pi
 
 | Spot | What is there |
 |---|---|
-| Her body (or skeleton), outside Hubris Comics | Diary, Tattered Dress, Broken Eye |
+| Hubris Comics rooftop, where she rested: a suitcase | Diary |
+| Rooftop of the raider building across the street: her body (or skeleton) | Tattered Dress, Broken Eye |
 | Inside Hubris Comics (`HubrisComics01`, `CELL 0004542D`) | Cryptos book, Broken Veil |
 | Boston Common, near the swan boats (Swan's pond) | Broken Voice |
 | Across the rooftops by Hubris Comics | Broken Blade |
 
-- [ ] Chris gets each spot in game (`player.getpos x`, `y`, `z`; indoors or out; screenshot).
+- [ ] Chris gets each spot in game (`player.getpos x`, `y`, `z`; indoors or out; screenshot). Screenshots are kept outside the repos in `~/Games/mo2-lint/tools/our-assets/placement/`.
+  - [x] Her body: **x 5748.90, y -18637.97, z 1803.72** (player position), outdoors on the raider building roof, by the stacked crates and the ladder (`body-raider-roof.png`).
+  - [ ] Diary suitcase (Hubris rooftop), inside Hubris, swan boats, Blade spot.
 - [ ] Containers of our own that **do not refill**; do not edit vanilla records. First test one outdoor container: adding to an exterior cell may break precombined scenery (not checked).
 - [ ] The body: option A, a vanilla clothed skeleton plus our container (preferred first; search `MSTT` skeleton models, materials `SkeletonDress01` to `04`); option B, a lootable corpse (riskier).
 - [ ] The diary: a new `BOOK` (plain note mesh `Props\NoteRipped_LowPoly.nif`).

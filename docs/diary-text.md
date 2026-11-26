@@ -1,4 +1,4 @@
-If you find this, I didn't make it. Please read it anyway.
+If you find this and not me, please read it anyway.
 
 I came up from Appalachia with what was left of her: a dress in tatters and an Eye with no light in it. The Order tried to make that wasteland better. Betrayal ended the first of us. I meant for there to be more.
 
@@ -10,6 +10,8 @@ I jumped across the rooftops by Hubris Comics and stashed the Blade on the far s
 
 I made it into Hubris and back out. The Veil and the rest of the Cryptos specifications should be inside, but I'm too weak to try again.
 
-I can't go much further. Take them. Mend them. Wear them better than we did.
+I can't go much further, but there's a building across the street. It sounds like there are people inside. They may help me.
+
+If I don't come back, take the pieces. Mend them. Wear them better than we did.
 
 Someone should.
