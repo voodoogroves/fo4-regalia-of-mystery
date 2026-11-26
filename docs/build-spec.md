@@ -50,7 +50,7 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 
 **Display names** (overrides of our records, recipes unchanged): "Mystery: Broken Revolver", "Mystery: Broken Necklace", "Mystery: Broken Sword", "Mystery: Cryptos"; the note is "Mystery: Traveler's Diary". Where this file or the scripts say Broken Voice, Eye or Blade, these are the same records. Built in round 7: "Jury-Rigged Eye of Ra" is "Eye of Ra" (no prefix on repaired pieces) and the perk "Cryptos Notes" is "Mystery: Cryptos Notes" (the repair with the new name not yet reported).
 
-**The broken wearables are plain items** (verified 2026-11-26): `MoM_MISC_TatteredVeil` "Mystery: Tattered Veil" and `MoM_MISC_TatteredDress` "Mystery: Tattered Dress" (copies of the Silver Locket with the old world models). The world plugin overrides the two repair recipes in `RegaliaBroken2` so they take these. The wearable broken records in Broken2 are no longer used. Why: crafting the Veil from the wearable broken Veil crashed the game with `RegaliaWorld5` ticked (cause not proven), and crafting the Garb while wearing the Tattered Dress left its look stuck on the player.
+**The broken wearables are plain items** (verified 2026-11-26): `MoM_MISC_TatteredVeil` "Mystery: Worn Veil" (round 10) and `MoM_MISC_TatteredDress` "Mystery: Tattered Dress" (copies of the Silver Locket with the old world models). The world plugin overrides the two repair recipes in `RegaliaBroken2` so they take these. The wearable broken records in Broken2 are no longer used. Why: crafting the Veil from the wearable broken Veil crashed the game with `RegaliaWorld5` ticked (cause not proven), and crafting the Garb while wearing the Tattered Dress left its look stuck on the player.
 
 | What | Cell | Position (x, y, z), heading |
 |---|---|---|
@@ -59,7 +59,7 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 | Cryptos, loose, No Respawn | `0000E0BA` | 5560, -18578, 1806, 110 |
 | Suitcase: Broken Sword | `0000E0BA` | 7408.37, -18588.25, 1856.75, 68 |
 | Duffle bag: Broken Revolver | `0000E0B9` (Swan's pond) | 11993.90, -20086.55, 596.4, 35 |
-| First aid kit: Mystery: Tattered Veil | `0000E0D9` (exterior, near the cafe) | 7267.84, -20585.32, 1117.2, 180 |
+| First aid kit: Mystery: Worn Veil | `0000E0D9` (exterior, near the cafe) | 7267.84, -20585.32, 1117.2, 180 |
 | Tool case: Broken Necklace | `0004542D` | 2818.3, -245.5, 839.5, 135 (on file cabinet `00066AC5`) |
 
 - Containers are our copies with the respawn flag cleared, vanilla contents and scripts removed, one item each, and charcoal-and-emerald skins (`make_containers.py`). The suitcase uses `Suitcase_prewar.nif`, because `Suitcase01.nif` names no material to swap.
@@ -90,16 +90,17 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 | Piece | Without the Eye | With the Eye |
 |---|---|---|
 | Blade | 30% armor penetration | 100% |
-| Garb | sneak +5, sneak attack +0.25 (one-hand melee) / +0.125 (other) | sneak +25, sneak attack +1.0 / +0.5 |
+| Garb | resistance 30 damage / 30 energy; harder to detect +5; sneak attack +0.2 (one-hand melee) / +0.1 (other) | resistance 70 / 70; harder to detect +25; sneak attack +0.6 / +0.3 |
 | Veil | persuade +5, poison resistance 10 | persuade +15, poison resistance 20 |
 | Voice | 30% stagger on a direct hit; the burst does nothing to anyone | the burst also staggers those it catches, 50% (not the player) |
 
-The Eye adds **no** damage or energy resistance to anything.
+The only damage or energy resistance the Eye adds is on the Garb.
 
 ### Garb of Mysteries
 
-- Copy of the Sequin Dress (`0011A27B`, addon `0011A27A`). Damage resistance 20, energy resistance 20, value 50, weight 1.0, +1 Perception, +5 speed while sneaking, plus the sneak effects above (our hidden perk delivered by the enchantment).
-- Underarmor slots: `First Person Flags` = 1992 (33, 36 to 40), so armor goes over it. Ballistic weave is offered. Light armor by design: if weave ever stopped being offered, the resistances would need raising. No upgrade levels.
+- Copy of the Sequin Dress (`0011A27B`, addon `0011A27A`). Damage and energy resistance 30 (20 in Garb2), value 50, weight 1.0, +1 Perception, +5 speed while sneaking, plus the sneak effects above (our hidden perk delivered by the enchantment).
+- Underarmor slots: `First Person Flags` = 1992 (33, 36 to 40), so armor goes over it. No upgrade levels.
+- **Eye armor and no weave (`BuildWorld.pas`, overrides records of Garb2, 2026-11-26):** armor rating and energy resistance 30; `MoM_ENCH_Garb` gains `AbFortifyResistDamage` (`0004A0AC`) and `AbFortifyResistEnergy` (`000559A4`) +40, each conditioned on `WornHasKeyword` Eye; the ballistic weave attach point (`APPR`) and `ma_Railroad_ClothingArmor` removed; sneak attack lowered (perk entries 0.2 and 0.1, plus 0.4 and 0.2 with the Eye). Seen in game: `DamageResist` and `EnergyResist` read 30 and 70. Not yet reported: the weave absent at the workbench, the new sneak attack values. This replaces the earlier decisions "weave offered" and "the Eye adds no resistance".
 - **Look:** charcoal body, emerald chevrons, cream-gold shoulder cowl, sequins kept.
 
 ### Veil of Secrets
@@ -133,7 +134,7 @@ There is no single plugin yet. These are the verified builds, **in dependency or
 | 3 | `BuildVeil.pas` | `RegaliaVeil1` | Veil | + Gold1 |
 | 4 | `BuildBroken2.pas` | `RegaliaBroken2` | Tattered Dress, Broken Veil, two recipes | + Gold1, Garb2, Veil1 |
 | 5 | `BuildVoice3.pas` | `RegaliaVoice12` | Voice, Broken Voice, its recipe | + Gold1 |
-| 6 | `BuildWorld.pas` | `RegaliaWorld9` | Everything placed in the world: the Traveler, her two notes, the four containers, the Cryptos picture and text, the item renames, the plain broken Veil and Dress and their recipe overrides, the Voice Eye boost | game + DLC + Gold1, Garb2, Veil1, Broken2, Voice12 |
+| 6 | `BuildWorld.pas` | `RegaliaWorld10` | Everything placed in the world: the Traveler, her two notes, the four containers, the Cryptos picture and text, the item renames, the plain broken Veil and Dress and their recipe overrides, the Voice and Garb Eye boosts | game + DLC + Gold1, Garb2, Veil1, Broken2, Voice12 |
 
 Every other script in that folder is an earlier round or a diagnostic, kept for reference. The constant `PLUGIN_HINT` only changes the on-screen hint; the name typed in the box is what is created, and later scripts look up `RegaliaGold1.esp`, `RegaliaGarb2.esp` and `RegaliaVeil1.esp` by exactly those names.
 

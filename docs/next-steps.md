@@ -32,6 +32,7 @@ Built by `BuildWorld.pas` (`RegaliaWorld4`); positions and contents are in the [
 - [x] The first aid kit moved out of Hubris (`CELL 0000E0D9`); well placed (2026-11-26).
 - [ ] Verify round 7: the repaired necklace is "Eye of Ra" (decided 2026-11-26: no prefix on repaired pieces) and the perk is "Mystery: Cryptos Notes"; the Eye repair crafts and the other recipes still recognise the perk.
 - [x] Voice area stagger (`RegaliaWorld9`): the Eye makes the burst stagger those it catches, 50%; the second 30% roll is off. See the build spec.
+- [ ] Round 10: resistance 30, and 70 with the Eye, seen in game. Still to check: no ballistic weave at the armor workbench on a freshly repaired Garb; sneak attack +0.2 / +0.1, and +0.6 / +0.3 with the Eye; the "Mystery: Worn Veil" repair.
 - [ ] Review the Eye of Ra's boosts across all pieces (table in the [build spec](build-spec.md)): are they balanced and noticeable? Fallout 76 gives the Voice a robot bonus (+70 energy damage, 25% one-second stun) that we do not have. The notes disagree on whether the Veil's poison boost has been seen (Veil spec: yes; section 4 here: not yet).
 - [ ] Optional flavour holotape for Cryptos (a text holotape cannot gate recipes).
 

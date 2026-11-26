@@ -4,6 +4,10 @@
   "Mystery: Cryptos Notes" (overrides of our records in Gold1; recipes unchanged). The first aid kit moves out of Hubris to
   CELL 0000E0D9: x 7267.84, y -20585.32, z 1117.20.
   Round 7 results (seen 2026-11-26): kit well placed. Burst test at 1 damage: bystanders took damage, no stagger, the player was hurt.
+  Round 10 (RegaliaWorld10; resistance 30 and 70 seen in game 2026-11-26): the Garb's armor becomes part of the Eye (overrides of our records in RegaliaGarb2):
+  30 damage and 30 energy resistance on the dress, +40 of each with the Eye (two effects on MoM_ENCH_Garb); the ballistic weave attach
+  point and ma_ keyword removed; sneak attack lowered to +0.2 one-hand melee and +0.1 other, tripled by the Eye to +0.6 and +0.3 (the Eye
+  entries 0.4 and 0.2 add to the base). The plain broken veil is renamed "Mystery: Worn Veil".
   Round 9 (RegaliaWorld9; 50% accepted by the owner 2026-11-26): the burst stagger gets a chance (BURST_CHANCE percent); the Eye's old second 30% roll is
   switched off (override of MoM_PERK_VoiceEye: its GetRandomPercent compares to -1).
   Round 8 (RegaliaWorld8, VERIFIED 2026-11-26: with the Eye both bystanders stagger, without it neither): burst back to 0 damage, carrying MoM_ENCH_BurstStagger (stagger on everyone caught, not the
@@ -36,14 +40,17 @@
     Container facings are first guesses. The tool case is centred on the cabinet top, worked out from the cabinet's own placement.
 
   Masters: Fallout4.esm, DLCNukaWorld.esm, RegaliaGold1, Garb2, Veil1, Broken2, Voice12. IN THE MODULE LIST tick the game, the six DLC
-  and those five Regalia plugins only. Type RegaliaWorld9 in the filename box (a new number for each rerun). Accept the save prompt.
+  and those five Regalia plugins only. Type RegaliaWorld10 in the filename box (a new number for each rerun). Accept the save prompt.
   Log: our-scripts\build.log.
   Test with every RegaliaBody, RegaliaPose and RegaliaBook plugin UNTICKED.
 }
 unit BuildWorld;
 
 const
-  PLUGIN_HINT = 'RegaliaWorld9';
+  PLUGIN_HINT = 'RegaliaWorld10';
+  GARB_RESIST = 30;                        // damage and energy resistance of the dress itself
+  GARB_EYE_RESIST = 40;                    // added to both with the Eye
+  GARB_DESC = 'A sequined dress in charcoal, edged in emerald and cream-gold, cut for quiet work. You are harder to notice while sneaking and your steps fall softer. Worn with the Eye of Ra, it turns blows aside and you slip past nearly everyone.';
   BURST_CHANCE = 50;                       // percent, with the Eye
   BOOK_NAME = 'Mystery: Cryptos';
   PAGE_ORIGINAL = 'Interface\Note\Note.BGSM';
@@ -527,6 +534,95 @@ begin
   if not Result then Say('FAIL: expected one chance condition on the Voice Eye perk, found ' + IntToStr(changed));
 end;
 
+// One "resistance while the Eye is worn" effect on the Garb's enchantment, built from the Stealth Move effect as the Veil's was.
+function AddEyeResist(f, effs, eyekw: IInterface; effectid: integer; who: string): boolean;
+var
+  src, eff, conds, ctda: IInterface;
+begin
+  Result := False;
+  src := RecordByFormID(FileByIndex(0), $00245BDE, True);   // enchArmorStealthMoveMod
+  eff := ElementAssign(effs, HighInteger, ElementByIndex(ElementByName(src, 'Effects'), 0), False);
+  if not Assigned(eff) then begin
+    Say('FAIL: could not add the ' + who + ' effect'); Exit;
+  end;
+  SetElementNativeValues(eff, 'EFID - Base Effect', effectid);
+  SetElementNativeValues(eff, 'EFIT\Magnitude', GARB_EYE_RESIST);
+  conds := ElementByName(eff, 'Conditions');
+  while ElementCount(conds) > 1 do
+    Remove(ElementByIndex(conds, ElementCount(conds) - 1));
+  ctda := ElementBySignature(ElementByIndex(conds, 0), 'CTDA');
+  SetElementEditValues(ctda, 'Function', 'WornHasKeyword');
+  SetElementNativeValues(ctda, 'Type', 0);
+  SetElementNativeValues(ctda, 'Parameter #1', Ref(f, eyekw));
+  SetElementNativeValues(ctda, 'Comparison Value', 1);
+  Say('  ' + who + ': ' + GetElementEditValues(eff, 'EFID - Base Effect') + ' +' + GetElementEditValues(eff, 'EFIT\Magnitude') + ' if ' + GetElementEditValues(ctda, 'Function') + ' ' + GetElementEditValues(ctda, 'Parameter #1') + ' = ' + GetElementEditValues(ctda, 'Comparison Value') + ' (' + IntToStr(ElementCount(conds)) + ' condition)');
+  Result := (GetElementNativeValues(eff, 'EFID - Base Effect') = effectid) and (ElementCount(conds) = 1) and (Pos('MoM_EyeOfRa_KW', GetElementEditValues(ctda, 'Parameter #1')) > 0);
+  if not Result then Say('FAIL: the ' + who + ' effect is wrong');
+end;
+
+// The Garb: resistance moves partly into the Eye, no ballistic weave, smaller sneak attack boost. All three are overrides of our records.
+function GarbEye(f, srcarmo, srcench, srcperk, eyekw: IInterface): boolean;
+var
+  armo, ench, perk, effs, dama, kwda, el, ee, epfd, val: IInterface;
+  i, before, changed: integer;
+  v: double;
+  repl: string;
+begin
+  Result := False;
+  armo := wbCopyElementToFile(srcarmo, f, False, True);
+  ench := wbCopyElementToFile(srcench, f, False, True);
+  perk := wbCopyElementToFile(srcperk, f, False, True);
+  if (not Assigned(armo)) or (not Assigned(ench)) or (not Assigned(perk)) then begin
+    Say('FAIL: override of the Garb records failed'); Exit;
+  end;
+  SetElementEditValues(armo, 'DESC', GARB_DESC);
+  SetElementNativeValues(armo, 'FNAM\Armor Rating', GARB_RESIST);
+  dama := ElementBySignature(armo, 'DAMA');
+  if (not Assigned(dama)) or (ElementCount(dama) <> 1) then begin
+    Say('FAIL: expected one resistance entry on the Garb'); Exit;
+  end;
+  SetElementNativeValues(ElementByIndex(dama, 0), 'Value', GARB_RESIST);
+  // no ballistic weave: drop the attach point and the keyword its mods look for
+  el := ElementBySignature(armo, 'APPR');
+  if Assigned(el) then Remove(el);
+  kwda := ElementBySignature(armo, 'KWDA');
+  before := ElementCount(kwda);
+  for i := ElementCount(kwda) - 1 downto 0 do
+    if Pos('ma_Railroad_ClothingArmor', GetEditValue(ElementByIndex(kwda, i))) = 1 then Remove(ElementByIndex(kwda, i));
+  Say('Garb: armor rating ' + GetElementEditValues(armo, 'FNAM\Armor Rating') + ', ' + GetElementEditValues(ElementByIndex(dama, 0), 'Damage Type') + ' ' + GetElementEditValues(ElementByIndex(dama, 0), 'Value') + ', keywords ' + IntToStr(before) + ' -> ' + IntToStr(ElementCount(kwda)));
+  if Assigned(ElementBySignature(armo, 'APPR')) or (ElementCount(kwda) <> before - 1) then begin
+    Say('FAIL: the weave attach point or keyword is still there'); Exit;
+  end;
+  effs := ElementByName(ench, 'Effects');
+  before := ElementCount(effs);
+  if not AddEyeResist(f, effs, eyekw, $0004A0AC, 'damage resistance') then Exit;   // AbFortifyResistDamage
+  if not AddEyeResist(f, effs, eyekw, $000559A4, 'energy resistance') then Exit;   // AbFortifyResistEnergy
+  if ElementCount(effs) <> before + 2 then begin
+    Say('FAIL: expected two more effects on the Garb enchantment'); Exit;
+  end;
+  changed := 0;
+  effs := ElementByName(perk, 'Effects');
+  for i := 0 to ElementCount(effs) - 1 do begin
+    ee := ElementByName(ElementByIndex(effs, i), 'Function Parameters');
+    if Assigned(ee) then begin
+      epfd := ElementBySignature(ee, 'EPFD');
+      if ElementCount(epfd) > 0 then val := ElementByIndex(epfd, 0) else val := epfd;
+      v := GetNativeValue(val);
+      repl := '';
+      if Abs(v - 0.25) < 0.001 then repl := '0.2';        // melee, no Eye
+      if Abs(v - 0.125) < 0.001 then repl := '0.1';       // other, no Eye
+      if Abs(v - 0.75) < 0.001 then repl := '0.4';        // melee, added by the Eye (total 0.6)
+      if Abs(v - 0.375) < 0.001 then repl := '0.2';       // other, added by the Eye (total 0.3)
+      if repl <> '' then begin
+        SetEditValue(val, repl); changed := changed + 1;
+        Say('  perk: sneak attack entry ' + FloatToStr(v) + ' -> ' + GetEditValue(val));
+      end;
+    end;
+  end;
+  Result := changed = 4;
+  if not Result then Say('FAIL: expected to change four sneak attack entries, changed ' + IntToStr(changed));
+end;
+
 // Place an object once in a cell (rot = heading in degrees).
 function PlaceObject(f, cell, base: IInterface; x, y, z, rot: string; flags: integer): boolean;
 var
@@ -560,7 +656,7 @@ function Initialize: integer;
 var
   esm, srcNote, srcNpc, srcCell, hairpart, hair, dress, eye, f, diary, otft, npc, cell, el: IInterface;
   srcSwanCell, srcHubris, srcStat, srcBook, blade, voice, brokenveil, swancell, hubris: IInterface;
-  veilitem, dressitem, seekerdress, cobjveil, cobjgarb, eyearmo, cryptosperk, srcCafeCell, cafecell, srcburst, eyekw, voiceperk: IInterface;
+  veilitem, dressitem, seekerdress, cobjveil, cobjgarb, eyearmo, cryptosperk, srcCafeCell, cafecell, srcburst, eyekw, voiceperk, garbarmo, garbench, garbperk: IInterface;
   text: TStringList;
 begin
   Result := 0;
@@ -597,6 +693,10 @@ begin
     cryptosperk := FindOurs('RegaliaGold1.esp', 'PERK', 'MoM_PERK_Cryptos');
     srcburst := FindOurs('RegaliaVoice12.esp', 'EXPL', 'MoM_EXPL_SonicBurst');
     eyekw := FindOurs('RegaliaGold1.esp', 'KYWD', 'MoM_EyeOfRa_KW');
+    garbarmo := FindOurs('RegaliaGarb2.esp', 'ARMO', 'MoM_ARMO_Garb');
+    garbench := FindOurs('RegaliaGarb2.esp', 'ENCH', 'MoM_ENCH_Garb');
+    garbperk := FindOurs('RegaliaGarb2.esp', 'PERK', 'MoM_PERK_Garb');
+    if (not Assigned(garbarmo)) or (not Assigned(garbench)) or (not Assigned(garbperk)) then Exit;
     voiceperk := FindOurs('RegaliaVoice12.esp', 'PERK', 'MoM_PERK_VoiceEye');
     if (not Assigned(srcburst)) or (not Assigned(eyekw)) or (not Assigned(voiceperk)) then Exit;
     srcCafeCell := RecordByFormID(esm, $0000E0D9, True);   // exterior cell (1,-6), south of Hubris
@@ -625,7 +725,7 @@ begin
     AddMasterIfMissing(f, 'RegaliaVoice12.esp');
 
     // ---- the two broken wearables become plain items; she keeps a dress that is only for wearing ----
-    veilitem := MakeBroken(f, 'MoM_MISC_TatteredVeil', 'Mystery: Tattered Veil', 'Armor\Raider02\Mask_GO.nif');
+    veilitem := MakeBroken(f, 'MoM_MISC_TatteredVeil', 'Mystery: Worn Veil', 'Armor\Raider02\Mask_GO.nif');
     dressitem := MakeBroken(f, 'MoM_MISC_TatteredDress', 'Mystery: Tattered Dress', 'Clothes\SlinkyDress\GO_SequinDress.nif');
     if (not Assigned(veilitem)) or (not Assigned(dressitem)) then Exit;
     if not SwapIngredient(f, cobjveil, brokenveil, veilitem) then Exit;
@@ -716,6 +816,7 @@ begin
     // ---- the Voice with the Eye: the burst can stagger everyone it catches; the old second roll goes ----
     if not BurstStagger(f, srcburst, eyekw) then Exit;
     if not DropSecondRoll(f, voiceperk) then Exit;
+    if not GarbEye(f, garbarmo, garbench, garbperk, eyekw) then Exit;
 
     swancell := wbCopyElementToFile(srcSwanCell, f, False, True);
     hubris := wbCopyElementToFile(srcHubris, f, False, True);
