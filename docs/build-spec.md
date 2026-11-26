@@ -98,6 +98,8 @@ The silenced Voice is tested (owner, 2026-11-26). So is play on mid-game saves, 
 Not yet seen or not specifically reported:
 
 - **Veil persuade bonus: untested** (persuade cannot be measured directly; the release page says it is unconfirmed).
+- **Broken Sword inventory look and scrapping: not tested** (owner, 2026-11-26).
+- **Renaming the Blade at a workbench: not tested** (owner, 2026-11-26).
 - **Veil poison gas immunity: untested** (spawned gas, a console cast and the HalluciGen placements did no damage even without the Veil). Neither the Cryptos nor the Veil's descriptions mention gas.
 
 ## The pieces in detail

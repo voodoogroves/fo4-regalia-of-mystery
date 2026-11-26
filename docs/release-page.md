@@ -18,9 +18,9 @@ The text and settings for the Nexus upload. The owner uploads; keep the page unp
 | Donation Points | Not opted in; no donation links or requests |
 | Adult content | Not tagged (check that no screenshot shows gore) |
 
-## Summary (short field)
+## Summary (short field, limit 350 characters)
 
-Find a lost traveler's broken gear in Boston, mend it, and wear the garb of the Order of Mysteries: blade, revolver, dress, veil and the Eye of Ra.
+A traveler from Appalachia died in Boston. Find their broken regalia, mend it at a Chemistry Station, and wear the Order of Mysteries: the Blade of Bastet, the Voice of Set, a dress, a veil and the Eye of Ra, which strengthens the rest. Lore-inspired, no scripts. Requires Nuka-World.
 
 ## Description
 
@@ -90,8 +90,7 @@ Use the final 0.9.1 zip, installed as the single MO2 mod, loose art mods off.
 
 Done 2026-11-26: adding the mod to a save made after visiting all four spots still spawned the traveler, both books, the items and the containers; the scenery looked normal. Crafting without cheats and the Voice grips are checked.
 
-1. Blade: can it be renamed at a workbench?
-2. Broken Sword: inventory look, and scrapping.
+Not tested as of 2026-11-26, and not claimed on the page: renaming the Blade at a workbench; the Broken Sword's inventory look and scrapping.
 
 Screenshots taken 2026-11-26 (vanilla assets and our gear in the character shots, per the owner), kept outside the repo. Upload order: Veil close-up, full outfit, Blade, Voice, traveler, suitcase, recipe menu (another mod's recipe name blurred).
 
