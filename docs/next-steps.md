@@ -29,8 +29,9 @@ Built by `BuildWorld.pas` (`RegaliaWorld4`); positions and contents are in the [
 - [ ] A grenade test near the loose notes.
 - [x] Round 6 (`RegaliaWorld6`): all items recovered and all repairs crafted with no crash (2026-11-26). With round 5, crafting the Veil crashed (cause not proven; the broken Veil and Dress became plain items).
 - [ ] The real plugin: make the broken Dress and Veil plain items from the start, and drop the wearable broken records.
-- [ ] Consider moving the first aid kit (Tattered Veil) out of Hubris, so only one piece is inside: outside across the street, near "nu cafe ola" (owner's words; spot to come). The diary says the Eye and Veil were left inside, so reword it if the kit moves.
+- [x] The first aid kit moved out of Hubris (`CELL 0000E0D9`); well placed (2026-11-26).
 - [ ] Verify round 7: the repaired necklace is "Eye of Ra" (decided 2026-11-26: no prefix on repaired pieces) and the perk is "Mystery: Cryptos Notes"; the Eye repair crafts and the other recipes still recognise the perk.
+- [x] Voice area stagger (`RegaliaWorld9`): the Eye makes the burst stagger those it catches, 50%; the second 30% roll is off. See the build spec.
 - [ ] Review the Eye of Ra's boosts across all pieces (table in the [build spec](build-spec.md)): are they balanced and noticeable? Fallout 76 gives the Voice a robot bonus (+70 energy damage, 25% one-second stun) that we do not have. The notes disagree on whether the Veil's poison boost has been seen (Veil spec: yes; section 4 here: not yet).
 - [ ] Optional flavour holotape for Cryptos (a text holotape cannot gate recipes).
 

@@ -1,7 +1,13 @@
 {
   BuildWorld.pas: everything placed in the world, in ONE plugin (test name RegaliaWorld1). Status: RegaliaWorld1 seen in game 2026-11-25 (tool case good; suitcase too square; first aid kit and duffle moved).
   Round 7 (RegaliaWorld7, not yet run): renames "Jury-Rigged Eye of Ra" to "Eye of Ra" and the perk "Cryptos Notes" to
-  "Mystery: Cryptos Notes" (overrides of our records in Gold1; recipes unchanged).
+  "Mystery: Cryptos Notes" (overrides of our records in Gold1; recipes unchanged). The first aid kit moves out of Hubris to
+  CELL 0000E0D9: x 7267.84, y -20585.32, z 1117.20.
+  Round 7 results (seen 2026-11-26): kit well placed. Burst test at 1 damage: bystanders took damage, no stagger, the player was hurt.
+  Round 9 (RegaliaWorld9; 50% accepted by the owner 2026-11-26): the burst stagger gets a chance (BURST_CHANCE percent); the Eye's old second 30% roll is
+  switched off (override of MoM_PERK_VoiceEye: its GetRandomPercent compares to -1).
+  Round 8 (RegaliaWorld8, VERIFIED 2026-11-26: with the Eye both bystanders stagger, without it neither): burst back to 0 damage, carrying MoM_ENCH_BurstStagger (stagger on everyone caught, not the
+  player, only with the Eye worn; EVERY time for the test). The perk's second 30% roll is still there.
   Round 6 (RegaliaWorld6, VERIFIED in game 2026-11-26: items recovered, all repairs crafted, no crash): with World5, crafting the Veil crashed the game, and crafting the Garb while wearing the Tattered
   Dress left its look stuck on the player. Both broken wearables become plain items:
     MoM_MISC_TatteredVeil, MoM_MISC_TatteredDress   copies of the Silver Locket (unscrappable), with the old world models
@@ -30,14 +36,15 @@
     Container facings are first guesses. The tool case is centred on the cabinet top, worked out from the cabinet's own placement.
 
   Masters: Fallout4.esm, DLCNukaWorld.esm, RegaliaGold1, Garb2, Veil1, Broken2, Voice12. IN THE MODULE LIST tick the game, the six DLC
-  and those five Regalia plugins only. Type RegaliaWorld7 in the filename box (a new number for each rerun). Accept the save prompt.
+  and those five Regalia plugins only. Type RegaliaWorld9 in the filename box (a new number for each rerun). Accept the save prompt.
   Log: our-scripts\build.log.
   Test with every RegaliaBody, RegaliaPose and RegaliaBook plugin UNTICKED.
 }
 unit BuildWorld;
 
 const
-  PLUGIN_HINT = 'RegaliaWorld7';
+  PLUGIN_HINT = 'RegaliaWorld9';
+  BURST_CHANCE = 50;                       // percent, with the Eye
   BOOK_NAME = 'Mystery: Cryptos';
   PAGE_ORIGINAL = 'Interface\Note\Note.BGSM';
   PAGE_REPLACEMENT = 'RegaliaOfMystery\CryptosPage.BGSM';
@@ -416,6 +423,110 @@ begin
   if not Result then Say('FAIL: expected exactly one ingredient to change on ' + EditorID(o) + ', changed ' + IntToStr(changed));
 end;
 
+// An enchantment on the sonic burst: our copy of the legendary stagger enchantment cut to one effect, whose two conditions become
+// "the one caught is not the player" and "the player wears the Eye of Ra". The burst itself keeps its 0 damage.
+function BurstStagger(f, srcburst, eyekw: IInterface): boolean;
+var
+  src, ench, effs, conds, ctda, burst, el: IInterface;
+  i: integer;
+begin
+  Result := False;
+  src := RecordByFormID(FileByIndex(0), $0023AD16, True);   // ench_mod_LegendaryChanceToStagger
+  if not Assigned(src) then begin
+    Say('FAIL: the legendary stagger enchantment was not found'); Exit;
+  end;
+  ench := wbCopyElementToFile(src, f, True, True);
+  if not Assigned(ench) then begin
+    Say('FAIL: copy of the stagger enchantment failed'); Exit;
+  end;
+  SetEditorID(ench, 'MoM_ENCH_BurstStagger');
+  effs := ElementByName(ench, 'Effects');
+  while ElementCount(effs) > 1 do
+    Remove(ElementByIndex(effs, ElementCount(effs) - 1));
+  conds := ElementByName(ElementByIndex(effs, 0), 'Conditions');
+  if not Assigned(conds) then begin
+    Say('FAIL: no condition list on the effect'); Exit;
+  end;
+  while ElementCount(conds) > 2 do
+    Remove(ElementByIndex(conds, ElementCount(conds) - 1));
+  while ElementCount(conds) < 3 do ElementAssign(conds, HighInteger, nil, False);
+  // 0: the one caught is not the player
+  ctda := ElementBySignature(ElementByIndex(conds, 0), 'CTDA');
+  SetElementEditValues(ctda, 'Function', 'GetIsID');
+  SetElementNativeValues(ctda, 'Type', 0);                 // equal to, no Or
+  SetElementNativeValues(ctda, 'Parameter #1', $00000007);  // the Player base record
+  SetElementNativeValues(ctda, 'Comparison Value', 0);
+  SetElementEditValues(ctda, 'Run On', 'Subject');
+  // 1: the player wears the Eye of Ra
+  ctda := ElementBySignature(ElementByIndex(conds, 1), 'CTDA');
+  SetElementEditValues(ctda, 'Function', 'WornHasKeyword');
+  SetElementNativeValues(ctda, 'Type', 0);
+  SetElementNativeValues(ctda, 'Parameter #1', Ref(f, eyekw));
+  SetElementNativeValues(ctda, 'Comparison Value', 1);
+  SetElementEditValues(ctda, 'Run On', 'Reference');
+  SetElementNativeValues(ctda, 'Reference', $00000014);     // PlayerRef
+  // 2: the chance
+  ctda := ElementBySignature(ElementByIndex(conds, 2), 'CTDA');
+  SetElementEditValues(ctda, 'Function', 'GetRandomPercent');
+  SetElementNativeValues(ctda, 'Type', 160);               // less than or equal
+  SetElementNativeValues(ctda, 'Comparison Value', BURST_CHANCE);
+  SetElementEditValues(ctda, 'Run On', 'Subject');
+  if (GetElementEditValues(ctda, 'Function') <> 'GetRandomPercent') or (GetElementNativeValues(ctda, 'Type') <> 160) then begin
+    Say('FAIL: the chance condition is wrong'); Exit;
+  end;
+  for i := 0 to ElementCount(conds) - 1 do begin
+    ctda := ElementBySignature(ElementByIndex(conds, i), 'CTDA');
+    Say('  burst condition ' + IntToStr(i) + ': ' + GetElementEditValues(ctda, 'Function') + ' ' + GetElementEditValues(ctda, 'Parameter #1') + ' | type ' + GetElementEditValues(ctda, 'Type') + ' value ' + GetElementEditValues(ctda, 'Comparison Value') + ' | run on ' + GetElementEditValues(ctda, 'Run On') + ' ' + GetElementEditValues(ctda, 'Reference'));
+  end;
+  Say('  burst enchantment: effects ' + IntToStr(ElementCount(effs)) + ', effect ' + GetElementEditValues(ElementByIndex(effs, 0), 'EFID - Base Effect') + ', magnitude ' + GetElementEditValues(ElementByIndex(effs, 0), 'EFIT\Magnitude'));
+  ctda := ElementBySignature(ElementByIndex(conds, 1), 'CTDA');
+  if (ElementCount(effs) <> 1) or (ElementCount(conds) <> 3) or (GetElementEditValues(ctda, 'Function') <> 'WornHasKeyword') or
+     (Pos('MoM_EyeOfRa_KW', GetElementEditValues(ctda, 'Parameter #1')) = 0) or (GetElementNativeValues(ctda, 'Reference') <> $14) then begin
+    Say('FAIL: the burst enchantment was not set up'); Exit;
+  end;
+  burst := wbCopyElementToFile(srcburst, f, False, True);   // False: an override of our explosion
+  if not Assigned(burst) then begin
+    Say('FAIL: override of the sonic burst failed'); Exit;
+  end;
+  el := ElementBySignature(burst, 'EITM');
+  if not Assigned(el) then el := Add(burst, 'EITM', True);
+  SetNativeValue(el, FormID(ench));
+  Say('burst: enchantment ' + GetEditValue(el) + ', damage ' + GetElementEditValues(burst, 'DATA\Damage') + ', stagger ' + GetElementEditValues(burst, 'DATA\Stagger'));
+  Result := (Pos('MoM_ENCH_BurstStagger', GetEditValue(el)) > 0) and (GetElementNativeValues(burst, 'DATA\Damage') = 0);
+  if not Result then Say('FAIL: the burst override is wrong');
+end;
+
+// The Eye's earlier boost (a second 30% stagger roll on a hit) is replaced by the burst: make its chance condition impossible.
+function DropSecondRoll(f, srcperk: IInterface): boolean;
+var
+  o, effs, pcs, conds, ctda: IInterface;
+  i, j, k, changed: integer;
+begin
+  Result := False;
+  o := wbCopyElementToFile(srcperk, f, False, True);   // False: an override
+  if not Assigned(o) then begin
+    Say('FAIL: override of the Voice Eye perk failed'); Exit;
+  end;
+  changed := 0;
+  effs := ElementByName(o, 'Effects');
+  for i := 0 to ElementCount(effs) - 1 do begin
+    pcs := ElementByName(ElementByIndex(effs, i), 'Perk Conditions');
+    for j := 0 to ElementCount(pcs) - 1 do begin
+      conds := ElementByName(ElementByIndex(pcs, j), 'Conditions');
+      for k := 0 to ElementCount(conds) - 1 do begin
+        ctda := ElementBySignature(ElementByIndex(conds, k), 'CTDA');
+        if GetElementEditValues(ctda, 'Function') = 'GetRandomPercent' then begin
+          SetElementNativeValues(ctda, 'Comparison Value', -1);
+          Say('  second roll off: GetRandomPercent type ' + GetElementEditValues(ctda, 'Type') + ' value ' + GetElementEditValues(ctda, 'Comparison Value'));
+          changed := changed + 1;
+        end;
+      end;
+    end;
+  end;
+  Result := changed = 1;
+  if not Result then Say('FAIL: expected one chance condition on the Voice Eye perk, found ' + IntToStr(changed));
+end;
+
 // Place an object once in a cell (rot = heading in degrees).
 function PlaceObject(f, cell, base: IInterface; x, y, z, rot: string; flags: integer): boolean;
 var
@@ -449,7 +560,7 @@ function Initialize: integer;
 var
   esm, srcNote, srcNpc, srcCell, hairpart, hair, dress, eye, f, diary, otft, npc, cell, el: IInterface;
   srcSwanCell, srcHubris, srcStat, srcBook, blade, voice, brokenveil, swancell, hubris: IInterface;
-  veilitem, dressitem, seekerdress, cobjveil, cobjgarb, eyearmo, cryptosperk: IInterface;
+  veilitem, dressitem, seekerdress, cobjveil, cobjgarb, eyearmo, cryptosperk, srcCafeCell, cafecell, srcburst, eyekw, voiceperk: IInterface;
   text: TStringList;
 begin
   Result := 0;
@@ -484,6 +595,14 @@ begin
     end;
     eyearmo := FindOurs('RegaliaGold1.esp', 'ARMO', 'MoM_ARMO_EyeOfRa');
     cryptosperk := FindOurs('RegaliaGold1.esp', 'PERK', 'MoM_PERK_Cryptos');
+    srcburst := FindOurs('RegaliaVoice12.esp', 'EXPL', 'MoM_EXPL_SonicBurst');
+    eyekw := FindOurs('RegaliaGold1.esp', 'KYWD', 'MoM_EyeOfRa_KW');
+    voiceperk := FindOurs('RegaliaVoice12.esp', 'PERK', 'MoM_PERK_VoiceEye');
+    if (not Assigned(srcburst)) or (not Assigned(eyekw)) or (not Assigned(voiceperk)) then Exit;
+    srcCafeCell := RecordByFormID(esm, $0000E0D9, True);   // exterior cell (1,-6), south of Hubris
+    if not Assigned(srcCafeCell) then begin
+      Say('FAIL: CELL 0000E0D9 not found'); Exit;
+    end;
     if (not Assigned(eyearmo)) or (not Assigned(cryptosperk)) then Exit;
     cobjveil := FindOurs('RegaliaBroken2.esp', 'COBJ', 'MoM_COBJ_RepairVeil');
     cobjgarb := FindOurs('RegaliaBroken2.esp', 'COBJ', 'MoM_COBJ_RepairGarb');
@@ -594,8 +713,16 @@ begin
     if not Rename(f, eyearmo, 'Eye of Ra') then Exit;
     if not Rename(f, cryptosperk, 'Mystery: Cryptos Notes') then Exit;
 
+    // ---- the Voice with the Eye: the burst can stagger everyone it catches; the old second roll goes ----
+    if not BurstStagger(f, srcburst, eyekw) then Exit;
+    if not DropSecondRoll(f, voiceperk) then Exit;
+
     swancell := wbCopyElementToFile(srcSwanCell, f, False, True);
     hubris := wbCopyElementToFile(srcHubris, f, False, True);
+    cafecell := wbCopyElementToFile(srcCafeCell, f, False, True);
+    if not Assigned(cafecell) then begin
+      Say('FAIL: override of the cell for the first aid kit failed'); Exit;
+    end;
     if (not Assigned(swancell)) or (not Assigned(hubris)) then begin
       Say('FAIL: override of the swan pond or Hubris cell failed'); Exit;
     end;
@@ -605,9 +732,9 @@ begin
     if not PlaceObject(f, swancell, Skin(f, MakeContainer(f, $0008E59E, 'MoM_CONT_Voice', 'Traveler''s Duffle Bag', voice),
       'ContDuffle', 'SetDressing\DuffleBag\DuffleBag.BGSM', ''),
       '11993.90', '-20086.55', '596.40', '35', 0) then Exit;
-    if not PlaceObject(f, hubris, Skin(f, MakeContainer(f, $0020A6FD, 'MoM_CONT_Veil', 'First Aid Kit', veilitem),
+    if not PlaceObject(f, cafecell, Skin(f, MakeContainer(f, $0020A6FD, 'MoM_CONT_Veil', 'First Aid Kit', veilitem),
       'ContMedKit', 'SetDressing\FirstAidKit\FirstAidKitPharm.BGSM', ''),
-      '1683.00', '132.00', '780.50', '225', 0) then Exit;
+      '7267.84', '-20585.32', '1117.20', '180', 0) then Exit;
     if not PlaceObject(f, hubris, Skin(f, MakeContainer(f, $001103E3, 'MoM_CONT_Eye', 'Traveler''s Tool Case', eye),
       'ContToolCase', 'SetDressing\ToolCase\ToolCase1.BGSM', ''),
       '2818.30', '-245.50', '839.50', '135', 0) then Exit;

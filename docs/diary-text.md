@@ -8,6 +8,8 @@ Something big woke in the pond on Boston Common. I ran, hurt, and lost the Voice
 
 I made it into Hubris and back out with the Cryptos notes, but I left the Eye and Veil behind. The ghouls inside were too tough and I had to escape to the roof. I stashed the Blade up there, across the jump. My leg won't make that twice.
 
+I lost the Veil near the cafe.
+
 I don't think I can do it alone. There's a building across the street and it sounds like there are people inside. I'll see if they can help me.
 
 If I don't come back, take the pieces. Mend them. Wear them better than we did.

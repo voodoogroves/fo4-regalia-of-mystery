@@ -48,7 +48,7 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 
 ### The world (`BuildWorld.pas`, replaces the earlier body and book builds)
 
-**Display names** (overrides of our records, recipes unchanged): "Mystery: Broken Revolver", "Mystery: Broken Necklace", "Mystery: Broken Sword", "Mystery: Cryptos"; the note is "Mystery: Traveler's Diary". Where this file or the scripts say Broken Voice, Eye or Blade, these are the same records. Decided 2026-11-26, **not yet built:** "Jury-Rigged Eye of Ra" becomes "Eye of Ra" (no prefix on repaired pieces) and the perk "Cryptos Notes" becomes "Mystery: Cryptos Notes".
+**Display names** (overrides of our records, recipes unchanged): "Mystery: Broken Revolver", "Mystery: Broken Necklace", "Mystery: Broken Sword", "Mystery: Cryptos"; the note is "Mystery: Traveler's Diary". Where this file or the scripts say Broken Voice, Eye or Blade, these are the same records. Built in round 7: "Jury-Rigged Eye of Ra" is "Eye of Ra" (no prefix on repaired pieces) and the perk "Cryptos Notes" is "Mystery: Cryptos Notes" (the repair with the new name not yet reported).
 
 **The broken wearables are plain items** (verified 2026-11-26): `MoM_MISC_TatteredVeil` "Mystery: Tattered Veil" and `MoM_MISC_TatteredDress` "Mystery: Tattered Dress" (copies of the Silver Locket with the old world models). The world plugin overrides the two repair recipes in `RegaliaBroken2` so they take these. The wearable broken records in Broken2 are no longer used. Why: crafting the Veil from the wearable broken Veil crashed the game with `RegaliaWorld5` ticked (cause not proven), and crafting the Garb while wearing the Tattered Dress left its look stuck on the player.
 
@@ -59,7 +59,7 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 | Cryptos, loose, No Respawn | `0000E0BA` | 5560, -18578, 1806, 110 |
 | Suitcase: Broken Sword | `0000E0BA` | 7408.37, -18588.25, 1856.75, 68 |
 | Duffle bag: Broken Revolver | `0000E0B9` (Swan's pond) | 11993.90, -20086.55, 596.4, 35 |
-| First aid kit: Mystery: Tattered Veil | `0004542D` (Hubris interior) | 1683, 132, 780.5, 225 |
+| First aid kit: Mystery: Tattered Veil | `0000E0D9` (exterior, near the cafe) | 7267.84, -20585.32, 1117.2, 180 |
 | Tool case: Broken Necklace | `0004542D` | 2818.3, -245.5, 839.5, 135 (on file cabinet `00066AC5`) |
 
 - Containers are our copies with the respawn flag cleared, vanilla contents and scripts removed, one item each, and charcoal-and-emerald skins (`make_containers.py`). The suitcase uses `Suitcase_prewar.nif`, because `Suitcase01.nif` names no material to swap.
@@ -92,7 +92,7 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 | Blade | 30% armor penetration | 100% |
 | Garb | sneak +5, sneak attack +0.25 (one-hand melee) / +0.125 (other) | sneak +25, sneak attack +1.0 / +0.5 |
 | Veil | persuade +5, poison resistance 10 | persuade +15, poison resistance 20 |
-| Voice | 30% stagger on hit | a second independent 30% roll (about 51%) |
+| Voice | 30% stagger on a direct hit; the burst does nothing to anyone | the burst also staggers those it catches, 50% (not the player) |
 
 The Eye adds **no** damage or energy resistance to anything.
 
@@ -115,7 +115,9 @@ The Eye adds **no** damage or energy resistance to anything.
 - **Silenced:** Sound Level Silent, keyword `s_20_Silenced`, and our own sound keyword mapping (`KSSM`), a copy of the silenced Pipe Revolver mapping (`0002B941`) re-keyed to the .44 sound keyword. No visual suppressor.
 - **Sonic burst at every impact:** our projectile is a copy of `MS09PushProjectile` (`00199046`, Missile type with the `Explosion` flag; speed 10000, no gravity, suppressed muzzle flash). Our explosion is a copy of `MS09PushExplosion` (`000E5786`): force 250, damage 0, radius 32/128, stagger Medium, Mirelurk King sonic sound.
 - **Stagger:** `MoM_OMOD_Voice`, our copy of the legendary Staggering mod (`001E81AB`), included in every template combination. The "legendary item" pickup screen is kept.
-- **Eye boost:** that mod also grants a hidden perk: an `Apply Combat Hit Spell` entry (from `BigLeagues02`) casting our stagger spell when the Eye is worn, a 30% roll passes and the weapon has `MoM_Voice_KW`.
+- **Eye boost (`BuildWorld.pas`, overrides records of Voice12):** the sonic burst carries `MoM_ENCH_BurstStagger`, a copy of the legendary stagger enchantment (`0023AD16`) cut to one effect (`001E81A8`, magnitude 4) with three conditions: `GetIsID` Player (`00000007`) = 0, `WornHasKeyword` Eye = 1 run on PlayerRef (`00000014`), `GetRandomPercent` <= 50. The burst does 0 damage. Seen in game 2026-11-26 at every-time chance: both bystanders staggered with the Eye, neither without; 50% chosen ("does not feel bad" for a slow .44).
+- **Replaced:** the earlier Eye boost (a hidden perk from that mod casting a second 30% stagger spell on a hit) is switched off by setting its `GetRandomPercent` to -1.
+- At 0 damage with only its own stagger setting, the burst affected nobody who was not hit; at 1 damage it hurt bystanders and the player without staggering.
 - **Look:** gold metal with black shadows, charcoal grips, gold medallions and diamond screw plates. Same gold tint and bronze reflection as the Blade, with darker mid-tones. Scopes, sights glass and rubber grips stay vanilla.
 
 ## 4. How to build
@@ -131,7 +133,7 @@ There is no single plugin yet. These are the verified builds, **in dependency or
 | 3 | `BuildVeil.pas` | `RegaliaVeil1` | Veil | + Gold1 |
 | 4 | `BuildBroken2.pas` | `RegaliaBroken2` | Tattered Dress, Broken Veil, two recipes | + Gold1, Garb2, Veil1 |
 | 5 | `BuildVoice3.pas` | `RegaliaVoice12` | Voice, Broken Voice, its recipe | + Gold1 |
-| 6 | `BuildWorld.pas` | `RegaliaWorld6` | Everything placed in the world: the Traveler, her two notes, the four containers, the Cryptos picture and text, the item renames, the plain broken Veil and Dress and their recipe overrides | game + DLC + Gold1, Garb2, Veil1, Broken2, Voice12 |
+| 6 | `BuildWorld.pas` | `RegaliaWorld9` | Everything placed in the world: the Traveler, her two notes, the four containers, the Cryptos picture and text, the item renames, the plain broken Veil and Dress and their recipe overrides, the Voice Eye boost | game + DLC + Gold1, Garb2, Veil1, Broken2, Voice12 |
 
 Every other script in that folder is an earlier round or a diagnostic, kept for reference. The constant `PLUGIN_HINT` only changes the on-screen hint; the name typed in the box is what is created, and later scripts look up `RegaliaGold1.esp`, `RegaliaGarb2.esp` and `RegaliaVeil1.esp` by exactly those names.
 
