@@ -8,7 +8,7 @@ Something big woke in the pond on Boston Common. I ran, hurt, and lost the Voice
 
 I jumped across the rooftops by Hubris Comics and stashed the Blade on the far side. My leg won't make that jump twice.
 
-I made it into Hubris and back out. The Veil and the rest of the Cryptos specifications should be inside, but I'm too weak to try again.
+I made it into Hubris and back out with the Cryptos notes, but I left the Eye behind. It and the Veil are still inside, and I'm too weak to try again.
 
 I can't go much further, but there's a building across the street. It sounds like there are people inside. They may help me.
 

@@ -39,21 +39,38 @@ Component IDs: Steel `0001FABD`, Silver `0001FABB`, Gold `0001FAA6`, Crystal `00
 
 ### Cryptos book and broken items
 
-- `MoM_BOOK_Cryptos` "Cryptos: Regalia of Mystery": copy of the Silver Shroud Photo (`0018AC1E`), flag **Add Perk**, **Teaches** the Cryptos perk. The perk is a copy of the Barbarian magazine perk (`0008E3A6`) with no effects and one rank. It stays after the book is stashed.
+- `MoM_BOOK_Cryptos` "Mystery: Cryptos" (named "Cryptos: Regalia of Mystery" in Gold1): copy of the Silver Shroud Photo (`0018AC1E`), flag **Add Perk**, **Teaches** the Cryptos perk. The perk is a copy of the Barbarian magazine perk (`0008E3A6`) with no effects and one rank. It stays after the book is stashed.
 - Broken Eye, Broken Blade, Broken Voice: `MISC` copies of the Silver Locket (`00059B34`), scrap components removed, `UnscrappableObject` (`001CC46A`). The Blade uses the sword mesh, the Voice `Weapons\44\44.nif`.
 - Tattered Dress: the Sequin Dress with the faded art, underarmor slots, no enchantment, armor rating 0, value 5.
 - Broken Veil: plain copy of the Surgical Mask, armor rating 0, value 5.
-- **Picture:** our pencil sketch in the Silver Shroud photo's frame, on the book and its inventory preview (patch `RegaliaBook1`; looked good in game). Source images are outside the repos, in `~/Games/mo2-lint/tools/our-assets/photo-candidates/` (use `candidate-03-line-art-pencil.png`).
-- **Text:** the approved new text is in [`cryptos-text.md`](cryptos-text.md), not yet built.
+- **Picture and text:** our pencil sketch on the world card; the reading view is the standard note page (`STAT 001B5EF1`, copied as `MoM_STAT_CryptosSketch`) with the sketch faded into the paper. Text from [`cryptos-text.md`](cryptos-text.md). Source images are outside the repos, in `~/Games/mo2-lint/tools/our-assets/photo-candidates/`.
+- A book reads its text on the page of its preview model (`INAM`). The small photo model has no page (no text showed); the large photo page cut the text off; the torn note shows half a page.
+
+### The world (`BuildWorld.pas`, replaces the earlier body and book builds)
+
+**Display names** (overrides of our records; recipes unchanged; repaired pieces keep their names): "Mystery: Broken Revolver", "Mystery: Broken Necklace", "Mystery: Broken Sword", "Mystery: Tattered Veil", "Mystery: Tattered Dress", "Mystery: Cryptos", "Mystery: Traveler's Diary". Where this file or the scripts say Broken Voice, Eye, Blade or Veil, these are the same records.
+
+| What | Cell | Position (x, y, z), heading |
+|---|---|---|
+| The Traveler | `0000E0BA` | 5514.07, -18598.39, 1820 |
+| Diary, loose, No Respawn | `0000E0BA` | 5556, -18622, 1806, 80 |
+| Cryptos, loose, No Respawn | `0000E0BA` | 5560, -18578, 1806, 110 |
+| Suitcase: Broken Sword | `0000E0BA` | 7408.37, -18588.25, 1856.75, 68 |
+| Duffle bag: Broken Revolver | `0000E0B9` (Swan's pond) | 11993.90, -20086.55, 596.4, 35 |
+| First aid kit: Tattered Veil | `0004542D` (Hubris interior) | 1683, 132, 780.5, 225 |
+| Tool case: Broken Necklace | `0004542D` | 2818.3, -245.5, 839.5, 135 (on file cabinet `00066AC5`) |
+
+- Containers are our copies with the respawn flag cleared, vanilla contents and scripts removed, one item each, and charcoal-and-emerald skins (`make_containers.py`). The suitcase uses `Suitcase_prewar.nif`, because `Suitcase01.nif` names no material to swap.
+- Taking an item from a container or body does not open it for reading, which is why the two notes lie loose.
 
 ### The Mysterious Traveler (the body, verified in game)
 
 - `MoM_NPC_Seeker` "Mysterious Traveler": copy of `Loot_CorpseSettlerFemale_Empty` (`0020A578`, no respawn). Thin, jet black hair, "No Apologies" hairstyle (`0016CA35`). "Use template: base data" is cleared, or she is named "Settler".
-- Outfit: the Tattered Dress. Inventory: Broken Eye of Ra and `MoM_BOOK_Diary` "Mysterious Traveler's Diary" (copy of the note `001D5CDC`; the script reads [`diary-text.md`](diary-text.md)).
-- Placement: one `ACHR` with **Starts Dead**, added to an override of `CELL 0000E0BA` (raider building roof): x 5514.07, y -18598.39, z 1820.
+- Outfit: the Tattered Dress; she carries nothing else. The diary (`MoM_BOOK_Diary`, copy of the note `001D5CDC`, text from [`diary-text.md`](diary-text.md)) lies beside her.
+- Placement: one `ACHR` with **Starts Dead**, added to an override of `CELL 0000E0BA` (raider building roof).
 - Pose: `XRGD` and `XRGB` copied from vanilla `ACHR 001289CF`. Without a saved pose a dead actor stood upright in a T-pose.
-- The scenery looked normal after the cell override (seen on the round 1 build).
-- Untested: whether she and her items stay put after the area resets.
+- The scenery looked normal after the cell override (seen on the first body build).
+- Untested: whether she, the loose notes and the containers stay put after the area resets.
 
 ### Blade of Bastet
 
@@ -112,8 +129,7 @@ There is no single plugin yet. These are the verified builds, **in dependency or
 | 3 | `BuildVeil.pas` | `RegaliaVeil1` | Veil | + Gold1 |
 | 4 | `BuildBroken2.pas` | `RegaliaBroken2` | Tattered Dress, Broken Veil, two recipes | + Gold1, Garb2, Veil1 |
 | 5 | `BuildVoice3.pas` | `RegaliaVoice12` | Voice, Broken Voice, its recipe | + Gold1 |
-| 6 | `BuildBook1.pas` | `RegaliaBook1` | Cryptos picture (override of our book in Gold1) | game + DLC + Gold1 |
-| 7 | `BuildPose1.pas` | `RegaliaBody4` | The Mysterious Traveler's body and diary, placed in the world | game + DLC + Gold1, Garb2, Veil1, Broken2 |
+| 6 | `BuildWorld.pas` | `RegaliaWorld4` | Everything placed in the world: the Traveler, her two notes, the four containers, the Cryptos picture and text, the item renames | game + DLC + Gold1, Garb2, Veil1, Broken2, Voice12 |
 
 Every other script in that folder is an earlier round or a diagnostic, kept for reference. The constant `PLUGIN_HINT` only changes the on-screen hint; the name typed in the box is what is created, and later scripts look up `RegaliaGold1.esp`, `RegaliaGarb2.esp` and `RegaliaVeil1.esp` by exactly those names.
 
@@ -129,6 +145,9 @@ All need `baunpack` (Alexandria `memory/fo4-mod/fo4-archives.md`). Run with `pyt
 | `make_dress.py OUT --tattered --name TatteredDress` | Garb of Mysteries Art |
 | `make_veil.py OUT --lace` | Veil of Secrets Art |
 | `make_photo.py PICTURE OUT` (also needs `ffmpeg`) | Blade of Bastet Art |
+| `make_containers.py OUT` | Blade of Bastet Art |
+
+`make_photo.py` takes the pencil sketch (`candidate-03-line-art-pencil.png`) as PICTURE.
 
 Loose files need `bInvalidateOlderFiles=1` and an empty `sResourceDataDirsFinal=` under `[Archive]` in the MO2 profile's `fallout4custom.ini`. Texture-only changes need a game restart, not a rebuild.
 

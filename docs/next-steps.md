@@ -15,28 +15,18 @@ As of 2026-11-25. Start by reading [`build-spec.md`](build-spec.md). All five pi
 - [ ] Add the ZeniMax disclaimer to the description and release page. Choose a licence for our own work (see how Nexus mods are licensed).
 - [ ] Test on a fresh save with only the real plugin: book, every broken item, every recipe, every Eye boost.
 
-## 3. Placement and story (the body is placed; the four containers are not)
+## 3. Placement and story (placed: see the build spec)
 
 **Story (decided 2026-11-25):** a seeker came from Appalachia carrying a tattered dress and a broken Eye, to remake the regalia. Hurt, she lost or could not retrieve the rest and left a diary asking whoever finds it to carry on. Text: [`diary-text.md`](diary-text.md).
 
-| Spot | What is there |
-|---|---|
-| Rooftop of the raider building across the street: her body (the Mysterious Traveler, wearing the Tattered Dress) | Diary, Tattered Dress, Broken Eye |
-| Inside Hubris Comics (`HubrisComics01`, `CELL 0004542D`) | Cryptos book, Broken Veil |
-| Boston Common, near the swan boats (Swan's pond) | Broken Voice |
-| Across the rooftops by Hubris Comics | Broken Blade |
+Built by `BuildWorld.pas` (`RegaliaWorld4`); positions and contents are in the [build spec](build-spec.md). Placement seen in game and good (2026-11-25).
 
-- [ ] Chris gets each spot in game (`player.getpos x`, `y`, `z`; indoors or out; screenshot). Screenshots are kept outside the repos in `~/Games/mo2-lint/tools/our-assets/placement/`.
-  - [x] Her body (built): **x 5514.07, y -18598.39**, z 1820 (moved off the wall and crates; first spot was 5748.90, -18637.97), raider building roof. Pose from vanilla `ACHR 001289CF`.
-  - [x] Broken Voice, by the swan boats: x 11690.69, y -20003.33, z 597.63; **duffel bag**, facing not taken (`swan-boats.png`).
-  - [x] Broken Blade, other rooftop: x 7408.37, y -18588.25, z 1856.75; suitcase, front toward the west (`blade-roof.png`).
-  - [x] Broken Veil, inside Hubris: x 1666.60, y 203.69, z 780.50; a **first aid kit** on the floor to the left of the Silver Shroud costume (`veil-hubris-room.png`, `veil-hubris-pos.png`).
-  - [x] Cryptos book, inside Hubris: x 2811.96, y -247.09, z 839.88, on top of the smallest file cabinet (position taken standing on it; `cryptos-room.png`, `cryptos-pos.png`). Container: **tool case** (`DN140_ToolcaseIntelKey` `001103E3`, copy with respawn off and its loot cleared).
-- [ ] One of each look: suitcase (Blade), duffel bag (Voice), tool case (Cryptos), first aid kit (Veil). Idea, not yet decided: charcoal with emerald stripes on all four.
-- [ ] Containers of our own that **do not refill**; do not edit vanilla records. Adding a placed actor to the exterior cell left the scenery looking normal.
-- [x] The body and diary: built and verified (`BuildPose1.pas`, `RegaliaBody4`; see the build spec).
-- [ ] Check after an area reset that she is still there and looted items stay gone.
-- [ ] Put the new Cryptos text ([`cryptos-text.md`](cryptos-text.md)) on the book; the game still shows the old text.
+**Next session**
+
+- [ ] Tune the diary's wording ([`diary-text.md`](diary-text.md)), then rebuild (`BuildWorld.pas`, new plugin number).
+- [ ] Check round 4: each note opens where it lies and fits the page; Cryptos is readable over the sketch, grants the perk and stays; the "Mystery: ..." names; a repair at the Chemistry Station.
+- [ ] After an area reset: she, the notes and the containers are still right, and taken items stay gone.
+- [ ] A grenade test near the loose notes.
 - [ ] Optional flavour holotape for Cryptos (a text holotape cannot gate recipes).
 
 ## 4. Untested
