@@ -2,7 +2,7 @@
 
 A Fallout 4 mod that brings the Fallout 76 Order of Mysteries gear to the Commonwealth: a Blade, a pistol, a dress, a veil and the Eye of Ra, each found broken and repaired.
 
-**Status (2026-11-25):** all five pieces work in game as a chain of test plugins. No single release plugin yet, and nothing is placed in the world.
+**Status (2026-11-26):** the five pieces, the story, their places in the world and the Eye boosts work as a chain of six test plugins (some checks still open). Next: one release plugin.
 
 ## Start here
 

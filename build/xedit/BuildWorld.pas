@@ -1,53 +1,17 @@
 {
-  BuildWorld.pas: everything placed in the world, in ONE plugin (test name RegaliaWorld1). Status: RegaliaWorld1 seen in game 2026-11-25 (tool case good; suitcase too square; first aid kit and duffle moved).
-  Round 7 (RegaliaWorld7, not yet run): renames "Jury-Rigged Eye of Ra" to "Eye of Ra" and the perk "Cryptos Notes" to
-  "Mystery: Cryptos Notes" (overrides of our records in Gold1; recipes unchanged). The first aid kit moves out of Hubris to
-  CELL 0000E0D9: x 7267.84, y -20585.32, z 1117.20.
-  Round 7 results (seen 2026-11-26): kit well placed. Burst test at 1 damage: bystanders took damage, no stagger, the player was hurt.
-  Round 10 (RegaliaWorld10; resistance 30 and 70 seen in game 2026-11-26): the Garb's armor becomes part of the Eye (overrides of our records in RegaliaGarb2):
-  30 damage and 30 energy resistance on the dress, +40 of each with the Eye (two effects on MoM_ENCH_Garb); the ballistic weave attach
-  point and ma_ keyword removed; sneak attack lowered to +0.2 one-hand melee and +0.1 other, tripled by the Eye to +0.6 and +0.3 (the Eye
-  entries 0.4 and 0.2 add to the base). The plain broken veil is renamed "Mystery: Worn Veil".
-  Round 9 (RegaliaWorld9; 50% accepted by the owner 2026-11-26): the burst stagger gets a chance (BURST_CHANCE percent); the Eye's old second 30% roll is
-  switched off (override of MoM_PERK_VoiceEye: its GetRandomPercent compares to -1).
-  Round 8 (RegaliaWorld8, VERIFIED 2026-11-26: with the Eye both bystanders stagger, without it neither): burst back to 0 damage, carrying MoM_ENCH_BurstStagger (stagger on everyone caught, not the
-  player, only with the Eye worn; EVERY time for the test). The perk's second 30% roll is still there.
-  Round 6 (RegaliaWorld6, VERIFIED in game 2026-11-26: items recovered, all repairs crafted, no crash): with World5, crafting the Veil crashed the game, and crafting the Garb while wearing the Tattered
-  Dress left its look stuck on the player. Both broken wearables become plain items:
-    MoM_MISC_TatteredVeil, MoM_MISC_TatteredDress   copies of the Silver Locket (unscrappable), with the old world models
-    COBJ overrides in Broken2: each repair recipe now takes the plain item
-    MoM_ARMO_SeekerDress   copy of the Tattered Dress flagged Non-Playable: she wears it, it should not show in her loot
-  The old wearable broken records are no longer used or renamed.
-  Round 5 (RegaliaWorld5): the diary text reworded; records and placements unchanged.
-  Round 4 (RegaliaWorld4): placement seen in game 2026-11-25 (good); reading the books, the perk and the repairs not yet reported. the diary and the Cryptos book lie loose beside her ("No Respawn"); the Broken Eye moves from her
-  inventory into the tool case; both books read on the standard full note page (STAT DONOTUSE_InventoryNote 001B5EF1; Cryptos with our
-  faded sketch printed on it). Diary text updated to match. The five found items are renamed "Mystery: ..." by overriding our own records
-  (recipes point at the records, so they need no change; the repaired pieces keep their names).
-  Round 3 (RegaliaWorld3, seen in game: text showed, but ran off the photo page; the diary read on a half page): the book showed no text. Its preview STAT now copies HighPoly_Photo (00184AB7) with the mesh
-  Interface\Newspaper\Photo01_SilverShroud.nif, which has a text page; the book swap gains a second substitution for that page.
-  Renamed: "Mystery: Cryptos" and "Mystery: Traveler's Diary".
-  Round 2 (RegaliaWorld2, seen in game): suitcase turned, kit against the pillar, duffle at a new spot, and charcoal-and-emerald skins on
-  all four containers (art/make_containers.py; the suitcase uses the prewar mesh, because Suitcase01.nif names no material to swap).
-  Replaces RegaliaBody4 (BuildPose1.pas, verified) and RegaliaBook1 (BuildBook1.pas, seen in game) in one build.
-
-    The Mysterious Traveler: same records and placement as BuildPose1.pas (raider building roof).
-    The Cryptos book (override of ours in Gold1): the pencil sketch (art/make_photo.py) and the new text, read from docs\cryptos-text.md.
-    Four containers of ours (vanilla looks, respawn flag cleared, vanilla contents and scripts removed), one item each:
-      MoM_CONT_Blade     suitcase       001002A4   Broken Blade     rooftop,          CELL 0000E0BA
-      MoM_CONT_Voice     duffle bag     0008E59E   Broken Voice     swan boats,       CELL 0000E0B9
-      MoM_CONT_Veil      first aid kit  0020A6FD   Broken Veil      Hubris interior,  CELL 0004542D
-      MoM_CONT_Cryptos   tool case      001103E3   Cryptos book     Hubris interior,  on top of the file cabinet REFR 00066AC5
-    Container facings are first guesses. The tool case is centred on the cabinet top, worked out from the cabinet's own placement.
+  BuildWorld.pas: the last plugin of the test chain (latest: RegaliaWorld10). Full description: docs\build-spec.md.
+  Builds the Mysterious Traveler and her two books, four containers, the Cryptos picture and reading page, the "Mystery: ..." names,
+  the plain broken Dress and Veil with their recipe overrides, and the Voice and Garb Eye changes.
+  Status 2026-11-26: built as RegaliaWorld10; what has and has not been seen in game is in the build spec, section 3.6.
 
   Masters: Fallout4.esm, DLCNukaWorld.esm, RegaliaGold1, Garb2, Veil1, Broken2, Voice12. IN THE MODULE LIST tick the game, the six DLC
-  and those five Regalia plugins only. Type RegaliaWorld10 in the filename box (a new number for each rerun). Accept the save prompt.
-  Log: our-scripts\build.log.
-  Test with every RegaliaBody, RegaliaPose and RegaliaBook plugin UNTICKED.
+  and those five Regalia plugins only. Type a NEW name (RegaliaWorld11, ...) in the filename box. Close xEdit and accept the save.
+  Log: our-scripts\build.log. Test with every other RegaliaWorld, RegaliaBody, RegaliaPose and RegaliaBook plugin unticked.
 }
 unit BuildWorld;
 
 const
-  PLUGIN_HINT = 'RegaliaWorld10';
+  PLUGIN_HINT = 'RegaliaWorld11';
   GARB_RESIST = 30;                        // damage and energy resistance of the dress itself
   GARB_EYE_RESIST = 40;                    // added to both with the Eye
   GARB_DESC = 'A sequined dress in charcoal, edged in emerald and cream-gold, cut for quiet work. You are harder to notice while sneaking and your steps fall softer. Worn with the Eye of Ra, it turns blows aside and you slip past nearly everyone.';
