@@ -141,7 +141,7 @@ Not yet seen or not specifically reported:
 
 One script, `build/xedit/BuildRegalia.pas`, makes `RegaliaOfMystery.esp`: 64 records of our own with final values, masters `Fallout4.esm` and `DLCNukaWorld.esm`, object IDs from `000800`, the light (ESL) flag set by the script, and the disclaimer as the description. In xEdit tick the game and the six DLC only. The name typed in the box must be exactly `RegaliaOfMystery`, so an older file of that name is first moved out of the game's `Data` folder. The filename must not change once saves exist. Do not reorder the record creation without reason: FormIDs follow it.
 
-Check the saved file with `python3 -B build/check/compare_chain.py`. It compares it record by record with the six old test plugins (which must stay in `Data` for this). Expected differences: seven dropped records (the wearable broken dress and veil, and the Voice's old second-roll spell, perk, effect, enchantment and keyword), the Voice's weapon and mod without them and without `FeaturedItem`, and the rewritten text (Blade, Eye, Veil, Cryptos, perk and effect names).
+Check the saved file with `python3 -B build/check/compare_chain.py`. It compares it record by record with the six old test plugins (kept in `tools/our-assets/old-plugins/`: pass it with `--data`); `--new PATH` checks a plugin kept elsewhere, such as the release package. Expected differences: seven dropped records (the wearable broken dress and veil, and the Voice's old second-roll spell, perk, effect, enchantment and keyword), the Voice's weapon and mod without them and without `FeaturedItem`, and the rewritten text (Blade, Eye, Veil, Cryptos, perk and effect names).
 
 The older `.pas` scripts, including the six that built the test chain, are history.
 
