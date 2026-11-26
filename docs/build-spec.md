@@ -91,12 +91,11 @@ The only damage or energy resistance the Eye adds is on the Garb.
 
 ### 3.6 What has and has not been seen in game (release plugin, 2026-11-26)
 
-Seen and reported good: the Traveler, both books and their pages, all containers and their skins, locked then crafted recipes, resistances 30 / 30 / 10 and 70 / 70 / 20 with the Eye, sneak attack steps, Blade bleed, the Voice's burst stagger with and without the Eye (never the player), the blast beside the diary, the area reset, the new Cryptos picture, no ballistic weave on the Garb. **The packed release** (the 0.9.0 zip installed as one MO2 mod, loose art mods off): everything in its places, all five crafted, colors good.
+Seen and reported good: the Traveler, both books and their pages, all containers and their skins, locked then crafted recipes, resistances 30 / 30 / 10 and 70 / 70 / 20 with the Eye, sneak attack steps, Blade bleed, the Voice's burst stagger with and without the Eye (never the player), the blast beside the diary, the area reset, the new Cryptos picture, no ballistic weave on the Garb, the Voice's own stagger on a direct hit without the Eye. **The packed release** (the 0.9.0 zip installed as one MO2 mod, loose art mods off): everything in its places, all five crafted, colors good.
 
 Not yet seen or not specifically reported:
 
 - **Veil poison gas immunity: untested** (spawned gas, a console cast and the HalluciGen placements did no damage even without the Veil). Neither the Cryptos nor the Veil's descriptions mention gas.
-- The Voice's own stagger on a direct hit without the Eye, since its legendary mod lost a keyword.
 
 ## The pieces in detail
 

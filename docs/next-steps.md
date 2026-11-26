@@ -11,7 +11,6 @@ As of 2026-11-26. Start by reading [`build-spec.md`](build-spec.md); section 3.6
 
 ## 2. Checks (can ride along with the test above)
 
-- [ ] Voice: its own stagger on a direct hit without the Eye.
 - [ ] Veil poison gas immunity (untested; needs a working gas source).
 - [ ] Voice grips: the fixed medallions and screw plates in game (art only).
 - [ ] Broken Sword inventory look and scrapping; whether the Blade can be renamed at a workbench.
