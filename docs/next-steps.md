@@ -15,11 +15,18 @@ As of 2026-11-25. Start by reading [`build-spec.md`](build-spec.md). All five pi
 - [ ] Add the ZeniMax disclaimer to the description and release page. Choose a licence for our own work (see how Nexus mods are licensed).
 - [ ] Test on a fresh save with only the real plugin: book, every broken item, every recipe, every Eye boost.
 
-## 3. Placement (nothing is in the world yet)
+## 3. Placement and story (placed: see the build spec)
 
-- [ ] A container of our own that **does not refill**, at Hubris Comics (`HubrisComics01`, `CELL 0004542D`), beside the quest locker; do not edit vanilla records. Chris picks the spot (`player.getpos x`, `y`, `z`).
-- [ ] The Tattered Dress on a body: option A, a vanilla clothed skeleton plus our container (preferred first; search `MSTT` skeleton models, materials `SkeletonDress01` to `04`); option B, a lootable corpse (riskier).
-- [ ] Scatter the other broken pieces, with a story: someone who was trying to get somewhere and lost them on the way.
+**Story (decided 2026-11-25):** a seeker came from Appalachia carrying a tattered dress and a broken Eye, to remake the regalia. Hurt, she lost or could not retrieve the rest and left a diary asking whoever finds it to carry on. Text: [`diary-text.md`](diary-text.md).
+
+Built by `BuildWorld.pas` (`RegaliaWorld4`); positions and contents are in the [build spec](build-spec.md). Placement seen in game and good (2026-11-25).
+
+**Next session**
+
+- [ ] Tune the diary's wording ([`diary-text.md`](diary-text.md)), then rebuild (`BuildWorld.pas`, new plugin number).
+- [ ] Check round 4: each note opens where it lies and fits the page; Cryptos is readable over the sketch, grants the perk and stays; the "Mystery: ..." names; a repair at the Chemistry Station.
+- [ ] After an area reset: she, the notes and the containers are still right, and taken items stay gone.
+- [ ] A grenade test near the loose notes.
 - [ ] Optional flavour holotape for Cryptos (a text holotape cannot gate recipes).
 
 ## 4. Untested
@@ -41,7 +48,7 @@ As of 2026-11-25. Start by reading [`build-spec.md`](build-spec.md). All five pi
 ## 6. For 1.0
 
 - [ ] An invisible locket as the final Eye of Ra.
-- [ ] Art for the Cryptos book (a candidate image is saved outside the repos at `~/Games/mo2-lint/tools/our-assets/photo-candidates/`; source and licence unknown).
+- [ ] Cryptos picture, before release: the pencil sketch was generated with Nano Banana (Gemini) from Fallout 76 wall art; check Bethesda's terms and the mod site's rules on AI art, and credit both.
 - [ ] Re-check lore details against primary sources before quoting them anywhere.
 
 ## 7. Cleanup (ask Chris first)
