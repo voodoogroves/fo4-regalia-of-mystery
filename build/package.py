@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """package.py: pack the art into the two .ba2 archives and make the installable release zip.
 
-    python3 -B build/package.py VERSION
+    python3 -B build/package.py VERSION [--plugin PATH]
 
-Takes the built plugin from the game's Data folder and the art from the three MO2 art mods (made by build/art/), then:
+Takes the built plugin (from the game's Data folder, or from --plugin, for a copy kept elsewhere) and the art from the three MO2 art
+mods (made by build/art/), then:
 checks that every material and texture the plugin and materials name is there, packs "RegaliaOfMystery - Main.ba2" (materials) and
 "RegaliaOfMystery - Textures.ba2" with xEdit's BSArch through Proton's Wine, unpacks both with baunpack and compares them with the
-sources, and writes RegaliaOfMystery-VERSION.zip. Everything is written under ~/Games/mo2-lint/tools/our-assets/release/, outside the
+sources, and writes RegaliaOfMystery-VERSION.zip with the readme from docs/release-readme.txt. It prints the plugin's SHA-256. Everything is written under ~/Games/mo2-lint/tools/our-assets/release/, outside the
 repo: the output holds Bethesda-derived art and must NOT be committed.
 
 Run it from the VS Code sandbox (it starts Wine on the host with flatpak-spawn). Needs baunpack and Rhodes scripts/esp/esp.py.
 """
-import re, shutil, subprocess, sys, zipfile
+import argparse, hashlib, re, shutil, subprocess, sys, zipfile
 from pathlib import Path
 
 HOME = Path.home()
@@ -30,20 +31,7 @@ BAUNPACK = HOME / '.local/bin/baunpack'
 RELEASE = TOOLS / 'our-assets/release'
 OUR_FOLDERS = ('regaliaofmystery/', 'weapons/bladeofbastet/', 'weapons/voiceofset/', 'clothes/garbofmysteries/', 'armor/veilofsecrets/')
 
-README = """Regalia of Mystery {version}
-
-The Order of Mysteries gear in the Commonwealth: the Blade of Bastet, the Voice of Set, the Garb of Mysteries, the Veil of Secrets
-and the Eye of Ra, each found broken and repaired at a Chemistry Station.
-
-Requires: Fallout 4 and the Nuka-World DLC. No script extender.
-
-Install: add this zip with your mod manager, or copy its three files into the game's Data folder, and enable {name}.esp.
-It is a light (ESL-flagged) plugin.
-
-Start: search the rooftops by Hubris Comics.
-
-THIS MATERIAL IS NOT MADE, GUARANTEED OR SUPPORTED BY ZENIMAX OR ITS AFFILIATES.
-"""
+README = Path(__file__).resolve().parent.parent / 'docs/release-readme.txt'
 
 
 def fail(message):
@@ -64,10 +52,10 @@ def art_files():
     return found
 
 
-def check(files):
+def check(files, plugin):
     """Every material of ours that the plugin swaps in, and every texture of ours those materials name, must be present, and nothing else."""
     wanted = set()
-    for sig, _, subs in records(str(PLUGIN), {'MSWP'}):
+    for sig, _, subs in records(str(plugin), {'MSWP'}):
         for key, value in subs:
             if sig == 'MSWP' and key == 'SNAM':    # the header (TES4) comes through too, with its own SNAM
                 wanted.add('materials/' + value.rstrip(b'\0').decode().replace('\\', '/').lower())
@@ -124,13 +112,19 @@ def pixels(dds):
 
 
 def main():
-    if len(sys.argv) != 2:
-        sys.exit(__doc__)
-    version = sys.argv[1]
-    if not PLUGIN.exists():
-        fail('build the plugin first: ' + str(PLUGIN))
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('version')
+    parser.add_argument('--plugin', type=Path, default=PLUGIN, help='the built %s.esp (default: the game\'s Data folder)' % NAME)
+    args = parser.parse_args()
+    version, plugin = args.version, args.plugin.expanduser().resolve()
+    if not plugin.is_file():
+        fail('no plugin at %s; build it, or point --plugin at a kept copy' % plugin)
+    if plugin.name != NAME + '.esp':
+        fail('the plugin must be named %s.esp, not %s' % (NAME, plugin.name))
+    print('plugin: %s\nsha256: %s' % (plugin, hashlib.sha256(plugin.read_bytes()).hexdigest()))
+    readme = README.read_text(encoding='ascii').format(version=version, name=NAME)
     files = art_files()
-    check(files)
+    check(files, plugin)
     work = RELEASE / version
     if work.exists():
         fail('%s already exists; use a new version or move it away' % work)
@@ -141,7 +135,7 @@ def main():
         shutil.copyfile(source, target)
     package = work / 'package'
     package.mkdir(parents=True)
-    shutil.copyfile(PLUGIN, package / PLUGIN.name)
+    shutil.copyfile(plugin, package / plugin.name)
     main_ba2, tex_ba2 = package / (NAME + ' - Main.ba2'), package / (NAME + ' - Textures.ba2')
     pack(work / 'stage/materials', main_ba2, '-fo4')
     pack(work / 'stage/textures', tex_ba2, '-fo4dds')
@@ -151,7 +145,7 @@ def main():
     with zipfile.ZipFile(zip_path, 'x', zipfile.ZIP_DEFLATED) as z:
         for path in sorted(package.iterdir()):
             z.write(path, path.name)
-        z.writestr(NAME + ' - readme.txt', README.format(version=version, name=NAME).replace('\n', '\r\n'))
+        z.writestr(NAME + ' - readme.txt', readme.replace('\n', '\r\n'))
     with zipfile.ZipFile(zip_path) as z:
         if z.testzip():
             fail('the zip is damaged')

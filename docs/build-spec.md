@@ -93,8 +93,11 @@ The only damage or energy resistance the Eye adds is on the Garb.
 
 Seen and reported good: the Traveler, both books and their pages, all containers and their skins, locked then crafted recipes, resistances 30 / 30 / 10 and 70 / 70 / 20 with the Eye, sneak attack steps, Blade bleed, the Voice's burst stagger with and without the Eye (never the player), the blast beside the diary, the area reset, the new Cryptos picture, no ballistic weave on the Garb, the Voice's own stagger on a direct hit without the Eye. **The packed release** (the 0.9.0 zip installed as one MO2 mod, loose art mods off): everything in its places, all five crafted, colors good.
 
+The silenced Voice is tested (owner, 2026-11-26). So is play on mid-game saves, including a character fresh out of the vault (owner, 2026-11-26). Adding the mod to a save made after visiting the four cells still spawned the traveler, both books, the items and the containers (owner, 2026-11-26).
+
 Not yet seen or not specifically reported:
 
+- **Veil persuade bonus: untested** (persuade cannot be measured directly; the release page says it is unconfirmed).
 - **Veil poison gas immunity: untested** (spawned gas, a console cast and the HalluciGen placements did no damage even without the Veil). Neither the Cryptos nor the Veil's descriptions mention gas.
 
 ## The pieces in detail
@@ -144,7 +147,7 @@ The older `.pas` scripts, including the six that built the test chain, are histo
 
 ### The release package
 
-`python3 -B build/package.py VERSION` takes the built plugin and the three MO2 art mods, packs `RegaliaOfMystery - Main.ba2` (materials) and `- Textures.ba2` with xEdit's `BSArch` through Proton's Wine (no MO2 needed), verifies both by unpacking, and writes `RegaliaOfMystery-VERSION.zip` with a readme under `~/Games/mo2-lint/tools/our-assets/release/` (outside the repo).
+`python3 -B build/package.py VERSION [--plugin PATH]` takes the built plugin (the game's `Data` folder unless `--plugin` names a kept copy, such as `release/0.9.0/package/`) and the three MO2 art mods, packs `RegaliaOfMystery - Main.ba2` (materials) and `- Textures.ba2` with xEdit's `BSArch` through Proton's Wine (no MO2 needed), verifies both by unpacking, and writes `RegaliaOfMystery-VERSION.zip` with the readme from [`release-readme.txt`](release-readme.txt) under `~/Games/mo2-lint/tools/our-assets/release/` (outside the repo).
 
 ### Art (run before testing looks or packaging)
 
@@ -184,4 +187,6 @@ Batch files in the game folder (`bat <name>`) save typing: `rom1` (god mode, ski
 
 ## 6. Licence
 
-Creation Kit EULA (<https://store.steampowered.com/eula/1946160_eula_1>), read by a helper agent, not legal advice: non-commercial, and the release must carry "THIS MATERIAL IS NOT MADE, GUARANTEED OR SUPPORTED BY ZENIMAX OR ITS AFFILIATES." (accepted). Our own licence is undecided.
+Creation Kit EULA (<https://store.steampowered.com/eula/1946160_eula_1>), read whole as raw text on 2026-11-26, not legal advice: non-commercial, and the release must carry "THIS MATERIAL IS NOT MADE, GUARANTEED OR SUPPORTED BY ZENIMAX OR ITS AFFILIATES." (accepted).
+
+Decided 2026-11-26: scripts in `build/` are MIT; the mod, its text and art have plain permissions (free to use, patches welcome, ask before re-uploading or reusing, never sold). Recolored Fallout 4 textures and the screenshot sketch ship as an **accepted risk**: the Nexus rules prohibit copyrighted game files without the owner's permission, and no explicit grant was found in the Creation Kit EULA text. Nexus tags: AI-Generated Content and AI Media; no Donation Points. Public version 0.9.1; 1.0 waits for the invisible locket and the lore check. Details: [`release-page.md`](release-page.md).
