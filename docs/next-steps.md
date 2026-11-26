@@ -48,3 +48,13 @@ As of 2026-11-26. Start by reading [`build-spec.md`](build-spec.md); section 3.6
 - [x] Cleanup (2026-11-26): old test plugins moved to `tools/our-assets/old-plugins/`; art prototypes, previews, release staging folders, merged branches and all but the newest `ModOrganizer.ini` backup removed.
 - [x] No test plugins are left in the game's `Data` folder (2026-11-26); all are in `old-plugins/`. To compare against the merge: `compare_chain.py --data <old-plugins> --new <release/0.9.0/package/RegaliaOfMystery.esp>`. A save that used test plugins needs them copied back.
 - [ ] The `rom*.txt` batch files in the game folder, once testing is over.
+
+## 7. PlayStation (a separate project, suggested after 1.0)
+
+The owner has a PlayStation, so it can be tested. Console players get mods only through Bethesda's Creations, uploaded from the Creation Kit ([upload steps](https://help.bethesda.net/app/answers/detail/a_id/33438/~/how-do-i-upload-and-share-my-fallout-4-mod)). PlayStation archives, `.nif` and `.dds` have been supported since 18 August 2026 ([patch notes](https://help.bethesda.net/app/answers/detail/a_id/72995/), read 2026-11-26).
+
+- [ ] Spike, without publishing: will the Creation Kit pack our two archives for PlayStation? Work on a copy of the plugin; the published file stays as it is.
+- [ ] Main doubt: `.bgsm` material files are not in the new file-type list and neither page mentions them. All 12 recolors go through them.
+- [ ] Run the Kit. On the Steam Deck it crashed at startup the same way four times (2026-11-26): access violation at `CreationKit.exe+0x63d9d4`, three times through MO2 and once from Steam without it, so MO2 is not the cause. The install changed no existing game file. Next: one other Proton version, otherwise a Windows PC. An MO2 entry **Creation Kit** exists.
+- [ ] Before any upload: read the Creations terms (content and AI rules), and revisit the recolored-texture risk for that platform.
+- [ ] Test on the owner's PlayStation (Nuka-World required).
